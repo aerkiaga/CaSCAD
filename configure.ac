@@ -1,6 +1,6 @@
 AC_PREREQ([2.69])
 AC_INIT([CaSCAD], [0.1.0])
-AC_CONFIG_SRCDIR([lexer.h])
+AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 # Checks for programs.
@@ -23,5 +23,5 @@ AC_FUNC_REALLOC
 AC_FUNC_VPRINTF
 AC_CHECK_DECLS([strdup])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

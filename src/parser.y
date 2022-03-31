@@ -102,7 +102,6 @@ input:
 top_statements:
     { $$ = ast_statement_list(); }
 |   top_statements statement { $$ = ast_append_child($1, $2); }
-|   top_statements include_statement { $$ = ast_append_child($1, $2); }
 |   top_statements use_statement { $$ = ast_append_child($1, $2); }
 ;
 
@@ -127,6 +126,7 @@ statement:
 |   LEX_MODULE LEX_IDENTIFIER '(' proto_list ')' statement {
             ast_bind_statement(strdup($2), ast_module_literal($4, $6)); 
         }
+|   include_statement { $$ = $1; }
 ;
 
 operator:

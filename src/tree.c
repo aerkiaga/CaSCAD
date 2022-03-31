@@ -29,7 +29,6 @@ tree_t tree_append_sibling(tree_t tree, tree_t node) {
 
 tree_t tree_append_children(tree_t tree, tree_t children) {
     if(!tree) return NULL;
-    if(!children) return NULL;
     tree_t node;
     node->a = children;
     tree = tree_append_sibling(tree, node);
@@ -68,3 +67,21 @@ tree_t tree_node_child(tree_t tree, size_t index) {
     tree = tree->a;
     return tree_node_sibling(tree, index);
 }
+
+int tree_walk(
+    tree_t tree,
+    int (*fn)(tree_t node, size_t index, void *data),
+    int (*fn2)(tree_t node, size_t index, void *data),
+    void *data
+) {
+    size_t index;
+    int retval = 0;
+    while(index < tree[0].u) {
+        retval = fn ? fn(&tree[index + 1], index, data) : 0;
+        if(!retval && tree[index + 1].a) tree_walk(tree[index + 1].a, fn, fn2, data);
+        retval += fn2 ? fn2(&tree[index + 1], index, data) : 0;
+        index += retval;
+    }
+    return retval;
+}
+

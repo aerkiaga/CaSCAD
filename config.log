@@ -48,18 +48,31 @@ PATH: /home/user/Dev/flutter/bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:2251: checking for gcc
-configure:2267: found /usr/bin/gcc
-configure:2278: result: gcc
-configure:2507: checking for C compiler version
-configure:2516: gcc --version >&5
+configure:2303: checking for a BSD-compatible install
+configure:2371: result: /usr/bin/install -c
+configure:2382: checking whether build environment is sane
+configure:2437: result: yes
+configure:2586: checking for a thread-safe mkdir -p
+configure:2625: result: /usr/bin/mkdir -p
+configure:2632: checking for gawk
+configure:2648: found /usr/bin/gawk
+configure:2659: result: gawk
+configure:2670: checking whether make sets $(MAKE)
+configure:2692: result: yes
+configure:2721: checking whether make supports nested variables
+configure:2738: result: yes
+configure:2914: checking for gcc
+configure:2930: found /usr/bin/gcc
+configure:2941: result: gcc
+configure:3170: checking for C compiler version
+configure:3179: gcc --version >&5
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:2527: $? = 0
-configure:2516: gcc -v >&5
+configure:3190: $? = 0
+configure:3179: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -69,66 +82,79 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.1' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-Av3uEd/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 
-configure:2527: $? = 0
-configure:2516: gcc -V >&5
+configure:3190: $? = 0
+configure:3179: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:2527: $? = 1
-configure:2516: gcc -qversion >&5
+configure:3190: $? = 1
+configure:3179: gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:2527: $? = 1
-configure:2547: checking whether the C compiler works
-configure:2569: gcc    conftest.c  >&5
-configure:2573: $? = 0
-configure:2621: result: yes
-configure:2624: checking for C compiler default output file name
-configure:2626: result: a.out
-configure:2632: checking for suffix of executables
-configure:2639: gcc -o conftest    conftest.c  >&5
-configure:2643: $? = 0
-configure:2665: result: 
-configure:2687: checking whether we are cross compiling
-configure:2695: gcc -o conftest    conftest.c  >&5
-configure:2699: $? = 0
-configure:2706: ./conftest
-configure:2710: $? = 0
-configure:2698: result: no
-configure:2703: checking for suffix of object files
-configure:2725: gcc -c   conftest.c >&5
-configure:2729: $? = 0
-configure:2750: result: o
-configure:2754: checking whether we are using the GNU C compiler
-configure:2773: gcc -c   conftest.c >&5
-configure:2773: $? = 0
-configure:2782: result: yes
-configure:2791: checking whether gcc accepts -g
-configure:2811: gcc -c -g  conftest.c >&5
-configure:2811: $? = 0
-configure:2852: result: yes
-configure:2869: checking for gcc option to accept ISO C89
-configure:2932: gcc  -c -g -O2  conftest.c >&5
-configure:2932: $? = 0
-configure:2945: result: none needed
-configure:2970: checking for flex
-configure:2986: found /usr/bin/flex
-configure:2997: result: flex
-configure:3035: flex conftest.l
-configure:3039: $? = 0
-configure:3041: checking lex output file root
-configure:3055: result: lex.yy
-configure:3060: checking lex library
-configure:3074: gcc -o conftest -g -O2   conftest.c   >&5
-/usr/bin/ld: /tmp/cchc68jF.o: in function `input':
+configure:3190: $? = 1
+configure:3210: checking whether the C compiler works
+configure:3232: gcc    conftest.c  >&5
+configure:3236: $? = 0
+configure:3284: result: yes
+configure:3287: checking for C compiler default output file name
+configure:3289: result: a.out
+configure:3295: checking for suffix of executables
+configure:3302: gcc -o conftest    conftest.c  >&5
+configure:3306: $? = 0
+configure:3328: result: 
+configure:3350: checking whether we are cross compiling
+configure:3358: gcc -o conftest    conftest.c  >&5
+configure:3362: $? = 0
+configure:3369: ./conftest
+configure:3373: $? = 0
+configure:3361: result: no
+configure:3366: checking for suffix of object files
+configure:3388: gcc -c   conftest.c >&5
+configure:3392: $? = 0
+configure:3413: result: o
+configure:3417: checking whether we are using the GNU C compiler
+configure:3436: gcc -c   conftest.c >&5
+configure:3436: $? = 0
+configure:3445: result: yes
+configure:3454: checking whether gcc accepts -g
+configure:3474: gcc -c -g  conftest.c >&5
+configure:3474: $? = 0
+configure:3515: result: yes
+configure:3532: checking for gcc option to accept ISO C89
+configure:3595: gcc  -c -g -O2  conftest.c >&5
+configure:3595: $? = 0
+configure:3608: result: none needed
+configure:3633: checking whether gcc understands -c and -o together
+configure:3655: gcc -c conftest.c -o conftest2.o
+configure:3658: $? = 0
+configure:3655: gcc -c conftest.c -o conftest2.o
+configure:3658: $? = 0
+configure:3670: result: yes
+configure:3690: checking whether make supports the include directive
+configure:3705: make -f confmf.GNU && cat confinc.out
+this is the am__doit target
+configure:3708: $? = 0
+configure:3727: result: yes (GNU style)
+configure:3752: checking dependency style of gcc
+configure:3863: result: gcc3
+configure:3883: checking for flex
+configure:3899: found /usr/bin/flex
+configure:3910: result: flex
+configure:3948: flex conftest.l
+configure:3952: $? = 0
+configure:3954: checking lex output file root
+configure:3968: result: lex.yy
+configure:3973: checking lex library
+configure:3987: gcc -o conftest -g -O2   conftest.c   >&5
+/usr/bin/ld: /tmp/cc2TzKAx.o: in function `input':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:1180: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cchc68jF.o: in function `yylex':
+/usr/bin/ld: /tmp/cc2TzKAx.o: in function `yylex':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:871: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cchc68jF.o: in function `main':
+/usr/bin/ld: /tmp/cc2TzKAx.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
-configure:3074: $? = 1
+configure:3987: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -137,6 +163,8 @@ configure: failed program was:
 | #define PACKAGE_STRING "CaSCAD 0.1.0"
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
+| #define PACKAGE "cascad"
+| #define VERSION "0.1.0"
 | /* end confdefs.h.  */
 | 
 | #line 3 "lex.yy.c"
@@ -1918,25 +1946,25 @@ configure: failed program was:
 | {
 |   return ! yylex () + ! yywrap ();
 | }
-configure:3074: gcc -o conftest -g -O2   conftest.c -lfl  >&5
-configure:3074: $? = 0
-configure:3084: result: -lfl
-configure:3090: checking whether yytext is a pointer
-configure:3107: gcc -o conftest -g -O2   conftest.c -lfl  >&5
-configure:3107: $? = 0
-configure:3115: result: yes
-configure:3042: checking for bison
-configure:3058: found /usr/local/bin/bison
-configure:3069: result: bison -y
-configure:3090: checking how to run the C preprocessor
-configure:3121: gcc -E  conftest.c
-configure:3121: $? = 0
-configure:3135: gcc -E  conftest.c
-conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
-   10 | #include <ac_nonexistent.h>
+configure:3987: gcc -o conftest -g -O2   conftest.c -lfl  >&5
+configure:3987: $? = 0
+configure:3997: result: -lfl
+configure:4003: checking whether yytext is a pointer
+configure:4020: gcc -o conftest -g -O2   conftest.c -lfl  >&5
+configure:4020: $? = 0
+configure:4028: result: yes
+configure:3955: checking for bison
+configure:3971: found /usr/local/bin/bison
+configure:3982: result: bison -y
+configure:4003: checking how to run the C preprocessor
+configure:4034: gcc -E  conftest.c
+configure:4034: $? = 0
+configure:4048: gcc -E  conftest.c
+conftest.c:12:10: fatal error: ac_nonexistent.h: No such file or directory
+   12 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:3135: $? = 1
+configure:4048: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -1945,18 +1973,20 @@ configure: failed program was:
 | #define PACKAGE_STRING "CaSCAD 0.1.0"
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
+| #define PACKAGE "cascad"
+| #define VERSION "0.1.0"
 | #define YYTEXT_POINTER 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3160: result: gcc -E
-configure:3180: gcc -E  conftest.c
-configure:3180: $? = 0
-configure:3194: gcc -E  conftest.c
-conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
-   10 | #include <ac_nonexistent.h>
+configure:4073: result: gcc -E
+configure:4093: gcc -E  conftest.c
+configure:4093: $? = 0
+configure:4107: gcc -E  conftest.c
+conftest.c:12:10: fatal error: ac_nonexistent.h: No such file or directory
+   12 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:3194: $? = 1
+configure:4107: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -1965,82 +1995,84 @@ configure: failed program was:
 | #define PACKAGE_STRING "CaSCAD 0.1.0"
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
+| #define PACKAGE "cascad"
+| #define VERSION "0.1.0"
 | #define YYTEXT_POINTER 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3223: checking for grep that handles long lines and -e
-configure:3281: result: /usr/bin/grep
-configure:3286: checking for egrep
-configure:3348: result: /usr/bin/grep -E
-configure:3353: checking for ANSI C header files
-configure:3373: gcc -c -g -O2  conftest.c >&5
-configure:3373: $? = 0
-configure:3446: gcc -o conftest -g -O2   conftest.c  >&5
-configure:3446: $? = 0
-configure:3446: ./conftest
-configure:3446: $? = 0
-configure:3457: result: yes
-configure:3470: checking for sys/types.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for sys/stat.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for stdlib.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for string.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for memory.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for strings.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for inttypes.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for stdint.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3470: checking for unistd.h
-configure:3470: gcc -c -g -O2  conftest.c >&5
-configure:3470: $? = 0
-configure:3470: result: yes
-configure:3485: checking for stdint.h
-configure:3485: result: yes
-configure:3485: checking stdio.h usability
-configure:3485: gcc -c -g -O2  conftest.c >&5
-configure:3485: $? = 0
-configure:3485: result: yes
-configure:3485: checking stdio.h presence
-configure:3485: gcc -E  conftest.c
-configure:3485: $? = 0
-configure:3485: result: yes
-configure:3485: checking for stdio.h
-configure:3485: result: yes
-configure:3485: checking for stdlib.h
-configure:3485: result: yes
-configure:3485: checking for string.h
-configure:3485: result: yes
-configure:3497: checking for size_t
-configure:3497: gcc -c -g -O2  conftest.c >&5
-configure:3497: $? = 0
-configure:3497: gcc -c -g -O2  conftest.c >&5
+configure:4136: checking for grep that handles long lines and -e
+configure:4194: result: /usr/bin/grep
+configure:4199: checking for egrep
+configure:4261: result: /usr/bin/grep -E
+configure:4266: checking for ANSI C header files
+configure:4286: gcc -c -g -O2  conftest.c >&5
+configure:4286: $? = 0
+configure:4359: gcc -o conftest -g -O2   conftest.c  >&5
+configure:4359: $? = 0
+configure:4359: ./conftest
+configure:4359: $? = 0
+configure:4370: result: yes
+configure:4383: checking for sys/types.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for sys/stat.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for stdlib.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for string.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for memory.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for strings.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for inttypes.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for stdint.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4383: checking for unistd.h
+configure:4383: gcc -c -g -O2  conftest.c >&5
+configure:4383: $? = 0
+configure:4383: result: yes
+configure:4398: checking for stdint.h
+configure:4398: result: yes
+configure:4398: checking stdio.h usability
+configure:4398: gcc -c -g -O2  conftest.c >&5
+configure:4398: $? = 0
+configure:4398: result: yes
+configure:4398: checking stdio.h presence
+configure:4398: gcc -E  conftest.c
+configure:4398: $? = 0
+configure:4398: result: yes
+configure:4398: checking for stdio.h
+configure:4398: result: yes
+configure:4398: checking for stdlib.h
+configure:4398: result: yes
+configure:4398: checking for string.h
+configure:4398: result: yes
+configure:4410: checking for size_t
+configure:4410: gcc -c -g -O2  conftest.c >&5
+configure:4410: $? = 0
+configure:4410: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:60:21: error: expected expression before ')' token
-   60 | if (sizeof ((size_t)))
+conftest.c:62:21: error: expected expression before ')' token
+   62 | if (sizeof ((size_t)))
       |                     ^
-configure:3497: $? = 1
+configure:4410: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2049,6 +2081,8 @@ configure: failed program was:
 | #define PACKAGE_STRING "CaSCAD 0.1.0"
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
+| #define PACKAGE "cascad"
+| #define VERSION "0.1.0"
 | #define YYTEXT_POINTER 1
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
@@ -2106,43 +2140,43 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3497: result: yes
-configure:3510: checking for error_at_line
-configure:3526: gcc -o conftest -g -O2   conftest.c  >&5
-configure:3526: $? = 0
-configure:3534: result: yes
-configure:3547: checking for stdlib.h
-configure:3547: result: yes
-configure:3557: checking for GNU libc compatible malloc
-configure:3581: gcc -o conftest -g -O2   conftest.c  >&5
-configure:3581: $? = 0
-configure:3581: ./conftest
-configure:3581: $? = 0
-configure:3591: result: yes
-configure:3614: checking for stdlib.h
-configure:3614: result: yes
-configure:3624: checking for GNU libc compatible realloc
-configure:3648: gcc -o conftest -g -O2   conftest.c  >&5
-configure:3648: $? = 0
-configure:3648: ./conftest
-configure:3648: $? = 0
-configure:3658: result: yes
-configure:3681: checking for vprintf
-configure:3681: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:51:6: warning: conflicting types for built-in function 'vprintf'; expected 'int(const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
-   51 | char vprintf ();
+configure:4410: result: yes
+configure:4423: checking for error_at_line
+configure:4439: gcc -o conftest -g -O2   conftest.c  >&5
+configure:4439: $? = 0
+configure:4447: result: yes
+configure:4460: checking for stdlib.h
+configure:4460: result: yes
+configure:4470: checking for GNU libc compatible malloc
+configure:4494: gcc -o conftest -g -O2   conftest.c  >&5
+configure:4494: $? = 0
+configure:4494: ./conftest
+configure:4494: $? = 0
+configure:4504: result: yes
+configure:4527: checking for stdlib.h
+configure:4527: result: yes
+configure:4537: checking for GNU libc compatible realloc
+configure:4561: gcc -o conftest -g -O2   conftest.c  >&5
+configure:4561: $? = 0
+configure:4561: ./conftest
+configure:4561: $? = 0
+configure:4571: result: yes
+configure:4594: checking for vprintf
+configure:4594: gcc -o conftest -g -O2   conftest.c  >&5
+conftest.c:53:6: warning: conflicting types for built-in function 'vprintf'; expected 'int(const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
+   53 | char vprintf ();
       |      ^~~~~~~
-conftest.c:39:1: note: 'vprintf' is declared in header '<stdio.h>'
-   38 | # include <limits.h>
-   39 | #else
-configure:3681: $? = 0
-configure:3681: result: yes
-configure:3687: checking for _doprnt
-configure:3687: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccR456eV.o: in function `main':
-/home/user/Desktop/C/CaSCAD/conftest.c:63: undefined reference to `_doprnt'
+conftest.c:41:1: note: 'vprintf' is declared in header '<stdio.h>'
+   40 | # include <limits.h>
+   41 | #else
+configure:4594: $? = 0
+configure:4594: result: yes
+configure:4600: checking for _doprnt
+configure:4600: gcc -o conftest -g -O2   conftest.c  >&5
+/usr/bin/ld: /tmp/ccHKpMbq.o: in function `main':
+/home/user/Desktop/C/CaSCAD/conftest.c:65: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
-configure:3687: $? = 1
+configure:4600: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2151,6 +2185,8 @@ configure: failed program was:
 | #define PACKAGE_STRING "CaSCAD 0.1.0"
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
+| #define PACKAGE "cascad"
+| #define VERSION "0.1.0"
 | #define YYTEXT_POINTER 1
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
@@ -2210,12 +2246,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:3687: result: no
-configure:3698: checking whether strdup is declared
-configure:3698: gcc -c -g -O2  conftest.c >&5
-configure:3698: $? = 0
-configure:3698: result: yes
-configure:3854: creating ./config.status
+configure:4600: result: no
+configure:4611: checking whether strdup is declared
+configure:4611: gcc -c -g -O2  conftest.c >&5
+configure:4611: $? = 0
+configure:4611: result: yes
+configure:4762: checking that generated files are newer than configure
+configure:4768: result: done
+configure:4791: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -2232,7 +2270,11 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:712: error: cannot find input file: `Makefile.in'
+config.status:780: creating Makefile
+config.status:780: creating src/Makefile
+config.status:952: executing depfiles commands
+config.status:1029: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1034: $? = 0
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -2282,6 +2324,9 @@ ac_cv_lib_lex=-lfl
 ac_cv_objext=o
 ac_cv_path_EGREP='/usr/bin/grep -E'
 ac_cv_path_GREP=/usr/bin/grep
+ac_cv_path_install='/usr/bin/install -c'
+ac_cv_path_mkdir=/usr/bin/mkdir
+ac_cv_prog_AWK=gawk
 ac_cv_prog_CPP='gcc -E'
 ac_cv_prog_LEX=flex
 ac_cv_prog_YACC='bison -y'
@@ -2290,23 +2335,47 @@ ac_cv_prog_cc_c89=
 ac_cv_prog_cc_g=yes
 ac_cv_prog_lex_root=lex.yy
 ac_cv_prog_lex_yytext_pointer=yes
+ac_cv_prog_make_make_set=yes
 ac_cv_type_size_t=yes
+am_cv_CC_dependencies_compiler_type=gcc3
+am_cv_make_support_nested_variables=yes
+am_cv_prog_cc_c_o=yes
 
 ## ----------------- ##
 ## Output variables. ##
 ## ----------------- ##
 
+ACLOCAL='${SHELL} /home/user/Desktop/C/CaSCAD/missing aclocal-1.16'
+AMDEPBACKSLASH='\'
+AMDEP_FALSE='#'
+AMDEP_TRUE=''
+AMTAR='$${TAR-tar}'
+AM_BACKSLASH='\'
+AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
+AM_DEFAULT_VERBOSITY='1'
+AM_V='$(V)'
+AUTOCONF='${SHELL} /home/user/Desktop/C/CaSCAD/missing autoconf'
+AUTOHEADER='${SHELL} /home/user/Desktop/C/CaSCAD/missing autoheader'
+AUTOMAKE='${SHELL} /home/user/Desktop/C/CaSCAD/missing automake-1.16'
+AWK='gawk'
 CC='gcc'
+CCDEPMODE='depmode=gcc3'
 CFLAGS='-g -O2'
 CPP='gcc -E'
 CPPFLAGS=''
-DEFS='-DPACKAGE_NAME=\"CaSCAD\" -DPACKAGE_TARNAME=\"cascad\" -DPACKAGE_VERSION=\"0.1.0\" -DPACKAGE_STRING=\"CaSCAD\ 0.1.0\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DYYTEXT_POINTER=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDINT_H=1 -DHAVE_STDIO_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_VPRINTF=1 -DHAVE_DECL_STRDUP=1'
+CYGPATH_W='echo'
+DEFS='-DPACKAGE_NAME=\"CaSCAD\" -DPACKAGE_TARNAME=\"cascad\" -DPACKAGE_VERSION=\"0.1.0\" -DPACKAGE_STRING=\"CaSCAD\ 0.1.0\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"cascad\" -DVERSION=\"0.1.0\" -DYYTEXT_POINTER=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_STDINT_H=1 -DHAVE_STDIO_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_VPRINTF=1 -DHAVE_DECL_STRDUP=1'
+DEPDIR='.deps'
 ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''
 EGREP='/usr/bin/grep -E'
 EXEEXT=''
 GREP='/usr/bin/grep'
+INSTALL_DATA='${INSTALL} -m 644'
+INSTALL_PROGRAM='${INSTALL}'
+INSTALL_SCRIPT='${INSTALL}'
+INSTALL_STRIP_PROGRAM='$(install_sh) -c -s'
 LDFLAGS=''
 LEX='flex'
 LEXLIB='-lfl'
@@ -2314,7 +2383,10 @@ LEX_OUTPUT_ROOT='lex.yy'
 LIBOBJS=''
 LIBS=''
 LTLIBOBJS=''
+MAKEINFO='${SHELL} /home/user/Desktop/C/CaSCAD/missing makeinfo'
+MKDIR_P='/usr/bin/mkdir -p'
 OBJEXT='o'
+PACKAGE='cascad'
 PACKAGE_BUGREPORT=''
 PACKAGE_NAME='CaSCAD'
 PACKAGE_STRING='CaSCAD 0.1.0'
@@ -2322,10 +2394,24 @@ PACKAGE_TARNAME='cascad'
 PACKAGE_URL=''
 PACKAGE_VERSION='0.1.0'
 PATH_SEPARATOR=':'
+SET_MAKE=''
 SHELL='/bin/bash'
+STRIP=''
+VERSION='0.1.0'
 YACC='bison -y'
 YFLAGS=''
 ac_ct_CC='gcc'
+am__EXEEXT_FALSE=''
+am__EXEEXT_TRUE='#'
+am__fastdepCC_FALSE='#'
+am__fastdepCC_TRUE=''
+am__include='include'
+am__isrc=''
+am__leading_dot='.'
+am__nodep='_no'
+am__quote=''
+am__tar='$${TAR-tar} chof - "$$tardir"'
+am__untar='$${TAR-tar} xf -'
 bindir='${exec_prefix}/bin'
 build_alias=''
 datadir='${datarootdir}'
@@ -2337,11 +2423,13 @@ host_alias=''
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
+install_sh='${SHELL} /home/user/Desktop/C/CaSCAD/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'
 localstatedir='${prefix}/var'
 mandir='${datarootdir}/man'
+mkdir_p='$(MKDIR_P)'
 oldincludedir='/usr/include'
 pdfdir='${docdir}'
 prefix='/usr/local'
@@ -2364,6 +2452,8 @@ target_alias=''
 #define PACKAGE_STRING "CaSCAD 0.1.0"
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE_URL ""
+#define PACKAGE "cascad"
+#define VERSION "0.1.0"
 #define YYTEXT_POINTER 1
 #define STDC_HEADERS 1
 #define HAVE_SYS_TYPES_H 1
@@ -2386,4 +2476,4 @@ target_alias=''
 #define HAVE_VPRINTF 1
 #define HAVE_DECL_STRDUP 1
 
-configure: exit 1
+configure: exit 0

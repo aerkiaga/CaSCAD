@@ -193,3 +193,12 @@ ast_t ast_list_comprehension(ast_t assign_list, ast_t condition, uintptr_t each,
     return r;
 }
 
+int ast_walk(
+    ast_t ast,
+    int (*fn)(ast_t node, size_t index, void *data),
+    int (*fn2)(ast_t node, size_t index, void *data),
+    void *data
+) {
+    return tree_walk((tree_t) ast, fn, fn2, data);
+}
+

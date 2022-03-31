@@ -7,22 +7,22 @@
 typedef tree_t ast_t;
 
 enum {
-    AST_TYPE_STATEMENT_LIST,
+    AST_TYPE_STATEMENT_LIST,                // statement...
     AST_TYPE_EXPRESSION_LIST,
     AST_TYPE_PROTO_LIST,
     AST_TYPE_PARAMETER_LIST,
     AST_TYPE_ASSIGNMENT_LIST,
     
-    AST_TYPE_FN_OPERATOR,
-    AST_TYPE_PRE_OPERATOR,
+    AST_TYPE_FN_OPERATOR,                   // function_call  statement
+    AST_TYPE_PRE_OPERATOR,                  // type  statement
     
     AST_TYPE_BIND_STATEMENT,
-    AST_TYPE_IF_STATEMENT,
-    AST_TYPE_FOR_STATEMENT,
-    AST_TYPE_INTERSECTION_FOR_STATEMENT,
-    AST_TYPE_LET_STATEMENT,
-    AST_TYPE_INCLUDE_STATEMENT,
-    AST_TYPE_USE_STATEMENT,
+    AST_TYPE_IF_STATEMENT,                  // expression  statement  statement
+    AST_TYPE_FOR_STATEMENT,                 // assignment_list  statement
+    AST_TYPE_INTERSECTION_FOR_STATEMENT,    // assignment  statement
+    AST_TYPE_LET_STATEMENT,                 // assignment_list  statement
+    AST_TYPE_INCLUDE_STATEMENT,             // path
+    AST_TYPE_USE_STATEMENT,                 // path
     
     AST_TYPE_UNDEF_LITERAL,
     AST_TYPE_NUMBER_LITERAL,
@@ -108,5 +108,7 @@ extern ast_t ast_binary_expression(uintptr_t type, ast_t expr1, ast_t expr2);
 extern ast_t ast_unary_expression(uintptr_t type, ast_t expression);
 extern ast_t ast_vector_index(ast_t vector, ast_t index);
 extern ast_t ast_list_comprehension(ast_t assign_list, ast_t condition, uintptr_t each, ast_t expression);
+
+extern int ast_walk(ast_t ast, int (*fn)(ast_t node, size_t index, void *data), int (*fn2)(ast_t node, size_t index, void *data), void *data);
 
 #endif // AST_H

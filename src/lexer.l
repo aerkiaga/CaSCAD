@@ -1,7 +1,7 @@
 %{
     #include "ast.h"
     #include "lexer.h"
-    #include "y.tab.h"
+    #include "parser.h"
     #include <string.h>
     const char* inp;
     int length;
@@ -114,9 +114,11 @@
 %%
 
 void lexer_load(const char *text) {
+    puts(text); //D
     inp = text;
     length = strlen(inp);
 }
 
 void yyerror(char const *msg) {
+    puts(msg); //D
 }

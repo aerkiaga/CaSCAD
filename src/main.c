@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
     if(!file) error("cascad: file '%s' could not be opened\n", filename);
     
     cascad_ast_t ast = cascad_load_file(file);
+    if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
     
     fclose(file);
     return 0;
