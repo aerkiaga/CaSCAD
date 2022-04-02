@@ -4,6 +4,9 @@
     #include "strutils.h"
     #include <stdlib.h>
     #include <string.h>
+    extern int yyparse();
+    extern int yylex();
+    extern void yyerror(char const *msg);
     ast_t outp;
 %}
 
@@ -90,8 +93,8 @@
 %type <a> top_statements statements statement operator
 %type <a> expression vector if_header for_header
 %type <a> intersection_for_header let_header expr_list proto_list
-%type <a> param_list assignment_list function_call assignment
-%type <a> include_statement use_statement
+%type <a> param_list assignment_list function_call module_call
+%type <a> assignment include_statement use_statement
 %type <s> string import_path
 
 %%
@@ -112,25 +115,23 @@ statements:
 
 statement:
     assignment ';' { $$ = $1; }
-|   function_call ';' { $$ = $1; }
-|   operator statement { $$ = ast_append_child($1, $2); }
+|   module_call ';' { $$ = $1; }
 |   '{' statements '}' { $$ = $2; }
+|   operator '{' statements '}' { $$ = ast_append_child($1, $3); }
 |   if_header statement %prec NON_ELSE { $$ = ast_if_statement($1, $2, NULL); }
 |   if_header statement LEX_ELSE statement { $$ = ast_if_statement($1, $2, $4); }
 |   for_header statement { $$ = ast_for_statement($1, $2); }
 |   intersection_for_header statement { $$ = ast_intersection_for_statement($1, $2); }
 |   let_header statement { $$ = ast_let_statement($1, $2); }
-|   LEX_FUNCTION LEX_IDENTIFIER '(' proto_list ')' '=' expression ';' {
-            ast_bind_statement(strdup($2), ast_function_literal($4, $7)); 
-        }
-|   LEX_MODULE LEX_IDENTIFIER '(' proto_list ')' statement {
-            ast_bind_statement(strdup($2), ast_module_literal($4, $6)); 
-        }
+|   LEX_FUNCTION LEX_IDENTIFIER '(' proto_list ')' '=' expression ';'
+        { $$ = ast_bind_statement(strdup($2), ast_function_literal($4, $7)); }
+|   LEX_MODULE LEX_IDENTIFIER '(' proto_list ')' statement
+        { $$ = ast_bind_statement(strdup($2), ast_module_literal($4, $6)); }
 |   include_statement { $$ = $1; }
 ;
 
 operator:
-    function_call { $$ = ast_function_operator($1); }
+    module_call { $$ = ast_module_operator($1); }
 |   '*' { $$ = ast_predefined_operator(OPERATOR_DISABLE); }
 |   '!' { $$ = ast_predefined_operator(OPERATOR_SHOWONLY); }
 |   '#' { $$ = ast_predefined_operator(OPERATOR_HIGHLIGHT); }
@@ -138,7 +139,8 @@ operator:
 ;
 
 expression:
-    function_call { $$ = $1; }
+    LEX_IDENTIFIER { $$ = ast_identifier_expression($1); }
+|   function_call { $$ = $1; }
 |   '(' expression ')' { $$ = $2; }
 |   expression '?' expression ':' expression %prec '?' { $$ = ast_if_expression($1, $3, $5); }
 |   expression LEX_OR expression { $$ = ast_binary_expression(BINARY_OP_OR, $1, $3); }
@@ -212,30 +214,40 @@ let_header:
 
 expr_list:
     { $$ = ast_expression_list(); }
+|   expression { $$ = ast_append_child(ast_expression_list(), $1); }
 |   expr_list ',' expression { $$ = ast_append_child($1, $3); }
 ;
 
 proto_list:
     { $$ = ast_proto_list(); }
-|   proto_list ',' LEX_IDENTIFIER {
-            $$ = ast_append_child($1, ast_bind_statement(strdup($3), ast_undef_literal()));
-        }
-|   proto_list ',' assignment { $$ = ast_append_child($1, $3); }
+|   LEX_IDENTIFIER
+        { $$ = ast_append_child(ast_proto_list(), ast_bind_statement(strdup($1), ast_undef_literal())); }
+|   assignment { $$ = ast_append_child(ast_proto_list(), $1); }
+|   LEX_IDENTIFIER ',' proto_list
+        { $$ = ast_append_child($3, ast_bind_statement(strdup($1), ast_undef_literal())); }
+|   assignment ',' proto_list { $$ = ast_append_child($3, $1); }
 ;
 
 param_list:
     { $$ = ast_parameter_list(); }
-|   param_list ',' expression { $$ = ast_append_child($1, $3); }
-|   param_list ',' assignment { $$ = ast_append_child($1, $3); }
+|   expression { $$ = ast_append_child(ast_parameter_list(), $1); }
+|   assignment { $$ = ast_append_child(ast_parameter_list(), $1); }
+|   expression ',' param_list { $$ = ast_append_child($3, $1); }
+|   param_list ',' param_list { $$ = ast_append_child($3, $1); }
 ;
 
 assignment_list:
     { $$ = ast_assignment_list(); }
-|   assignment_list ',' assignment { $$ = ast_append_child($1, $3); }
+|   assignment { $$ = ast_append_child(ast_assignment_list(), $1); }
+|   assignment ',' assignment_list { $$ = ast_append_child($3, $1); }
 ;
 
 function_call:
     LEX_IDENTIFIER '(' param_list ')' { $$ = ast_function_call($1, $3); }
+;
+
+module_call:
+    LEX_IDENTIFIER '(' param_list ')' { $$ = ast_module_call($1, $3); }
 ;
 
 assignment:

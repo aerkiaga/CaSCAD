@@ -7,11 +7,14 @@
     int length;
     #define YY_INPUT(buf,result,max_size) \
     { \
-        strncpy(buf, inp, max_size); \
-        inp += max_size; \
-        length -= max_size; \
-        if(length <= 0) result = 0; \
-        else result = max_size; \
+        if(length <= 0) result = YY_NULL; \
+        else { \
+            strncpy(buf, inp, max_size); \
+            inp += max_size; \
+            length -= max_size; \
+            if(length <= 0) result = length + max_size; \
+            else result = max_size; \
+        } \
     }
 %}
 
@@ -22,7 +25,7 @@
 
 %%
 
-<INITIAL>[ \t\n]+ { }
+<INITIAL>[ \t\n]+ {  }
 
     /* comments */ 
 <INITIAL>\/\/[^\n]* { }
@@ -44,15 +47,15 @@
 
     /* strings */
 <INITIAL>\" { BEGIN(STRING); }
-<STRING>[^\n\"\\]+ { yylval.s = strdup(yytext); return LEX_STR_FRAG; }
+<STRING>[^\n\"\\]+ { yylval.s = strndup(yytext, yyleng); return LEX_STR_FRAG; }
 <STRING>\n { }
 <STRING>\\\" { yylval.s = "\""; return LEX_STR_FRAG; }
 <STRING>\\\\ { yylval.s = "\\"; return LEX_STR_FRAG; }
 <STRING>\\t { yylval.s = "\t"; return LEX_STR_FRAG; }
 <STRING>\\n { yylval.s = "\n"; return LEX_STR_FRAG; }
-<STRING>\\x[0-9a-fA-F]{2} { yylval.s = strdup(yytext); return LEX_STR_UNICODE; }
-<STRING>\\u[0-9a-fA-F]{4} { yylval.s = strdup(yytext); return LEX_STR_UNICODE; }
-<STRING>\\U[0-9a-fA-F]{6} { yylval.s = strdup(yytext); return LEX_STR_UNICODE; }
+<STRING>\\x[0-9a-fA-F]{2} { yylval.s = strndup(yytext, yyleng); return LEX_STR_UNICODE; }
+<STRING>\\u[0-9a-fA-F]{4} { yylval.s = strndup(yytext, yyleng); return LEX_STR_UNICODE; }
+<STRING>\\U[0-9a-fA-F]{6} { yylval.s = strndup(yytext, yyleng); return LEX_STR_UNICODE; }
 <STRING>\" { BEGIN(INITIAL); }
 
     /* delimiters */
@@ -94,7 +97,7 @@
     /* import paths */
 <INITIAL>include[ \t]\< { BEGIN(IMPORT_PATH); return LEX_INCLUDE; }
 <INITIAL>use[ \t]\< { BEGIN(IMPORT_PATH); return LEX_USE; }
-<IMPORT_PATH>[^\n\>]+ { yylval.s = strdup(yytext); return LEX_PATH_FRAG; }
+<IMPORT_PATH>[^\n\>]+ { yylval.s = strndup(yytext, yyleng); return LEX_PATH_FRAG; }
 <IMPORT_PATH>\> { BEGIN(INITIAL); }
 
     /* keywords */
@@ -109,16 +112,14 @@
 <INITIAL>each { return LEX_EACH; }
 
     /* identifiers */
-<INITIAL>\$?[a-zA-Z0-9_]+ { yylval.s = strdup(yytext); return LEX_IDENTIFIER; }
+<INITIAL>\$?[a-zA-Z0-9_]+ { yylval.s = strndup(yytext, yyleng); return LEX_IDENTIFIER; }
 
 %%
 
 void lexer_load(const char *text) {
-    puts(text); //D
     inp = text;
     length = strlen(inp);
 }
 
 void yyerror(char const *msg) {
-    puts(msg); //D
 }

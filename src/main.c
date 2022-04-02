@@ -1,10 +1,11 @@
-#include "lib.h"
+#include "config.h"
+#include "cascad.h"
 #include <getopt.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-_Noreturn void error(const char* fmt, ...) {
+_Noreturn void error(const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
     vfprintf(stderr, fmt, args);
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]) {
                 break;
             case 'v':
                 puts(
-                    "CaSCAD version 0.1.0\n"
+                    PACKAGE_STRING "\n"
                     "Copyright (C) 2022 Aritz Erkiaga Fernández\n"
                     "License LGPLv3: GNU LGPL version 3 <https://gnu.org/licenses/lgpl-3.0.html>\n"
                     "This is free software: you are free to change and redistribute it.\n"
@@ -80,6 +81,11 @@ int main(int argc, char *argv[]) {
     
     cascad_ast_t ast = cascad_load_file(file);
     if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
+    
+    cascad_context_t ctx = cascad_gen_context(ast, filename);
+    if(!ctx) error("cascad: file '%s' could not be compiled\n", filename);
+    
+    cascad_execute(ctx);
     
     fclose(file);
     return 0;

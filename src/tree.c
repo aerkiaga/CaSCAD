@@ -18,7 +18,7 @@ tree_t tree_new_children(tree_t tree, size_t initial_size) {
     return r;
 }
 
-tree_t tree_append_sibling(tree_t tree, tree_t node) {
+tree_t tree_append_sibling(tree_t tree, const tree_t node) {
     if(!tree) return NULL;
     if(!node) return NULL;
     tree[0].u++;
@@ -27,11 +27,18 @@ tree_t tree_append_sibling(tree_t tree, tree_t node) {
     return tree;
 }
 
-tree_t tree_append_children(tree_t tree, tree_t children) {
+tree_t tree_append_children(tree_t tree, const tree_t children) {
     if(!tree) return NULL;
-    tree_t node;
-    node->a = children;
-    tree = tree_append_sibling(tree, node);
+    union tree_child_t node;
+    node.a = children;
+    tree = tree_append_sibling(tree, &node);
+    return tree;
+}
+
+tree_t tree_remove_last_sibling(tree_t tree) {
+    if(!tree) return NULL;
+    tree[0].u--;
+    // no realloc
     return tree;
 }
 
@@ -70,16 +77,20 @@ tree_t tree_node_child(tree_t tree, size_t index) {
 
 int tree_walk(
     tree_t tree,
-    int (*fn)(tree_t node, size_t index, void *data),
-    int (*fn2)(tree_t node, size_t index, void *data),
+    int (*fn)(tree_t node, size_t index, void *data, void **common),
+    int (*fn2)(tree_t node, size_t index, void *data, void **common),
     void *data
 ) {
     size_t index;
     int retval = 0;
+    void *common = NULL;
     while(index < tree[0].u) {
-        retval = fn ? fn(&tree[index + 1], index, data) : 0;
-        if(!retval && tree[index + 1].a) tree_walk(tree[index + 1].a, fn, fn2, data);
-        retval += fn2 ? fn2(&tree[index + 1], index, data) : 0;
+        retval = fn ? fn(&tree[index + 1], index, data, &common) : 0;
+        if(!retval) {
+            if(tree[index + 1].a) tree_walk(tree[index + 1].a, fn, fn2, data);
+            retval++;
+        }
+        retval += fn2 ? fn2(&tree[index + 1], index, data, &common) : 0;
         index += retval;
     }
     return retval;

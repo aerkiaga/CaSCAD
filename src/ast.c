@@ -1,6 +1,8 @@
 #include "ast.h"
 #include "tree.h"
+#include <limits.h>
 #include <stdint.h>
+#include <stdio.h>
 
 ast_t ast_append_child(ast_t ast, ast_t node) {
     return tree_append_children(ast, node);
@@ -20,13 +22,13 @@ void ast_set_type(ast_t ast, uintptr_t type) {
     tree_node_sibling(ast, 0)->u = type;
 }
 
-ast_t ast_string(uintptr_t type, char* string) {
+ast_t ast_string(uintptr_t type, char *string) {
     ast_t r = ast_sized_list(type, 1);
     tree_node_sibling(r, 1)->s = string;
     return r;
 }
 
-ast_t ast_string_child(uintptr_t type, char* string, ast_t child) {
+ast_t ast_string_child(uintptr_t type, char *string, ast_t child) {
     ast_t r = ast_sized_list(type, 2);
     tree_node_sibling(r, 1)->s = string;
     tree_node_sibling(r, 2)->a = child;
@@ -63,8 +65,8 @@ ast_t ast_assignment_list() {
     return ast_empty(AST_TYPE_ASSIGNMENT_LIST);
 }
 
-ast_t ast_function_operator(ast_t value) {
-    ast_t r =  ast_sized_list(AST_TYPE_FN_OPERATOR, 1);
+ast_t ast_module_operator(ast_t value) {
+    ast_t r =  ast_sized_list(AST_TYPE_MODULE_OPERATOR, 1);
     tree_node_sibling(r, 1)->a = value;
     return r;
 }
@@ -75,7 +77,7 @@ ast_t ast_predefined_operator(uintptr_t type) {
     return r;
 }
 
-ast_t ast_bind_statement(char* name, ast_t value) {
+ast_t ast_bind_statement(char *name, ast_t value) {
     return ast_string_child(AST_TYPE_BIND_STATEMENT, name, value);
 }
 
@@ -99,11 +101,11 @@ ast_t ast_let_statement(ast_t assign_list, ast_t statement) {
     return ast_two_children(AST_TYPE_LET_STATEMENT, assign_list, statement);
 }
 
-ast_t ast_include_statement(char* path) {
+ast_t ast_include_statement(char *path) {
     return ast_string(AST_TYPE_INCLUDE_STATEMENT, path);
 }
 
-ast_t ast_use_statement(char* path) {
+ast_t ast_use_statement(char *path) {
     return ast_string(AST_TYPE_USE_STATEMENT, path);
 }
 
@@ -124,7 +126,7 @@ ast_t ast_bool_literal(uintptr_t value) {
     return r;
 }
 
-ast_t ast_string_literal(char* value) {
+ast_t ast_string_literal(char *value) {
     return ast_string(AST_TYPE_STRING_LITERAL, value);
 }
 
@@ -149,8 +151,16 @@ ast_t ast_module_literal(ast_t proto_list, ast_t statement) {
     return ast_two_children(AST_TYPE_MODULE_LITERAL, proto_list, statement);
 }
 
-ast_t ast_function_call(char* name, ast_t param_list) {
+ast_t ast_identifier_expression(char *name) {
+    return ast_string(AST_TYPE_IDENTIFIER_EXPRESSION, name);
+}
+
+ast_t ast_function_call(char *name, ast_t param_list) {
     return ast_string_child(AST_TYPE_FUNCTION_CALL, name, param_list);
+}
+
+ast_t ast_module_call(char *name, ast_t param_list) {
+    return ast_string_child(AST_TYPE_MODULE_CALL, name, param_list);
 }
 
 ast_t ast_if_expression(ast_t condition, ast_t expression, ast_t else_expr) {
@@ -195,10 +205,60 @@ ast_t ast_list_comprehension(ast_t assign_list, ast_t condition, uintptr_t each,
 
 int ast_walk(
     ast_t ast,
-    int (*fn)(ast_t node, size_t index, void *data),
-    int (*fn2)(ast_t node, size_t index, void *data),
+    int (*fn)(ast_t node, size_t index, void *data, void **common),
+    int (*fn2)(ast_t node, size_t index, void *data, void **common),
     void *data
 ) {
     return tree_walk((tree_t) ast, fn, fn2, data);
+}
+
+int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
+    if(index == 0) {
+        switch(node->u) {
+            case AST_TYPE_STATEMENT_LIST:
+                fprintf(stderr, "AST_TYPE_STATEMENT_LIST\n");
+                return 1;
+            case AST_TYPE_PROTO_LIST:
+                fprintf(stderr, "AST_TYPE_PROTO_LIST\n");
+                return 1;
+            case AST_TYPE_BIND_STATEMENT:
+                fprintf(stderr, "AST_TYPE_BIND_STATEMENT %s\n", node[1].s);
+                return 2;
+            case AST_TYPE_UNDEF_LITERAL:
+                fprintf(stderr, "AST_TYPE_UNDEF_LITERAL\n");
+                return 1;
+            case AST_TYPE_NUMBER_LITERAL:
+                fprintf(stderr, "AST_TYPE_NUMBER_LITERAL %g\n", node[1].d);
+                return 2;
+            case AST_TYPE_BOOL_LITERAL:
+                fprintf(stderr, "AST_TYPE_BOOL_LITERAL %s\n", node[1].u ? "true" : "false");
+                return 2;
+            case AST_TYPE_STRING_LITERAL:
+                fprintf(stderr, "AST_TYPE_STRING_LITERAL %s\n", node[1].s);
+                return 2;
+            case AST_TYPE_FUNCTION_LITERAL:
+                fprintf(stderr, "AST_TYPE_FUNCTION_LITERAL\n");
+                return 1;
+            case AST_TYPE_MODULE_LITERAL:
+                fprintf(stderr, "AST_TYPE_MODULE_LITERAL\n");
+                return 1;
+        }
+        return INT_MAX;
+    }
+    return 0;
+}
+
+void debug_ast(ast_t ast) {
+    fputs(
+        "Abstract Syntax Tree\n"
+        "====================\n",
+        stderr
+    );
+    ast_walk(ast, ast_debug_walk_fn, NULL, NULL);
+    fputs(
+        "====================\n"
+        "\n",
+        stderr
+    );
 }
 

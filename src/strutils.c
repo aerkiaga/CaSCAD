@@ -1,4 +1,5 @@
 #include "strutils.h"
+#include <libgen.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,3 +82,16 @@ char *encode_utf8_escape(const char *escape) {
     r[actual_size] = '\0';
     return r;
 }
+
+char *path_dirname(const char *path) {
+    char *path_copy = strdup(path);
+    const char *dir = dirname(path_copy);
+    char *dir_copy = strdup(dir);
+    free(path_copy);
+    return dir_copy;
+}
+
+char *path_realpath(const char *path) {
+    return realpath(path, NULL);
+}
+
