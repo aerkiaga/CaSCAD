@@ -27,12 +27,14 @@ enum {
     OP_FINISH,  // end execution and present result, no parameters
     OP_NOP,     // no operation, has no parameters
     OP_JUMP,    // jump to address $1
+    OP_CALL,    // push current address plus one and jump to address $1
     OP_RETURN,  // pop return value, pop address and jump to it, push return value
     OP_SAVE,    // push $2 values to call_stack from data storage starting at address $1
     OP_RESTORE, // pop $2 values from call_stack into data storage starting at address $1
     OP_STORE,   // pop stack, store value at address $1
-    OP_VSTORE,  // pop $2 values from the stack, store them starting at address $1, ...
-                // ... the top of the stack becomes the last element, and vice versa
+    OP_VSTORE,  // pop and save return value at temporary variable, then ...
+                // ... pop $2 values from the stack, store them starting at address $1, ...
+                // ... the top of the stack becomes the last element; push return value
     OP_UNDEF,   // push literal undef, no parameters
     OP_NUMBER,  // push literal number $1
     OP_TRUE,    // push literal true, no parameters

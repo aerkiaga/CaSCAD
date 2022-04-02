@@ -38,9 +38,9 @@ static tree_t search_in_partial_scope(const char *name, tree_t scope) {
 }
 
 static tree_t search_in_full_scope(const char *name, context_t context) {
-    tree_t r;
     size_t index;
-    for(index = 1; index <= context->scope_stack[0].u; index++) {
+    for(index = context->scope_stack[0].u; index >= 1; index--) {
+        tree_t r;
         if(r = search_in_partial_scope(name, context->scope_stack[index].a))
             return r;
     }
@@ -143,37 +143,17 @@ static int compile_walk_fn_choose(
             /* These contain their AST and a NULL address. */
             ast_walk(node - 1, statement_list_walk_fn, NULL, context);
             tree_t *inner_scope = get_inner_scope_ptr(context);
-            /* Add variables first. Add actual addresses. */
-            int contains_literal_code = 0;
             size_t i;
             for(i = 1; i <= (*inner_scope)[0].u; i += 4) {
                 uintptr_t bind_type = (*inner_scope + i)[1].u;
                 if(bind_type != BIND_TYPE_NONE) continue;
                 tree_t ast = (*inner_scope + i)[3].a;
                 uintptr_t type = ast[1].u;
+                /* Check if this defines a function, module or variable. */
                 if(type == AST_TYPE_FUNCTION_LITERAL || type == AST_TYPE_MODULE_LITERAL) {
-                    contains_literal_code = 1;
-                    continue;
-                }
-                /* === Run expression. === */
-                compile_subexpression(ast, context);
-                inner_scope = get_inner_scope_ptr(context);
-                /* === Move computed data to variable. === */
-                ptrdiff_t var = allocate_variable(context);
-                append_code_u(context, OP_STORE);
-                append_code_u(context, var);
-                /* Remember bound variable. */
-                (*inner_scope + i)[1].u = BIND_TYPE_VARIABLE;
-                (*inner_scope + i)[2].u = var;
-            }
-            if(contains_literal_code) {
-                /* Then add functions and modules. Jump over their code. */
-                append_code_u(context, OP_JUMP);
-                ptrdiff_t jump_address = append_code_u(context, 0);
-                for(i = 1; i <= (*inner_scope)[0].u; i += 4) {
-                    uintptr_t bind_type = (*inner_scope + i)[1].u;
-                    if(bind_type != BIND_TYPE_NONE) continue;
-                    tree_t ast = (*inner_scope + i)[3].a;
+                    /* === Jump over code. === */
+                    append_code_u(context, OP_JUMP);
+                    ptrdiff_t jump_address = append_code_u(context, 0);
                     ptrdiff_t code_address = get_current_address(context) + 1;
                     /* === Add all the code. === */
                     compile_subexpression(ast, context);
@@ -185,8 +165,20 @@ static int compile_walk_fn_choose(
                     else
                         (*inner_scope + i)[1].u = BIND_TYPE_MODULE;
                     (*inner_scope + i)[2].u = code_address;
+                    /* Finish jump. */
+                    (context->code + jump_address)->u = get_current_address(context) + 1;
+                } else {
+                    /* === Run expression. === */
+                    compile_subexpression(ast, context);
+                    inner_scope = get_inner_scope_ptr(context);
+                    /* === Move computed data to variable. === */
+                    ptrdiff_t var = allocate_variable(context);
+                    append_code_u(context, OP_STORE);
+                    append_code_u(context, var);
+                    /* Remember bound variable. */
+                    (*inner_scope + i)[1].u = BIND_TYPE_VARIABLE;
+                    (*inner_scope + i)[2].u = var;
                 }
-                (context->code + jump_address)->u = get_current_address(context) + 1;
             }
             /* === Run all statements. === */
             (*shared)->statement_count = 0;
@@ -235,16 +227,17 @@ static int compile_walk_fn_choose(
             append_code_u(context, get_next_data_space(context));
             (*shared)->var_count_address = append_code_u(context, 0);
             /* Make parameters into variables. */
+            /* The parser puts them IN REVERSE ORDER! */
             ptrdiff_t last_param;
             size_t i;
-            for(i = 1; i <= parameter_count; i++) {
-                const char *name = strdup(node[1].a[i + 1].a[2].s);
+            for(i = parameter_count + 1; i >= 2; i--) {
+                const char *name = strdup(node[1].a[i].a[2].s);
                 // TODO: check if name already exists (two parameters with same name)
                 tree_t variable = add_variable_to_scope(name, inner_scope);
                 variable[1].u = BIND_TYPE_VARIABLE;
                 variable[2].u = allocate_variable(context);
                 last_param = variable[2].u;
-                tree_t ast = node[1].a[i + 1].a[3].a;
+                tree_t ast = node[1].a[i].a[3].a;
                 variable[3].a = ast;
             }
             ptrdiff_t start_address = last_param - 2*(parameter_count - 1);
@@ -264,14 +257,61 @@ static int compile_walk_fn_choose(
             }
             uintptr_t bind_type = definition[1].u;
             if(bind_type != BIND_TYPE_FUNCTION) {
-                printf("%ld\n", bind_type); //D
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
                 error("syntax error: '%s' exists, but is not a function.", name);
             }
+            /* Copy default parameters from function prototype. */
+            /* The parser puts them IN REVERSE ORDER! */
+            tree_t proto_list = definition[3].a[2].a;
+            tree_t passed_values = tree_new_siblings(proto_list[0].u - 1);
+            size_t i;
+            for(i = 1; i < proto_list[0].u; i++) {
+                passed_values[i].a = proto_list[proto_list[0].u + 1 - i].a;
+            }
+            /* Replace any values passed. */
+            /* They are also placed IN REVERSE ORDER. */
             tree_t param_list = node[2].a;
-            
-            // TODO
+            size_t numbered_argument = 1;
+            for(i = param_list[0].u; i >= 2; i--) {
+                tree_t param = param_list[i].a;
+                if(param[1].u == AST_TYPE_BIND_STATEMENT) {
+                    size_t k;
+                    for(k = 1; k <= passed_values[0].u; k++) {
+                        if(!strcmp(passed_values[k].a[2].s, param[2].s)) {
+                            passed_values[k].a = param;
+                            break;
+                        }
+                    }
+                    if(k > passed_values[0].u) {
+                        /* OpenSCAD says: */
+                        /* WARNING: variable ~ not specified as parameter, in file ~, line ~ */
+                        error("syntax error: '%s' does not name a paremeter of '%s'.", param[2].s, name);
+                    }
+                } else {
+                    if(numbered_argument > proto_list[0].u - 1) {
+                        /* OpenSCAD says: */
+                        /* WARNING: Too many unnamed arguments supplied, in file ~, line ~ */
+                        error("syntax error: %d unnamed paramaters passed to '%s', up to %d expected.",
+                            numbered_argument, name, proto_list[0].u - 1
+                        );
+                    }
+                    const char *param_name = passed_values[numbered_argument].a[2].s;
+                    tree_t new_assignment = ast_bind_statement(strdup(param_name), param);
+                    passed_values[numbered_argument].a = new_assignment;
+                    numbered_argument++;
+                }
+            }
+            /* === Compute and push values onto the stack. === */
+            for(i = 1; i <= passed_values[0].u; i++) {
+                tree_t assignment = passed_values[i].a;
+                tree_t ast = assignment[3].a;
+                compile_subexpression(ast, context);
+            }
+            /* === Perform the call. === */
+            ptrdiff_t call_address = definition[2].u;
+            append_code_u(context, OP_CALL);
+            append_code_u(context, call_address);
             return INT_MAX;
         }
         default:

@@ -233,7 +233,7 @@ param_list:
 |   expression { $$ = ast_append_child(ast_parameter_list(), $1); }
 |   assignment { $$ = ast_append_child(ast_parameter_list(), $1); }
 |   expression ',' param_list { $$ = ast_append_child($3, $1); }
-|   param_list ',' param_list { $$ = ast_append_child($3, $1); }
+|   assignment ',' param_list { $$ = ast_append_child($3, $1); }
 ;
 
 assignment_list:

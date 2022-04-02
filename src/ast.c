@@ -221,6 +221,9 @@ int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
             case AST_TYPE_PROTO_LIST:
                 fprintf(stderr, "AST_TYPE_PROTO_LIST\n");
                 return 1;
+            case AST_TYPE_PARAMETER_LIST:
+                fprintf(stderr, "AST_TYPE_PARAMETER_LIST\n");
+                return 1;
             case AST_TYPE_BIND_STATEMENT:
                 fprintf(stderr, "AST_TYPE_BIND_STATEMENT %s\n", node[1].s);
                 return 2;
@@ -242,6 +245,9 @@ int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
             case AST_TYPE_MODULE_LITERAL:
                 fprintf(stderr, "AST_TYPE_MODULE_LITERAL\n");
                 return 1;
+            case AST_TYPE_FUNCTION_CALL:
+                fprintf(stderr, "AST_TYPE_FUNCTION_CALL %s\n", node[1].s);
+                return 2;
         }
         return INT_MAX;
     }

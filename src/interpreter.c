@@ -23,6 +23,10 @@ void debug_bytecode(context_t context) {
                 fprintf(stderr, "OP_JUMP %ld\n", ip[1].u);
                 ip++;
                 break;
+            case OP_CALL:
+                fprintf(stderr, "OP_CALL %ld\n", ip[1].u);
+                ip++;
+                break;
             case OP_RETURN:
                 fprintf(stderr, "OP_RETURN\n");
                 break;
