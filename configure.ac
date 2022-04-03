@@ -31,7 +31,7 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([memset realpath strcmp strcspn strdup strndup])
+AC_CHECK_FUNCS([basename dirname memset realpath strcmp strcspn strdup strndup])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

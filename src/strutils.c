@@ -83,6 +83,14 @@ char *encode_utf8_escape(const char *escape) {
     return r;
 }
 
+char *path_basename(const char *path) {
+    char *path_copy = strdup(path);
+    const char *base = basename(path_copy);
+    char *base_copy = strdup(base);
+    free(path_copy);
+    return base_copy;
+}
+
 char *path_dirname(const char *path) {
     char *path_copy = strdup(path);
     const char *dir = dirname(path_copy);

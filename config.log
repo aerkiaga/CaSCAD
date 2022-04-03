@@ -147,11 +147,11 @@ configure:4041: checking lex output file root
 configure:4055: result: lex.yy
 configure:4060: checking lex library
 configure:4074: gcc -o conftest -g -O2   conftest.c   >&5
-/usr/bin/ld: /tmp/cckf7ASP.o: in function `input':
+/usr/bin/ld: /tmp/cccdSZKM.o: in function `input':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:1180: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cckf7ASP.o: in function `yylex':
+/usr/bin/ld: /tmp/cccdSZKM.o: in function `yylex':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:871: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cckf7ASP.o: in function `main':
+/usr/bin/ld: /tmp/cccdSZKM.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
 configure:4074: $? = 1
@@ -2594,7 +2594,7 @@ configure:5003: $? = 0
 configure:5003: result: yes
 configure:5009: checking for _doprnt
 configure:5009: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccXcabzU.o: in function `main':
+/usr/bin/ld: /tmp/ccIMNzDF.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.c:74: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
 configure:5009: $? = 1
@@ -2677,14 +2677,22 @@ configure: failed program was:
 |   return 0;
 | }
 configure:5009: result: no
+configure:5023: checking for basename
+configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
+configure:5023: $? = 0
+configure:5023: result: yes
+configure:5023: checking for dirname
+configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
+configure:5023: $? = 0
+configure:5023: result: yes
 configure:5023: checking for memset
 configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:63:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   63 | char memset ();
+conftest.c:65:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   65 | char memset ();
       |      ^~~~~~
-conftest.c:51:1: note: 'memset' is declared in header '<string.h>'
-   50 | # include <limits.h>
-   51 | #else
+conftest.c:53:1: note: 'memset' is declared in header '<string.h>'
+   52 | # include <limits.h>
+   53 | #else
 configure:5023: $? = 0
 configure:5023: result: yes
 configure:5023: checking for realpath
@@ -2693,35 +2701,35 @@ configure:5023: $? = 0
 configure:5023: result: yes
 configure:5023: checking for strcmp
 configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:65:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   65 | char strcmp ();
+conftest.c:67:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   67 | char strcmp ();
       |      ^~~~~~
-conftest.c:53:1: note: 'strcmp' is declared in header '<string.h>'
-   52 | # include <limits.h>
-   53 | #else
+conftest.c:55:1: note: 'strcmp' is declared in header '<string.h>'
+   54 | # include <limits.h>
+   55 | #else
 configure:5023: $? = 0
 configure:5023: result: yes
 configure:5023: checking for strcspn
 configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:66:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   66 | char strcspn ();
+conftest.c:68:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   68 | char strcspn ();
       |      ^~~~~~~
-conftest.c:54:1: note: 'strcspn' is declared in header '<string.h>'
-   53 | # include <limits.h>
-   54 | #else
+conftest.c:56:1: note: 'strcspn' is declared in header '<string.h>'
+   55 | # include <limits.h>
+   56 | #else
 configure:5023: $? = 0
 configure:5023: result: yes
 configure:5023: checking for strdup
 configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:67:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
-   67 | char strdup ();
+conftest.c:69:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
+   69 | char strdup ();
       |      ^~~~~~
 configure:5023: $? = 0
 configure:5023: result: yes
 configure:5023: checking for strndup
 configure:5023: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:68:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   68 | char strndup ();
+conftest.c:70:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   70 | char strndup ();
       |      ^~~~~~~
 configure:5023: $? = 0
 configure:5023: result: yes
@@ -2744,12 +2752,12 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:881: creating Makefile
-config.status:881: creating src/Makefile
-config.status:881: creating src/config.h
-config.status:1110: executing depfiles commands
-config.status:1187: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-config.status:1192: $? = 0
+config.status:883: creating Makefile
+config.status:883: creating src/Makefile
+config.status:883: creating src/config.h
+config.status:1112: executing depfiles commands
+config.status:1189: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1194: $? = 0
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -2787,6 +2795,8 @@ ac_cv_env_target_alias_set=
 ac_cv_env_target_alias_value=
 ac_cv_func__doprnt=no
 ac_cv_func_alloca_works=yes
+ac_cv_func_basename=yes
+ac_cv_func_dirname=yes
 ac_cv_func_malloc_0_nonnull=yes
 ac_cv_func_memset=yes
 ac_cv_func_realloc_0_nonnull=yes
@@ -2978,6 +2988,8 @@ target_alias=''
 #define HAVE_STDLIB_H 1
 #define HAVE_REALLOC 1
 #define HAVE_VPRINTF 1
+#define HAVE_BASENAME 1
+#define HAVE_DIRNAME 1
 #define HAVE_MEMSET 1
 #define HAVE_REALPATH 1
 #define HAVE_STRCMP 1
@@ -3002,73 +3014,4 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:881: creating Makefile
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:881: creating src/Makefile
-config.status:1110: executing depfiles commands
-config.status:1187: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Nothing to be done for 'am--depfiles'.
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1192: $? = 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:881: creating src/Makefile
-config.status:1110: executing depfiles commands
-config.status:1187: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Nothing to be done for 'am--depfiles'.
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1192: $? = 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:881: creating src/Makefile
-config.status:1110: executing depfiles commands
-config.status:1187: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Nothing to be done for 'am--depfiles'.
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1192: $? = 0
+config.status:883: creating Makefile

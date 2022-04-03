@@ -14,5 +14,6 @@ static char *libraries_path_list = PATH_DATADIR "/cascad/libraries";
 extern deps_t create_empty_deps();
 extern deps_t add_deps_from_ast(deps_t old_deps, const ast_t ast, const char *script_path);
 extern deps_t get_deps_from_ast(const ast_t ast, const char *script_path);
+extern tree_t find_path_in_dependencies(const char *path, deps_t deps, const char *script_path);
 
 #endif // DEPS_H

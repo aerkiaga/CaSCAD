@@ -47,22 +47,22 @@ void push_value_typed_a(context_t context, uintptr_t type, tree_t data) {
 }
 
 uintptr_t get_top_value_type(context_t context) {
-    return context->tmp_stack[2*context->tmp_stack_pushed + 1].u;
+    return context->tmp_stack[2*context->tmp_stack_pushed - 1].u;
 }
 
 uintptr_t pop_value_data_u(context_t context) {
     context->tmp_stack_pushed--;
-    return context->tmp_stack[2*context->tmp_stack_pushed + 1].u;
+    return context->tmp_stack[2*context->tmp_stack_pushed + 2].u;
 }
 
 tree_t pop_value_data_a(context_t context) {
     context->tmp_stack_pushed--;
-    return context->tmp_stack[2*context->tmp_stack_pushed + 1].a;
+    return context->tmp_stack[2*context->tmp_stack_pushed + 2].a;
 }
 
 union tree_child_t pop_value_data_raw(context_t context) {
     context->tmp_stack_pushed--;
-    return context->tmp_stack[2*context->tmp_stack_pushed + 1];
+    return context->tmp_stack[2*context->tmp_stack_pushed + 2];
 }
 
 void copy_to_call_stack(context_t context, const tree_t src, size_t count) {
@@ -116,7 +116,7 @@ void interpreter_main_loop(context_t context) {
                 uintptr_t return_type = get_top_value_type(context);
                 value_t return_value = pop_value_data_a(context);
                 if(get_top_value_type(context) != VALUE_TYPE_RETURN) {
-                    error("runtime error: function/module return address corrupted.");
+                    error("runtime error: function/module return address corrupted at return.");
                 }
                 ip = context->code + pop_value_data_u(context);
                 push_value_typed_a(context, VALUE_TYPE_RETURN, return_value);
@@ -134,15 +134,23 @@ void interpreter_main_loop(context_t context) {
                 uintptr_t data_type = get_top_value_type(context);
                 union tree_child_t value = pop_value_data_raw(context);
                 context->data[ip[1].u].u = data_type;
-                context->data[ip[2].u] = value;
+                context->data[ip[1].u] = value;
                 ip++;
                 break;
             }
             case OP_VSTORE: {
-                union tree_child_t return_value = pop_value_data_raw(context);
+                if(get_top_value_type(context) != VALUE_TYPE_RETURN) {
+                    error("runtime error: function/module return address corrupted at call.");
+                }
+                uintptr_t return_address = pop_value_data_u(context);
                 pop_and_copy(context->data + ip[1].u, context, ip[2].u);
-                push_value(context, &return_value);
+                push_value_typed_u(context, VALUE_TYPE_RETURN, return_address);
                 ip += 2;
+                break;
+            }
+            case OP_LOAD: {
+                push_value(context, &context->data[ip[1].u]);
+                ip++;
                 break;
             }
             case OP_UNDEF:
@@ -225,6 +233,10 @@ void debug_bytecode(context_t context) {
             case OP_VSTORE:
                 fprintf(stderr, "OP_VSTORE %ld, %ld\n", ip[1].u, ip[2].u);
                 ip += 2;
+                break;
+            case OP_LOAD:
+                fprintf(stderr, "OP_LOAD %ld\n", ip[1].u);
+                ip++;
                 break;
             case OP_UNDEF:
                 fprintf(stderr, "OP_UNDEF\n");

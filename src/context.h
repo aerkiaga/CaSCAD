@@ -39,6 +39,7 @@ enum {
     OP_VSTORE,  // pop and save return value at temporary variable, then ...
                 // ... pop $2 values from the stack, store them starting at address $1, ...
                 // ... the top of the stack becomes the last element; push return value
+    OP_LOAD,    // push value at address $1 onto the stack
     OP_UNDEF,   // push literal undef, no parameters
     OP_NUMBER,  // push literal number $1
     OP_TRUE,    // push literal true, no parameters

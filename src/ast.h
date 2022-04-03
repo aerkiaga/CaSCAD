@@ -9,10 +9,10 @@ typedef tree_t ast_t;
 enum {
     AST_TYPE_NONE,
     AST_TYPE_STATEMENT_LIST,                // statement...
-    AST_TYPE_EXPRESSION_LIST,
-    AST_TYPE_PROTO_LIST,                    // bind_statement...
+    AST_TYPE_EXPRESSION_LIST,               // expression...
+    AST_TYPE_PROTO_LIST,                    // assignment...
     AST_TYPE_PARAMETER_LIST,                // (expression|assignment)...
-    AST_TYPE_ASSIGNMENT_LIST,
+    AST_TYPE_ASSIGNMENT_LIST,               // assignment...
     
     AST_TYPE_MODULE_OPERATOR,               // module_call  statement
     AST_TYPE_PRE_OPERATOR,                  // type  statement
@@ -35,7 +35,7 @@ enum {
     AST_TYPE_FUNCTION_LITERAL,              // proto_list  expression
     AST_TYPE_MODULE_LITERAL,                // proto_list  statement
     
-    AST_TYPE_IDENTIFIER_EXPRESSION,
+    AST_TYPE_IDENTIFIER_EXPRESSION,         // name
     AST_TYPE_FUNCTION_CALL,                 // name  param_list
     AST_TYPE_IF_EXPRESSION,
     AST_TYPE_LET_EXPRESSION,

@@ -69,6 +69,22 @@ static ptrdiff_t get_next_data_space(context_t context) {
 static ptrdiff_t allocate_variable(context_t context) {
     ptrdiff_t r = get_next_data_space(context);
     context->data_variables++;
+    context->data = (value_t) realloc(
+        context->data, (2*context->data_variables + 1)*sizeof(union tree_child_t)
+    );
+    return r;
+}
+
+static tree_t try_get_include_dependency(ast_t node, context_t context) {
+    tree_t r = find_path_in_dependencies(
+        node[1].s, context->deps, context->script_path
+    );
+    if(!r) {
+        error(
+            "compiler error: couldn't find '%s', the original may have been moved or deleted.",
+            node->a[2].s
+        );
+    }
     return r;
 }
 
@@ -90,11 +106,16 @@ static int statement_list_walk_fn(ast_t node, size_t index, void *data, void **c
             break;
         }
         case AST_TYPE_INCLUDE_STATEMENT:
-            // TODO
+        case AST_TYPE_USE_STATEMENT: {
+            tree_t dependency = try_get_include_dependency(node->a + 1, context);
+            const char *old_script_path = context->script_path;
+            context->script_path = dependency[0].s;
+            ast_t ast = dependency[1].a;
+            ast_walk(ast, statement_list_walk_fn, NULL, context);
+            inner_scope = get_inner_scope_ptr(context);
+            context->script_path = old_script_path;
             break;
-        case AST_TYPE_USE_STATEMENT:
-            // TODO
-            break;
+        }
     }
     return 1;
 }
@@ -131,7 +152,9 @@ static void remove_code(context_t context) {
 static void compile_subexpression(tree_t ast, context_t context, uintptr_t parent_type) {
     uintptr_t old_parent_type = context->parent_type;
     context->parent_type = parent_type;
+    if(parent_type != AST_TYPE_INCLUDE_STATEMENT) push_variable_scope(context);
     ast_walk(ast, compile_walk_fn, compile_walk_fn2, (void *) context);
+    if(parent_type != AST_TYPE_INCLUDE_STATEMENT) pop_variable_scope(context);
     context->parent_type = old_parent_type;
 }
 
@@ -140,45 +163,48 @@ static int compile_walk_fn_choose(
 ) {
     switch(node->u) {
         case AST_TYPE_STATEMENT_LIST: {
-            /* Add all identifiers, in order of first occurrence. */
-            /* These contain their AST and a NULL address. */
-            ast_walk(node - 1, statement_list_walk_fn, NULL, context);
-            tree_t *inner_scope = get_inner_scope_ptr(context);
             size_t i;
-            for(i = 1; i <= (*inner_scope)[0].u; i += 4) {
-                uintptr_t bind_type = (*inner_scope + i)[1].u;
-                if(bind_type != BIND_TYPE_NONE) continue;
-                tree_t ast = (*inner_scope + i)[3].a;
-                uintptr_t type = ast[1].u;
-                /* Check if this defines a function, module or variable. */
-                if(type == AST_TYPE_FUNCTION_LITERAL || type == AST_TYPE_MODULE_LITERAL) {
-                    /* === Jump over code. === */
-                    append_code_u(context, OP_JUMP);
-                    ptrdiff_t jump_address = append_code_u(context, 0);
-                    ptrdiff_t code_address = get_current_address(context) + 1;
-                    /* === Add all the code. === */
-                    compile_subexpression(ast, context, node->u);
-                    inner_scope = get_inner_scope_ptr(context);
-                    /* Remember bound variable. */
+            /* Add identifiers only if we haven't already. */
+            if(context->parent_type != AST_TYPE_INCLUDE_STATEMENT) {
+                /* Add all identifiers, in order of first occurrence. */
+                /* These contain their AST and a NULL address. */
+                ast_walk(node - 1, statement_list_walk_fn, NULL, context);
+                tree_t *inner_scope = get_inner_scope_ptr(context);
+                for(i = 1; i <= (*inner_scope)[0].u; i += 4) {
+                    uintptr_t bind_type = (*inner_scope + i)[1].u;
+                    if(bind_type != BIND_TYPE_NONE) continue;
+                    tree_t ast = (*inner_scope + i)[3].a;
                     uintptr_t type = ast[1].u;
-                    if(type == AST_TYPE_FUNCTION_LITERAL)
-                        (*inner_scope + i)[1].u = BIND_TYPE_FUNCTION;
-                    else
-                        (*inner_scope + i)[1].u = BIND_TYPE_MODULE;
-                    (*inner_scope + i)[2].u = code_address;
-                    /* Finish jump. */
-                    (context->code + jump_address)->u = get_current_address(context) + 1;
-                } else {
-                    /* === Run expression. === */
-                    compile_subexpression(ast, context, node->u);
-                    inner_scope = get_inner_scope_ptr(context);
-                    /* === Move computed data to variable. === */
-                    ptrdiff_t var = allocate_variable(context);
-                    append_code_u(context, OP_STORE);
-                    append_code_u(context, var);
-                    /* Remember bound variable. */
-                    (*inner_scope + i)[1].u = BIND_TYPE_VARIABLE;
-                    (*inner_scope + i)[2].u = var;
+                    /* Check if this defines a function, module or variable. */
+                    if(type == AST_TYPE_FUNCTION_LITERAL || type == AST_TYPE_MODULE_LITERAL) {
+                        /* === Jump over code. === */
+                        append_code_u(context, OP_JUMP);
+                        ptrdiff_t jump_address = append_code_u(context, 0);
+                        ptrdiff_t code_address = get_current_address(context) + 1;
+                        /* === Add all the code. === */
+                        compile_subexpression(ast, context, node->u);
+                        inner_scope = get_inner_scope_ptr(context);
+                        /* Remember bound variable. */
+                        uintptr_t type = ast[1].u;
+                        if(type == AST_TYPE_FUNCTION_LITERAL)
+                            (*inner_scope + i)[1].u = BIND_TYPE_FUNCTION;
+                        else
+                            (*inner_scope + i)[1].u = BIND_TYPE_MODULE;
+                        (*inner_scope + i)[2].u = code_address;
+                        /* Finish jump. */
+                        (context->code + jump_address)->u = get_current_address(context) + 1;
+                    } else {
+                        /* === Run expression. === */
+                        compile_subexpression(ast, context, node->u);
+                        inner_scope = get_inner_scope_ptr(context);
+                        /* === Move computed data to variable. === */
+                        ptrdiff_t var = allocate_variable(context);
+                        append_code_u(context, OP_STORE);
+                        append_code_u(context, var);
+                        /* Remember bound variable. */
+                        (*inner_scope + i)[1].u = BIND_TYPE_VARIABLE;
+                        (*inner_scope + i)[2].u = var;
+                    }
                 }
             }
             /* === Run all statements. === */
@@ -199,6 +225,20 @@ static int compile_walk_fn_choose(
         case AST_TYPE_BIND_STATEMENT: {
             /* This was handled in the AST_TYPE_STATEMENT_LIST case. */
             (*shared)->no_children = 1;
+            return INT_MAX;
+        }
+        case AST_TYPE_INCLUDE_STATEMENT: {
+            tree_t dependency = try_get_include_dependency(node, context);
+            const char *old_script_path = context->script_path;
+            context->script_path = dependency[0].s;
+            ast_t ast = dependency[1].a;
+            compile_subexpression(ast, context, node->u);
+            context->script_path = old_script_path;
+            return INT_MAX;
+        }
+        case AST_TYPE_USE_STATEMENT: {
+            /* Don't run anything inside the script. */
+            /* We already got all its definitions. */
             return INT_MAX;
         }
         case AST_TYPE_MODULE_OPERATOR: {
@@ -268,6 +308,28 @@ static int compile_walk_fn_choose(
             append_code_u(context, start_address);
             append_code_u(context, parameter_count);
             return 2;
+        }
+        case AST_TYPE_IDENTIFIER_EXPRESSION: {
+            const char *name = node[1].s;
+            tree_t definition = search_in_full_scope(name, context);
+            if(!definition) {
+                /* OpenSCAD says: */
+                /* WARNING: Ignoring unknown variable '~', in file ~, line ~. */
+                error("syntax error: '%s' not defined in current scope.", name);
+            }
+            uintptr_t bind_type = definition[1].u;
+            if(bind_type != BIND_TYPE_VARIABLE) {
+                /* OpenSCAD says: */
+                /* WARNING: Ignoring unknown variable '~', in file ~, line ~. */
+                error("syntax error: '%s' exists, but is not a variable.", name);
+            }
+            /* === Load value from variable. === */
+            ptrdiff_t var_address = definition[2].u;
+            append_code_u(context, OP_LOAD);
+            append_code_u(context, var_address);
+            (*shared)->no_children = 1;
+            return INT_MAX;
+            break;
         }
         case AST_TYPE_FUNCTION_CALL:
         case AST_TYPE_MODULE_CALL: {

@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <errno.h> //D
-
 static int dependencies_walk_fn(ast_t node, size_t index, void *data, void **common) {
     tree_t *list = (tree_t *) data;
     if(index == 0) {
@@ -96,8 +94,9 @@ deps_t add_deps_from_ast(deps_t old_deps, const ast_t ast, const char *script_pa
         return NULL;
     }
     size_t new_index;
-    for(new_index = 1; new_index < file_deps[0].u; new_index++) {
+    for(new_index = 1; new_index <= file_deps[0].u; new_index++) {
         char *new_dep_ptr = file_deps[new_index].s;
+        /* Make sure there are no duplicates. */
         size_t old_index;
         int exists = 0;
         for(old_index = 1; !exists && old_index < old_deps[0].u; old_index += 2) {
@@ -132,5 +131,29 @@ deps_t get_deps_from_ast(const ast_t ast, const char *script_path) {
         return NULL;
     }
     return r;
+}
+
+tree_t find_path_in_dependencies(const char *path, deps_t deps, const char *script_path) {
+    /* We can assume the dependency exists. */
+    /* So it's only a matter of returning the right value. */
+    tree_t r = NULL;
+    /* First, try without looking at the filesystem. */
+    size_t i;
+    const char *base = path_basename(path);
+    for(i = 1; i <= deps[0].u; i += 2) {
+        if(!strcmp(base, path_basename(deps[i].s))) {
+            if(!r) r = deps + i;
+            else {
+                r = NULL;
+                break;
+            }
+        }
+    }
+    if(r) return r;
+    /* Secondly, do it by working with the filesystem. */
+    char *full_path = try_expand_dependency_path(path, script_path);
+    if(!full_path) return NULL;
+    for(i = 1; i <= deps[0].u; i += 2) if(!strcmp(full_path, deps[i].s)) return deps + i;
+    return NULL;
 }
 

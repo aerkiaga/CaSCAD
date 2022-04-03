@@ -50,7 +50,7 @@ ast_t ast_statement_list() {
 }
 
 ast_t ast_expression_list() {
-    return ast_empty(AST_TYPE_STATEMENT_LIST);
+    return ast_empty(AST_TYPE_EXPRESSION_LIST);
 }
 
 ast_t ast_proto_list() {
@@ -218,12 +218,27 @@ int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
             case AST_TYPE_STATEMENT_LIST:
                 fprintf(stderr, "AST_TYPE_STATEMENT_LIST\n");
                 return 1;
+            case AST_TYPE_EXPRESSION_LIST:
+                fprintf(stderr, "AST_TYPE_EXPRESSION_LIST\n");
+                return 1;
             case AST_TYPE_PROTO_LIST:
                 fprintf(stderr, "AST_TYPE_PROTO_LIST\n");
                 return 1;
             case AST_TYPE_PARAMETER_LIST:
                 fprintf(stderr, "AST_TYPE_PARAMETER_LIST\n");
                 return 1;
+            case AST_TYPE_ASSIGNMENT_LIST:
+                fprintf(stderr, "AST_TYPE_ASSIGNMENT_LIST\n");
+                return 1;
+            case AST_TYPE_MODULE_OPERATOR:
+                fprintf(stderr, "AST_TYPE_MODULE_OPERATOR\n");
+                return 1;
+            case AST_TYPE_PRE_OPERATOR:
+                fprintf(stderr, "AST_TYPE_PRE_OPERATOR %ld\n", node[1].u);
+                return 2;
+            case AST_TYPE_MODULE_CALL:
+                fprintf(stderr, "AST_TYPE_MODULE_CALL %s\n", node[1].s);
+                return 2;
             case AST_TYPE_BIND_STATEMENT:
                 fprintf(stderr, "AST_TYPE_BIND_STATEMENT %s\n", node[1].s);
                 return 2;
@@ -245,6 +260,9 @@ int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
             case AST_TYPE_MODULE_LITERAL:
                 fprintf(stderr, "AST_TYPE_MODULE_LITERAL\n");
                 return 1;
+            case AST_TYPE_IDENTIFIER_EXPRESSION:
+                fprintf(stderr, "AST_TYPE_IDENTIFIER_EXPRESSION %s\n", node[1].s);
+                return 2;
             case AST_TYPE_FUNCTION_CALL:
                 fprintf(stderr, "AST_TYPE_FUNCTION_CALL %s\n", node[1].s);
                 return 2;
