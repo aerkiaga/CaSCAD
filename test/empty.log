@@ -1,8 +1,1 @@
-====================
-====================
-Bytecode
-========
-OP_EMPTY
-OP_FINISH
-========
 PASS test/empty (exit status: 0)

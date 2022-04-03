@@ -14,6 +14,7 @@ struct compile_fn_shared_t {
     uintptr_t parent_type; // storage for context->parent_type into fn2
     size_t statement_count; // number of statements in current list
     ptrdiff_t var_count_address; // address of (...) number of variables in function
+    int no_children; // current node' children (if any) will not be expanded
 };
 
 static int compile_walk_fn(ast_t node, size_t index, void *data, void **common);
@@ -127,9 +128,9 @@ static void remove_code(context_t context) {
     context->code = tree_remove_last_sibling(context->code);
 }
 
-static void compile_subexpression(tree_t ast, context_t context) {
+static void compile_subexpression(tree_t ast, context_t context, uintptr_t parent_type) {
     uintptr_t old_parent_type = context->parent_type;
-    context->parent_type = AST_TYPE_NONE;
+    context->parent_type = parent_type;
     ast_walk(ast, compile_walk_fn, compile_walk_fn2, (void *) context);
     context->parent_type = old_parent_type;
 }
@@ -156,7 +157,7 @@ static int compile_walk_fn_choose(
                     ptrdiff_t jump_address = append_code_u(context, 0);
                     ptrdiff_t code_address = get_current_address(context) + 1;
                     /* === Add all the code. === */
-                    compile_subexpression(ast, context);
+                    compile_subexpression(ast, context, node->u);
                     inner_scope = get_inner_scope_ptr(context);
                     /* Remember bound variable. */
                     uintptr_t type = ast[1].u;
@@ -169,7 +170,7 @@ static int compile_walk_fn_choose(
                     (context->code + jump_address)->u = get_current_address(context) + 1;
                 } else {
                     /* === Run expression. === */
-                    compile_subexpression(ast, context);
+                    compile_subexpression(ast, context, node->u);
                     inner_scope = get_inner_scope_ptr(context);
                     /* === Move computed data to variable. === */
                     ptrdiff_t var = allocate_variable(context);
@@ -195,40 +196,60 @@ static int compile_walk_fn_choose(
             }
             return 1;
         }
+        case AST_TYPE_BIND_STATEMENT: {
+            /* This was handled in the AST_TYPE_STATEMENT_LIST case. */
+            (*shared)->no_children = 1;
+            return INT_MAX;
+        }
+        case AST_TYPE_MODULE_OPERATOR: {
+            /* Execute children first. */
+            return 2;
+        }
         case AST_TYPE_UNDEF_LITERAL: {
             append_code_u(context, OP_UNDEF);
+            (*shared)->no_children = 1;
             return 1;
         }
         case AST_TYPE_NUMBER_LITERAL: {
             double value = node[1].d;
             append_code_u(context, OP_NUMBER);
             append_code_d(context, value);
+            (*shared)->no_children = 1;
             return 2;
         }
         case AST_TYPE_BOOL_LITERAL: {
             uintptr_t value = node[1].u;
             if(value) append_code_u(context, OP_TRUE);
             else append_code_u(context, OP_FALSE);
+            (*shared)->no_children = 1;
             return 2;
         }
         case AST_TYPE_STRING_LITERAL: {
             const char *value = node[1].s;
             append_code_u(context, OP_STRING);
             append_code_s(context, strdup(value));
+            (*shared)->no_children = 1;
             return 2;
         }
         case AST_TYPE_FUNCTION_LITERAL:
         case AST_TYPE_MODULE_LITERAL: {
             size_t parameter_count = node[1].a[0].u - 1;
-            push_variable_scope(context);
             tree_t *inner_scope = get_inner_scope_ptr(context);
             /* === Save all variables within scope. === */
             append_code_u(context, OP_SAVE);
             append_code_u(context, get_next_data_space(context));
             (*shared)->var_count_address = append_code_u(context, 0);
+            /* Modules have an implicit first parameter, @children. */
+            ptrdiff_t last_param;
+            if(node->u == AST_TYPE_MODULE_LITERAL) {
+                tree_t variable = add_variable_to_scope(strdup("@children"), inner_scope);
+                variable[1].u = BIND_TYPE_VARIABLE;
+                variable[2].u = allocate_variable(context);
+                last_param = variable[2].u;
+                variable[3].a = ast_statement_list();
+            }
             /* Make parameters into variables. */
             /* The parser puts them IN REVERSE ORDER! */
-            ptrdiff_t last_param;
             size_t i;
             for(i = parameter_count + 1; i >= 2; i--) {
                 const char *name = strdup(node[1].a[i].a[2].s);
@@ -240,6 +261,7 @@ static int compile_walk_fn_choose(
                 tree_t ast = node[1].a[i].a[3].a;
                 variable[3].a = ast;
             }
+            if(node->u == AST_TYPE_MODULE_LITERAL) parameter_count++;
             ptrdiff_t start_address = last_param - 2*(parameter_count - 1);
             /* === Store all parameters into these variables. === */
             append_code_u(context, OP_VSTORE);
@@ -247,7 +269,8 @@ static int compile_walk_fn_choose(
             append_code_u(context, parameter_count);
             return 2;
         }
-        case AST_TYPE_FUNCTION_CALL: {
+        case AST_TYPE_FUNCTION_CALL:
+        case AST_TYPE_MODULE_CALL: {
             const char *name = node[1].s;
             tree_t definition = search_in_full_scope(name, context);
             if(!definition) {
@@ -256,10 +279,15 @@ static int compile_walk_fn_choose(
                 error("syntax error: '%s' not defined in current scope.", name);
             }
             uintptr_t bind_type = definition[1].u;
-            if(bind_type != BIND_TYPE_FUNCTION) {
+            if(node->u == AST_TYPE_FUNCTION_CALL && bind_type != BIND_TYPE_FUNCTION) {
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
                 error("syntax error: '%s' exists, but is not a function.", name);
+            }
+            if(node->u == AST_TYPE_MODULE_CALL && bind_type != BIND_TYPE_MODULE) {
+                /* OpenSCAD says: */
+                /* WARNING: Ignoring unknown module '~', in file ~, line ~. */
+                error("syntax error: '%s' exists, but is not a module.", name);
             }
             /* Copy default parameters from function prototype. */
             /* The parser puts them IN REVERSE ORDER! */
@@ -302,19 +330,26 @@ static int compile_walk_fn_choose(
                     numbered_argument++;
                 }
             }
+            /* === Push empty geometry if no explicit children. === */
+            if(node->u == AST_TYPE_MODULE_CALL && context->parent_type != AST_TYPE_MODULE_OPERATOR) {
+                append_code_u(context, OP_EMPTY);
+            }
             /* === Compute and push values onto the stack. === */
             for(i = 1; i <= passed_values[0].u; i++) {
                 tree_t assignment = passed_values[i].a;
                 tree_t ast = assignment[3].a;
-                compile_subexpression(ast, context);
+                compile_subexpression(ast, context, node->u);
             }
             /* === Perform the call. === */
             ptrdiff_t call_address = definition[2].u;
             append_code_u(context, OP_CALL);
             append_code_u(context, call_address);
+            (*shared)->no_children = 1;
             return INT_MAX;
         }
         default:
+            printf("%ld\n", node->u); //D
+            error("fixme: unsupported AST node type.\n");
             return INT_MAX;
     }
 }
@@ -327,7 +362,9 @@ static int compile_walk_fn(ast_t node, size_t index, void *data, void **common) 
     int r = 0;
     if(index == 0) {
         *shared = (struct compile_fn_shared_t *) malloc(sizeof(struct compile_fn_shared_t));
+        (*shared)->no_children = 0;
         r = compile_walk_fn_choose(node, index, context, shared);
+        push_variable_scope(context);
         (*shared)->parent_type = context->parent_type;
         context->parent_type = node->u;
     }
@@ -346,10 +383,19 @@ static int compile_walk_fn2_choose(
                 break;
             }
             if((*shared)->statement_count < 2) break;
-            if(context->parent_type == AST_TYPE_MODULE_OPERATOR) break; // TODO
-            /* === Perform implicit union. === */
-            append_code_u(context, OP_UNION);
+            if(context->parent_type == AST_TYPE_MODULE_OPERATOR) {
+                /* === Group children to pass them up. === */
+                append_code_u(context, OP_GROUP);
+            } else {
+                /* === Perform implicit union. === */
+                append_code_u(context, OP_UNION);
+            }
             append_code_u(context, (*shared)->statement_count);
+            break;
+        }
+        case AST_TYPE_MODULE_OPERATOR: {
+            ast_t function_call = node[1].a;
+            compile_subexpression(function_call, context, node->u);
             break;
         }
         case AST_TYPE_FUNCTION_LITERAL:
@@ -366,7 +412,6 @@ static int compile_walk_fn2_choose(
             append_code_u(context, variable_count);
             /* Separate OP_RESTORE and OP_RETURN: future-proof. */
             append_code_u(context, OP_RETURN);
-            pop_variable_scope(context);
             break;
         }
     }
@@ -379,9 +424,10 @@ static int compile_walk_fn2(ast_t node, size_t index, void *data, void **common)
     struct compile_fn_shared_t **shared = (struct compile_fn_shared_t **) common;
     
     int r = 0;
-    if(index == node[-index - 1].u - 1) {
+    if(!index && (*shared)->no_children || index == node[-index - 1].u - 1) {
         context->parent_type = (*shared)->parent_type;
         r = compile_walk_fn2_choose(&node[-index], context, shared);
+        pop_variable_scope(context);
         free(*shared);
     }
     return r;

@@ -13,9 +13,13 @@ enum {
 };
 
 enum {
+    VALUE_TYPE_RETURN,
     VALUE_TYPE_UNDEF,
     VALUE_TYPE_NUMBER,
-    VALUE_TYPE_BOOL,
+    VALUE_TYPE_BOOLEAN,
+    VALUE_TYPE_STRING,
+    VALUE_TYPE_FUNCTION,
+    VALUE_TYPE_MODULE,
     VALUE_TYPE_EMPTY
 };
 
@@ -26,9 +30,9 @@ enum {
 enum {
     OP_FINISH,  // end execution and present result, no parameters
     OP_NOP,     // no operation, has no parameters
-    OP_JUMP,    // jump to address $1
-    OP_CALL,    // push current address plus one and jump to address $1
-    OP_RETURN,  // pop return value, pop address and jump to it, push return value
+    OP_JUMP,    // jump to address $1, execute it next
+    OP_CALL,    // push current address and jump to address $1
+    OP_RETURN,  // pop return value, pop address and set it as current, push return value
     OP_SAVE,    // push $2 values to call_stack from data storage starting at address $1
     OP_RESTORE, // pop $2 values from call_stack into data storage starting at address $1
     OP_STORE,   // pop stack, store value at address $1
@@ -41,16 +45,20 @@ enum {
     OP_FALSE,   // push literal false, no parameters
     OP_STRING,  // push literal string $1
     OP_EMPTY,   // push empty geometry, no parameters
+    OP_GROUP,   // pop $1 values from the stack and push a list of geometry
     OP_UNION    // pop $1 values from the stack and push their union
 };
+
+/* Format: (value_type  value)... */
+typedef tree_t value_t;
 
 typedef struct context_value_t {
     tree_t code; // bytecode instructions
     /* Format: (value_type  value)... */
-    tree_t data; // variable storage for all scopes
-    tree_t call_stack; // stack for values saved during call
+    value_t data; // variable storage for all scopes
+    value_t call_stack; // stack for values saved during call
     size_t call_stack_pushed; // number of elements pushed (<= capacity)
-    tree_t tmp_stack; // stack for temporary values
+    value_t tmp_stack; // stack for temporary values
     size_t tmp_stack_pushed; // number of elements pushed (<= capacity)
     
     /* only used during compilation */

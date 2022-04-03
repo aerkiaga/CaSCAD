@@ -1,0 +1,6 @@
+module foo() {
+}
+
+foo() {
+    foo();
+}

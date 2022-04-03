@@ -42,6 +42,12 @@ tree_t tree_remove_last_sibling(tree_t tree) {
     return tree;
 }
 
+tree_t tree_resize(tree_t tree, size_t size) {
+    if(!tree) return NULL;
+    tree[0].u = size;
+    return (tree_t) realloc(tree, (size + 1) * sizeof(union tree_child_t));
+}
+
 void tree_delete_siblings(tree_t tree) {
     tree[0].u = 0;
     free(tree);

@@ -18,6 +18,7 @@ extern tree_t tree_new_children(tree_t tree, size_t initial_size);
 extern tree_t tree_append_sibling(tree_t tree, const tree_t node) __attribute__ ((warn_unused_result));
 extern tree_t tree_append_children(tree_t tree, const tree_t children) __attribute__ ((warn_unused_result));
 extern tree_t tree_remove_last_sibling(tree_t tree) __attribute__ ((warn_unused_result));
+extern tree_t tree_resize(tree_t tree, size_t size) __attribute__ ((warn_unused_result));
 extern void tree_delete_siblings(tree_t tree);
 extern void tree_delete_children(tree_t tree);
 extern size_t tree_node_sibling_count(tree_t tree);

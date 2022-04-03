@@ -1,12 +1,1 @@
-====================
-====================
-Bytecode
-========
-OP_NUMBER 3
-OP_STORE 1
-OP_NUMBER 2
-OP_STORE 3
-OP_EMPTY
-OP_FINISH
-========
 PASS test/assignment (exit status: 0)

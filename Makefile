@@ -497,7 +497,7 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 SUBDIRS = src
-TESTS = test/empty test/assignment test/definition test/lambda test/arguments
+TESTS = test/empty test/assignment test/definition test/lambda test/arguments test/module
 EXTRA_DIST = test
 LOG_COMPILER = ${srcdir}/test/test.sh
 all: all-recursive
@@ -816,6 +816,13 @@ test/lambda.log: test/lambda
 test/arguments.log: test/arguments
 	@p='test/arguments'; \
 	b='test/arguments'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test/module.log: test/module
+	@p='test/module'; \
+	b='test/module'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
