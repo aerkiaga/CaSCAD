@@ -25,6 +25,7 @@ void warning(const char *fmt, ...) {
 int main(int argc, char *argv[]) {
     const char *output_filename = NULL;
     const char *output_extension = "";
+    int print_bytecode = 0;
 
     //const char *const short_options = "o:D:p:P:hvd:m:qs:x:";
     const char *const short_options = "o:hv";
@@ -51,14 +52,20 @@ int main(int argc, char *argv[]) {
         //{"check-parameters", required_argument,  NULL,   0},
         //{"check-parameter-ranges", required_argument,  NULL,   0},
         //{"debug",           required_argument,  NULL,   0},
+        {"print-bytecode",  no_argument,        NULL,   0},
         {NULL,              0,                  NULL,   0}
     };
     int c;
     int old_optind = optind;
+    int longind = 0;
     while ((c = getopt_long(
-        argc, argv, short_options, long_options, NULL
+        argc, argv, short_options, long_options, &longind
     )) != -1) {
         switch(c) {
+            case 0: {
+                const char *name = long_options[longind].name;
+                if(!strcmp("print-bytecode", name)) print_bytecode = 1;
+            }
             case 'o':
                 output_filename = argv[optind - 1];
                 output_extension = path_extension(output_filename);
@@ -66,10 +73,13 @@ int main(int argc, char *argv[]) {
             case 'h':
                 puts(
                     "Usage: cascad [options] file...\n"
-                    "Options:\n"
-                    "  -o <file>     write output to <file>\n"
-                    "  -h, --help    display this help and exit\n"
-                    "  -v, --help    output version information and exit\n"
+                    "Generic options:\n"
+                    "  -o <file>            write output to <file>\n"
+                    "  -h, --help           display this help and exit\n"
+                    "  -v, --help           output version information and exit\n"
+                    "\n"
+                    "CaSCAD-specific options:\n"
+                    "  --print-bytecode     print compiled bytecode to stderr\n"
                     "\n"
                     "Report bugs to: (TODO)"
                 );
@@ -79,7 +89,7 @@ int main(int argc, char *argv[]) {
                 puts(
                     PACKAGE_STRING "\n"
                     "Copyright (C) 2022 Aritz Erkiaga Fernández\n"
-                    "License LGPLv3: GNU LGPL version 3 <https://gnu.org/licenses/lgpl-3.0.html>\n"
+                    "License GPLv3: GNU GPL version 3 <https://gnu.org/licenses/lgpl-3.0.html>\n"
                     "This is free software: you are free to change and redistribute it.\n"
                     "There is NO WARRANTY, to the extent permitted by law."
                 );
@@ -99,6 +109,7 @@ int main(int argc, char *argv[]) {
     if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
     cascad_context_t ctx = cascad_gen_context(ast, filename);
     if(!ctx) error("cascad: file '%s' could not be compiled\n", filename);
+    if(print_bytecode) cascad_print_bytecode(ctx);
     cascad_shape_t output = cascad_execute(ctx);
     
     enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);

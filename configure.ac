@@ -25,6 +25,26 @@ AC_CHECK_LIB([TKBO], [_ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_Pro
 AC_CHECK_LIB([TKPrim], [_ZN20BRepPrimAPI_MakeConeC2Eddd])
 AC_CHECK_LIB([TKSTL], [_ZN6StlAPI5WriteERK12TopoDS_ShapePKcb])
 
+# Optional GTK4 frontend
+AC_ARG_WITH([gtk4],
+  [AS_HELP_STRING([--with-gtk4],
+    [Add GTK4 GUI frontend @<:@default=check@:>@])],
+  [],
+  [: m4_divert_text([DEFAULTS], [with_gtk4=check])])
+
+LIBGTK4=
+AS_IF([test "x$with_gtk4" != xno],
+  [AC_CHECK_LIB([gtk-4], [gtk_application_window_new],
+    [AC_SUBST([LIBGTK4_LD], ["-lgtk-4"])
+     AC_DEFINE([HAVE_LIBGTK4], [1],
+               [Define if machine has GTK4])
+    ],
+    [if test "x$with_gtk4" != xcheck; then
+       AC_MSG_FAILURE(
+         [--with-gtk4 was given, but test for gtk4 failed])
+     fi
+    ], -lncurses)])
+
 
 # Checks for header files.
 AC_FUNC_ALLOCA
