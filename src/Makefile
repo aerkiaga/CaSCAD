@@ -103,9 +103,10 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_cascad_OBJECTS = ast.$(OBJEXT) builtin.$(OBJEXT) compiler.$(OBJEXT) \
-	deps.$(OBJEXT) interpreter.$(OBJEXT) lexer.$(OBJEXT) \
-	lib.$(OBJEXT) main.$(OBJEXT) parser.$(OBJEXT) \
-	strutils.$(OBJEXT) tree.$(OBJEXT) backend/occt.$(OBJEXT)
+	deps.$(OBJEXT) gui.$(OBJEXT) interpreter.$(OBJEXT) \
+	lexer.$(OBJEXT) lib.$(OBJEXT) main.$(OBJEXT) parser.$(OBJEXT) \
+	strutils.$(OBJEXT) tree.$(OBJEXT) backend/occt.$(OBJEXT) \
+	frontend/gtk4.$(OBJEXT)
 cascad_OBJECTS = $(am_cascad_OBJECTS)
 cascad_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_$(V))
@@ -128,11 +129,11 @@ DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/ast.Po ./$(DEPDIR)/builtin.Po \
-	./$(DEPDIR)/compiler.Po ./$(DEPDIR)/deps.Po \
+	./$(DEPDIR)/compiler.Po ./$(DEPDIR)/deps.Po ./$(DEPDIR)/gui.Po \
 	./$(DEPDIR)/interpreter.Po ./$(DEPDIR)/lexer.Po \
 	./$(DEPDIR)/lib.Po ./$(DEPDIR)/main.Po ./$(DEPDIR)/parser.Po \
 	./$(DEPDIR)/strutils.Po ./$(DEPDIR)/tree.Po \
-	backend/$(DEPDIR)/occt.Po
+	backend/$(DEPDIR)/occt.Po frontend/$(DEPDIR)/gtk4.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -259,7 +260,8 @@ LDFLAGS =
 LEX = flex
 LEXLIB = -lfl
 LEX_OUTPUT_ROOT = lex.yy
-LIBGTK4_LD = -lgtk-4
+LIBGTK4_CPP = -mfpmath=sse -msse -msse2 -pthread -I/usr/include/gtk-4.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/graphene-1.0 -I/usr/lib/x86_64-linux-gnu/graphene-1.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+LIBGTK4_LD = -lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0
 LIBOBJS = 
 LIBS = -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -348,14 +350,15 @@ top_builddir = ..
 top_srcdir = ..
 BUILT_SOURCES = parser.h
 AM_YFLAGS = -d
-AM_CPPFLAGS = -DPATH_DATADIR="\"$(datadir)\"" -I"/usr/include/opencascade" -lTKernel
+AM_CPPFLAGS = -DPATH_DATADIR="\"$(datadir)\"" \
+	-I"/usr/include/opencascade" -lTKernel $(LIBGTK4_CPP)
 AM_LDFLAGS = -lTKSTL -lTKPrim -lTKMesh -lTKBO -lTKBRep -lTKMath \
 	-lTKernel $(LIBGTK4_LD)
-cascad_SOURCES = ast.c builtin.c compiler.c deps.c interpreter.c \
+cascad_SOURCES = ast.c builtin.c compiler.c deps.c gui.c interpreter.c \
 	lexer.l lib.c main.c parser.y strutils.c tree.c ast.h \
-	builtin.h cascad.h compiler.h context.h deps.h interpreter.h \
-	lexer.h parser_interface.h strutils.h tree.h backend.h \
-	backend/occt.cpp
+	builtin.h cascad.h compiler.h context.h deps.h frontend.h \
+	gui.h interpreter.h lexer.h parser_interface.h strutils.h \
+	tree.h backend.h backend/occt.cpp frontend/gtk4.c
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -465,6 +468,14 @@ backend/$(DEPDIR)/$(am__dirstamp):
 	@: > backend/$(DEPDIR)/$(am__dirstamp)
 backend/occt.$(OBJEXT): backend/$(am__dirstamp) \
 	backend/$(DEPDIR)/$(am__dirstamp)
+frontend/$(am__dirstamp):
+	@$(MKDIR_P) frontend
+	@: > frontend/$(am__dirstamp)
+frontend/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) frontend/$(DEPDIR)
+	@: > frontend/$(DEPDIR)/$(am__dirstamp)
+frontend/gtk4.$(OBJEXT): frontend/$(am__dirstamp) \
+	frontend/$(DEPDIR)/$(am__dirstamp)
 
 cascad$(EXEEXT): $(cascad_OBJECTS) $(cascad_DEPENDENCIES) $(EXTRA_cascad_DEPENDENCIES) 
 	@rm -f cascad$(EXEEXT)
@@ -473,6 +484,7 @@ cascad$(EXEEXT): $(cascad_OBJECTS) $(cascad_DEPENDENCIES) $(EXTRA_cascad_DEPENDE
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f backend/*.$(OBJEXT)
+	-rm -f frontend/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -481,6 +493,7 @@ include ./$(DEPDIR)/ast.Po # am--include-marker
 include ./$(DEPDIR)/builtin.Po # am--include-marker
 include ./$(DEPDIR)/compiler.Po # am--include-marker
 include ./$(DEPDIR)/deps.Po # am--include-marker
+include ./$(DEPDIR)/gui.Po # am--include-marker
 include ./$(DEPDIR)/interpreter.Po # am--include-marker
 include ./$(DEPDIR)/lexer.Po # am--include-marker
 include ./$(DEPDIR)/lib.Po # am--include-marker
@@ -489,6 +502,7 @@ include ./$(DEPDIR)/parser.Po # am--include-marker
 include ./$(DEPDIR)/strutils.Po # am--include-marker
 include ./$(DEPDIR)/tree.Po # am--include-marker
 include backend/$(DEPDIR)/occt.Po # am--include-marker
+include frontend/$(DEPDIR)/gtk4.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -678,6 +692,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f backend/$(DEPDIR)/$(am__dirstamp)
 	-rm -f backend/$(am__dirstamp)
+	-rm -f frontend/$(DEPDIR)/$(am__dirstamp)
+	-rm -f frontend/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -695,6 +711,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/builtin.Po
 	-rm -f ./$(DEPDIR)/compiler.Po
 	-rm -f ./$(DEPDIR)/deps.Po
+	-rm -f ./$(DEPDIR)/gui.Po
 	-rm -f ./$(DEPDIR)/interpreter.Po
 	-rm -f ./$(DEPDIR)/lexer.Po
 	-rm -f ./$(DEPDIR)/lib.Po
@@ -703,6 +720,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/strutils.Po
 	-rm -f ./$(DEPDIR)/tree.Po
 	-rm -f backend/$(DEPDIR)/occt.Po
+	-rm -f frontend/$(DEPDIR)/gtk4.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -752,6 +770,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/builtin.Po
 	-rm -f ./$(DEPDIR)/compiler.Po
 	-rm -f ./$(DEPDIR)/deps.Po
+	-rm -f ./$(DEPDIR)/gui.Po
 	-rm -f ./$(DEPDIR)/interpreter.Po
 	-rm -f ./$(DEPDIR)/lexer.Po
 	-rm -f ./$(DEPDIR)/lib.Po
@@ -760,6 +779,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/strutils.Po
 	-rm -f ./$(DEPDIR)/tree.Po
 	-rm -f backend/$(DEPDIR)/occt.Po
+	-rm -f frontend/$(DEPDIR)/gtk4.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

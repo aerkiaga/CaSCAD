@@ -35,7 +35,8 @@ AC_ARG_WITH([gtk4],
 LIBGTK4=
 AS_IF([test "x$with_gtk4" != xno],
   [AC_CHECK_LIB([gtk-4], [gtk_application_window_new],
-    [AC_SUBST([LIBGTK4_LD], ["-lgtk-4"])
+    [AC_SUBST([LIBGTK4_LD], [`pkg-config --libs gtk4`])
+     AC_SUBST([LIBGTK4_CPP], [`pkg-config --cflags gtk4`])
      AC_DEFINE([HAVE_LIBGTK4], [1],
                [Define if machine has GTK4])
     ],

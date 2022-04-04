@@ -1,5 +1,6 @@
 #include "config.h"
 #include "cascad.h"
+#include "gui.h"
 #include "strutils.h"
 #include <getopt.h>
 #include <stdarg.h>
@@ -89,7 +90,7 @@ int main(int argc, char *argv[]) {
                 puts(
                     PACKAGE_STRING "\n"
                     "Copyright (C) 2022 Aritz Erkiaga Fernández\n"
-                    "License GPLv3: GNU GPL version 3 <https://gnu.org/licenses/lgpl-3.0.html>\n"
+                    "License GPLv3: GNU GPL version 3 <https://gnu.org/licenses/gpl-3.0.html>\n"
                     "This is free software: you are free to change and redistribute it.\n"
                     "There is NO WARRANTY, to the extent permitted by law."
                 );
@@ -101,37 +102,44 @@ int main(int argc, char *argv[]) {
         old_optind = optind;
     }
     
-    const char *filename = argv[optind];
-    if(!filename) error("cascad: no input file\n");
-    FILE *file = fopen(filename, "rt");
-    if(!file) error("cascad: file '%s' could not be opened\n", filename);
-    cascad_ast_t ast = cascad_load_file(file);
-    if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
-    cascad_context_t ctx = cascad_gen_context(ast, filename);
-    if(!ctx) error("cascad: file '%s' could not be compiled\n", filename);
-    if(print_bytecode) cascad_print_bytecode(ctx);
-    cascad_shape_t output = cascad_execute(ctx);
-    
-    enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
-    if(shape_type == CASCAD_INVALID) {
-        error(
-            "cascad: script execution produced invalid shape or non-shape; possible data corruption.\n"
-        );
-    }
-    if(shape_type == CASCAD_EMPTY) {
-        warning("cascad: script execution produced empty shape.\n");
-    }
-    
-    if(output_filename) {
-        if(!strcmp("stl", output_extension) || !strcmp("STL", output_extension)) {
-            if(cascad_export_stl(output, output_filename, 1)) {
-                error(
-                    "cascad: STL file export failed.\n"
-                );
+    if(!output_filename) {
+        #ifdef HAVE_GUI
+        gui_main();
+        #else
+        error("cascad: no GUI built, an output file needs to be specified.\n");
+        #endif
+    } else {
+        const char *filename = argv[optind];
+        if(!filename) error("cascad: no input file\n");
+        FILE *file = fopen(filename, "rt");
+        if(!file) error("cascad: file '%s' could not be opened\n", filename);
+        cascad_ast_t ast = cascad_load_file(file);
+        if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
+        cascad_context_t ctx = cascad_gen_context(ast, filename);
+        if(!ctx) error("cascad: file '%s' could not be compiled\n", filename);
+        if(print_bytecode) cascad_print_bytecode(ctx);
+        cascad_shape_t output = cascad_execute(ctx);
+        
+        enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
+        if(shape_type == CASCAD_INVALID) {
+            error(
+                "cascad: script execution produced invalid shape or non-shape; possible data corruption.\n"
+            );
+        }
+        if(shape_type == CASCAD_EMPTY) {
+            warning("cascad: script execution produced empty shape.\n");
+        }
+        
+        if(output_filename) {
+            if(!strcmp("stl", output_extension) || !strcmp("STL", output_extension)) {
+                if(cascad_export_stl(output, output_filename, 1)) {
+                    error(
+                        "cascad: STL file export failed.\n"
+                    );
+                }
             }
         }
+        fclose(file);
     }
-    
-    fclose(file);
     return 0;
 }

@@ -48,42 +48,42 @@ PATH: /home/user/Dev/flutter/bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:2597: checking for a BSD-compatible install
-configure:2665: result: /usr/bin/install -c
-configure:2676: checking whether build environment is sane
-configure:2731: result: yes
-configure:2880: checking for a thread-safe mkdir -p
-configure:2919: result: /usr/bin/mkdir -p
-configure:2926: checking for gawk
-configure:2942: found /usr/bin/gawk
-configure:2953: result: gawk
-configure:2964: checking whether make sets $(MAKE)
-configure:2986: result: yes
-configure:3015: checking whether make supports nested variables
-configure:3032: result: yes
-configure:3189: checking build system type
-configure:3203: result: x86_64-pc-linux-gnu
-configure:3223: checking host system type
-configure:3236: result: x86_64-pc-linux-gnu
-configure:3277: checking how to print strings
-configure:3304: result: printf
-configure:3329: checking whether make supports the include directive
-configure:3344: make -f confmf.GNU && cat confinc.out
+configure:2598: checking for a BSD-compatible install
+configure:2666: result: /usr/bin/install -c
+configure:2677: checking whether build environment is sane
+configure:2732: result: yes
+configure:2881: checking for a thread-safe mkdir -p
+configure:2920: result: /usr/bin/mkdir -p
+configure:2927: checking for gawk
+configure:2943: found /usr/bin/gawk
+configure:2954: result: gawk
+configure:2965: checking whether make sets $(MAKE)
+configure:2987: result: yes
+configure:3016: checking whether make supports nested variables
+configure:3033: result: yes
+configure:3190: checking build system type
+configure:3204: result: x86_64-pc-linux-gnu
+configure:3224: checking host system type
+configure:3237: result: x86_64-pc-linux-gnu
+configure:3278: checking how to print strings
+configure:3305: result: printf
+configure:3330: checking whether make supports the include directive
+configure:3345: make -f confmf.GNU && cat confinc.out
 this is the am__doit target
-configure:3347: $? = 0
-configure:3366: result: yes (GNU style)
-configure:3436: checking for gcc
-configure:3452: found /usr/bin/gcc
-configure:3463: result: gcc
-configure:3692: checking for C compiler version
-configure:3701: gcc --version >&5
+configure:3348: $? = 0
+configure:3367: result: yes (GNU style)
+configure:3437: checking for gcc
+configure:3453: found /usr/bin/gcc
+configure:3464: result: gcc
+configure:3693: checking for C compiler version
+configure:3702: gcc --version >&5
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:3712: $? = 0
-configure:3701: gcc -v >&5
+configure:3713: $? = 0
+configure:3702: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -93,144 +93,144 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.1' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-Av3uEd/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 
-configure:3712: $? = 0
-configure:3701: gcc -V >&5
+configure:3713: $? = 0
+configure:3702: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:3712: $? = 1
-configure:3701: gcc -qversion >&5
+configure:3713: $? = 1
+configure:3702: gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:3712: $? = 1
-configure:3732: checking whether the C compiler works
-configure:3754: gcc    conftest.c  >&5
-configure:3758: $? = 0
-configure:3806: result: yes
-configure:3809: checking for C compiler default output file name
-configure:3811: result: a.out
-configure:3817: checking for suffix of executables
-configure:3824: gcc -o conftest    conftest.c  >&5
-configure:3828: $? = 0
-configure:3850: result: 
-configure:3872: checking whether we are cross compiling
-configure:3880: gcc -o conftest    conftest.c  >&5
-configure:3884: $? = 0
-configure:3891: ./conftest
-configure:3895: $? = 0
-configure:3883: result: no
-configure:3888: checking for suffix of object files
-configure:3910: gcc -c   conftest.c >&5
-configure:3914: $? = 0
-configure:3935: result: o
-configure:3939: checking whether we are using the GNU C compiler
-configure:3958: gcc -c   conftest.c >&5
-configure:3958: $? = 0
-configure:3967: result: yes
-configure:3976: checking whether gcc accepts -g
-configure:3996: gcc -c -g  conftest.c >&5
-configure:3996: $? = 0
-configure:4037: result: yes
-configure:4054: checking for gcc option to accept ISO C89
-configure:4117: gcc  -c -g -O2  conftest.c >&5
-configure:4117: $? = 0
-configure:4130: result: none needed
-configure:4155: checking whether gcc understands -c and -o together
-configure:4177: gcc -c conftest.c -o conftest2.o
-configure:4180: $? = 0
-configure:4177: gcc -c conftest.c -o conftest2.o
-configure:4180: $? = 0
-configure:4192: result: yes
-configure:4211: checking dependency style of gcc
-configure:4322: result: gcc3
-configure:4337: checking for a sed that does not truncate output
-configure:4401: result: /usr/bin/sed
-configure:4419: checking for grep that handles long lines and -e
-configure:4477: result: /usr/bin/grep
-configure:4482: checking for egrep
-configure:4544: result: /usr/bin/grep -E
-configure:4549: checking for fgrep
-configure:4611: result: /usr/bin/grep -F
-configure:4646: checking for ld used by gcc
-configure:4713: result: /usr/bin/ld
-configure:4720: checking if the linker (/usr/bin/ld) is GNU ld
-configure:4735: result: yes
-configure:4747: checking for BSD- or MS-compatible name lister (nm)
-configure:4801: result: /usr/bin/nm -B
-configure:4931: checking the name lister (/usr/bin/nm -B) interface
-configure:4938: gcc -c -g -O2  conftest.c >&5
-configure:4941: /usr/bin/nm -B "conftest.o"
-configure:4944: output
+configure:3713: $? = 1
+configure:3733: checking whether the C compiler works
+configure:3755: gcc    conftest.c  >&5
+configure:3759: $? = 0
+configure:3807: result: yes
+configure:3810: checking for C compiler default output file name
+configure:3812: result: a.out
+configure:3818: checking for suffix of executables
+configure:3825: gcc -o conftest    conftest.c  >&5
+configure:3829: $? = 0
+configure:3851: result: 
+configure:3873: checking whether we are cross compiling
+configure:3881: gcc -o conftest    conftest.c  >&5
+configure:3885: $? = 0
+configure:3892: ./conftest
+configure:3896: $? = 0
+configure:3884: result: no
+configure:3889: checking for suffix of object files
+configure:3911: gcc -c   conftest.c >&5
+configure:3915: $? = 0
+configure:3936: result: o
+configure:3940: checking whether we are using the GNU C compiler
+configure:3959: gcc -c   conftest.c >&5
+configure:3959: $? = 0
+configure:3968: result: yes
+configure:3977: checking whether gcc accepts -g
+configure:3997: gcc -c -g  conftest.c >&5
+configure:3997: $? = 0
+configure:4038: result: yes
+configure:4055: checking for gcc option to accept ISO C89
+configure:4118: gcc  -c -g -O2  conftest.c >&5
+configure:4118: $? = 0
+configure:4131: result: none needed
+configure:4156: checking whether gcc understands -c and -o together
+configure:4178: gcc -c conftest.c -o conftest2.o
+configure:4181: $? = 0
+configure:4178: gcc -c conftest.c -o conftest2.o
+configure:4181: $? = 0
+configure:4193: result: yes
+configure:4212: checking dependency style of gcc
+configure:4323: result: gcc3
+configure:4338: checking for a sed that does not truncate output
+configure:4402: result: /usr/bin/sed
+configure:4420: checking for grep that handles long lines and -e
+configure:4478: result: /usr/bin/grep
+configure:4483: checking for egrep
+configure:4545: result: /usr/bin/grep -E
+configure:4550: checking for fgrep
+configure:4612: result: /usr/bin/grep -F
+configure:4647: checking for ld used by gcc
+configure:4714: result: /usr/bin/ld
+configure:4721: checking if the linker (/usr/bin/ld) is GNU ld
+configure:4736: result: yes
+configure:4748: checking for BSD- or MS-compatible name lister (nm)
+configure:4802: result: /usr/bin/nm -B
+configure:4932: checking the name lister (/usr/bin/nm -B) interface
+configure:4939: gcc -c -g -O2  conftest.c >&5
+configure:4942: /usr/bin/nm -B "conftest.o"
+configure:4945: output
 0000000000000000 B some_variable
-configure:4945: result: BSD nm
-configure:4948: checking whether ln -s works
-configure:4952: result: yes
-configure:4960: checking the maximum length of command line arguments
-configure:5091: result: 1572864
-configure:5139: checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format
-configure:5179: result: func_convert_file_noop
-configure:5186: checking how to convert x86_64-pc-linux-gnu file names to toolchain format
-configure:5206: result: func_convert_file_noop
-configure:5213: checking for /usr/bin/ld option to reload object files
-configure:5220: result: -r
-configure:5294: checking for objdump
-configure:5310: found /usr/bin/objdump
-configure:5321: result: objdump
-configure:5353: checking how to recognize dependent libraries
-configure:5553: result: pass_all
-configure:5638: checking for dlltool
-configure:5668: result: no
-configure:5698: checking how to associate runtime and link libraries
-configure:5725: result: printf %s\n
-configure:5786: checking for ar
-configure:5802: found /usr/bin/ar
-configure:5813: result: ar
-configure:5850: checking for archiver @FILE support
-configure:5867: gcc -c -g -O2  conftest.c >&5
-configure:5867: $? = 0
-configure:5870: ar cr libconftest.a @conftest.lst >&5
-configure:5873: $? = 0
-configure:5878: ar cr libconftest.a @conftest.lst >&5
+configure:4946: result: BSD nm
+configure:4949: checking whether ln -s works
+configure:4953: result: yes
+configure:4961: checking the maximum length of command line arguments
+configure:5092: result: 1572864
+configure:5140: checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format
+configure:5180: result: func_convert_file_noop
+configure:5187: checking how to convert x86_64-pc-linux-gnu file names to toolchain format
+configure:5207: result: func_convert_file_noop
+configure:5214: checking for /usr/bin/ld option to reload object files
+configure:5221: result: -r
+configure:5295: checking for objdump
+configure:5311: found /usr/bin/objdump
+configure:5322: result: objdump
+configure:5354: checking how to recognize dependent libraries
+configure:5554: result: pass_all
+configure:5639: checking for dlltool
+configure:5669: result: no
+configure:5699: checking how to associate runtime and link libraries
+configure:5726: result: printf %s\n
+configure:5787: checking for ar
+configure:5803: found /usr/bin/ar
+configure:5814: result: ar
+configure:5851: checking for archiver @FILE support
+configure:5868: gcc -c -g -O2  conftest.c >&5
+configure:5868: $? = 0
+configure:5871: ar cr libconftest.a @conftest.lst >&5
+configure:5874: $? = 0
+configure:5879: ar cr libconftest.a @conftest.lst >&5
 ar: conftest.o: No such file or directory
-configure:5881: $? = 1
-configure:5880: result: @
-configure:5938: checking for strip
-configure:5954: found /usr/bin/strip
-configure:5965: result: strip
-configure:6037: checking for ranlib
-configure:6053: found /usr/bin/ranlib
-configure:6064: result: ranlib
-configure:6166: checking command to parse /usr/bin/nm -B output from gcc object
-configure:6319: gcc -c -g -O2  conftest.c >&5
-configure:6322: $? = 0
-configure:6326: /usr/bin/nm -B conftest.o | sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' > conftest.nm
-configure:6392: gcc -o conftest -g -O2   conftest.c conftstm.o >&5
-configure:6395: $? = 0
-configure:6433: result: ok
-configure:6480: checking for sysroot
-configure:6510: result: no
-configure:6517: checking for a working dd
-configure:6555: result: /usr/bin/dd
-configure:6559: checking how to truncate binary pipes
-configure:6574: result: /usr/bin/dd bs=4096 count=1
-configure:6710: gcc -c -g -O2  conftest.c >&5
-configure:6713: $? = 0
-configure:6903: checking for mt
-configure:6919: found /usr/bin/mt
-configure:6930: result: mt
-configure:6953: checking if mt is a manifest tool
-configure:6959: mt '-?'
-configure:6967: result: no
-configure:7644: checking how to run the C preprocessor
-configure:7675: gcc -E  conftest.c
-configure:7675: $? = 0
-configure:7689: gcc -E  conftest.c
+configure:5882: $? = 1
+configure:5881: result: @
+configure:5939: checking for strip
+configure:5955: found /usr/bin/strip
+configure:5966: result: strip
+configure:6038: checking for ranlib
+configure:6054: found /usr/bin/ranlib
+configure:6065: result: ranlib
+configure:6167: checking command to parse /usr/bin/nm -B output from gcc object
+configure:6320: gcc -c -g -O2  conftest.c >&5
+configure:6323: $? = 0
+configure:6327: /usr/bin/nm -B conftest.o | sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' > conftest.nm
+configure:6393: gcc -o conftest -g -O2   conftest.c conftstm.o >&5
+configure:6396: $? = 0
+configure:6434: result: ok
+configure:6481: checking for sysroot
+configure:6511: result: no
+configure:6518: checking for a working dd
+configure:6556: result: /usr/bin/dd
+configure:6560: checking how to truncate binary pipes
+configure:6575: result: /usr/bin/dd bs=4096 count=1
+configure:6711: gcc -c -g -O2  conftest.c >&5
+configure:6714: $? = 0
+configure:6904: checking for mt
+configure:6920: found /usr/bin/mt
+configure:6931: result: mt
+configure:6954: checking if mt is a manifest tool
+configure:6960: mt '-?'
+configure:6968: result: no
+configure:7645: checking how to run the C preprocessor
+configure:7676: gcc -E  conftest.c
+configure:7676: $? = 0
+configure:7690: gcc -E  conftest.c
 conftest.c:11:10: fatal error: ac_nonexistent.h: No such file or directory
    11 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:7689: $? = 1
+configure:7690: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -243,15 +243,15 @@ configure: failed program was:
 | #define VERSION "0.1.0"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:7714: result: gcc -E
-configure:7734: gcc -E  conftest.c
-configure:7734: $? = 0
-configure:7748: gcc -E  conftest.c
+configure:7715: result: gcc -E
+configure:7735: gcc -E  conftest.c
+configure:7735: $? = 0
+configure:7749: gcc -E  conftest.c
 conftest.c:11:10: fatal error: ac_nonexistent.h: No such file or directory
    11 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:7748: $? = 1
+configure:7749: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -264,108 +264,108 @@ configure: failed program was:
 | #define VERSION "0.1.0"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:7777: checking for ANSI C header files
-configure:7797: gcc -c -g -O2  conftest.c >&5
-configure:7797: $? = 0
-configure:7870: gcc -o conftest -g -O2   conftest.c  >&5
-configure:7870: $? = 0
-configure:7870: ./conftest
-configure:7870: $? = 0
-configure:7881: result: yes
-configure:7894: checking for sys/types.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for sys/stat.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for stdlib.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for string.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for memory.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for strings.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for inttypes.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for stdint.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7894: checking for unistd.h
-configure:7894: gcc -c -g -O2  conftest.c >&5
-configure:7894: $? = 0
-configure:7894: result: yes
-configure:7908: checking for dlfcn.h
-configure:7908: gcc -c -g -O2  conftest.c >&5
-configure:7908: $? = 0
-configure:7908: result: yes
-configure:8164: checking for objdir
-configure:8179: result: .libs
-configure:8439: checking if gcc supports -fno-rtti -fno-exceptions
-configure:8457: gcc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
+configure:7778: checking for ANSI C header files
+configure:7798: gcc -c -g -O2  conftest.c >&5
+configure:7798: $? = 0
+configure:7871: gcc -o conftest -g -O2   conftest.c  >&5
+configure:7871: $? = 0
+configure:7871: ./conftest
+configure:7871: $? = 0
+configure:7882: result: yes
+configure:7895: checking for sys/types.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for sys/stat.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for stdlib.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for string.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for memory.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for strings.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for inttypes.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for stdint.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7895: checking for unistd.h
+configure:7895: gcc -c -g -O2  conftest.c >&5
+configure:7895: $? = 0
+configure:7895: result: yes
+configure:7909: checking for dlfcn.h
+configure:7909: gcc -c -g -O2  conftest.c >&5
+configure:7909: $? = 0
+configure:7909: result: yes
+configure:8165: checking for objdir
+configure:8180: result: .libs
+configure:8440: checking if gcc supports -fno-rtti -fno-exceptions
+configure:8458: gcc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
 cc1: warning: command line option '-fno-rtti' is valid for C++/D/ObjC++ but not for C
-configure:8461: $? = 0
-configure:8474: result: no
-configure:8838: checking for gcc option to produce PIC
-configure:8845: result: -fPIC -DPIC
-configure:8853: checking if gcc PIC flag -fPIC -DPIC works
-configure:8871: gcc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
-configure:8875: $? = 0
-configure:8888: result: yes
-configure:8917: checking if gcc static flag -static works
-configure:8945: result: yes
-configure:8960: checking if gcc supports -c -o file.o
-configure:8981: gcc -c -g -O2  -o out/conftest2.o conftest.c >&5
-configure:8985: $? = 0
-configure:9007: result: yes
-configure:9015: checking if gcc supports -c -o file.o
-configure:9062: result: yes
-configure:9095: checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:10358: result: yes
-configure:10395: checking whether -lc should be explicitly linked in
-configure:10403: gcc -c -g -O2  conftest.c >&5
-configure:10406: $? = 0
-configure:10421: gcc -shared  -fPIC -DPIC conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
-configure:10424: $? = 0
-configure:10438: result: no
-configure:10598: checking dynamic linker characteristics
-configure:11179: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
-configure:11179: $? = 0
-configure:11428: result: GNU/Linux ld.so
-configure:11550: checking how to hardcode library paths into programs
-configure:11575: result: immediate
-configure:12123: checking whether stripping libraries is possible
-configure:12128: result: yes
-configure:12163: checking if libtool supports shared libraries
-configure:12165: result: yes
-configure:12168: checking whether to build shared libraries
-configure:12193: result: yes
-configure:12196: checking whether to build static libraries
-configure:12200: result: yes
-configure:9063: checking for gcc
-configure:9090: result: gcc
-configure:9319: checking for C compiler version
-configure:9328: gcc --version >&5
+configure:8462: $? = 0
+configure:8475: result: no
+configure:8839: checking for gcc option to produce PIC
+configure:8846: result: -fPIC -DPIC
+configure:8854: checking if gcc PIC flag -fPIC -DPIC works
+configure:8872: gcc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
+configure:8876: $? = 0
+configure:8889: result: yes
+configure:8918: checking if gcc static flag -static works
+configure:8946: result: yes
+configure:8961: checking if gcc supports -c -o file.o
+configure:8982: gcc -c -g -O2  -o out/conftest2.o conftest.c >&5
+configure:8986: $? = 0
+configure:9008: result: yes
+configure:9016: checking if gcc supports -c -o file.o
+configure:9063: result: yes
+configure:9096: checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:10359: result: yes
+configure:10396: checking whether -lc should be explicitly linked in
+configure:10404: gcc -c -g -O2  conftest.c >&5
+configure:10407: $? = 0
+configure:10422: gcc -shared  -fPIC -DPIC conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
+configure:10425: $? = 0
+configure:10439: result: no
+configure:10599: checking dynamic linker characteristics
+configure:11180: gcc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
+configure:11180: $? = 0
+configure:11429: result: GNU/Linux ld.so
+configure:11551: checking how to hardcode library paths into programs
+configure:11576: result: immediate
+configure:12124: checking whether stripping libraries is possible
+configure:12129: result: yes
+configure:12164: checking if libtool supports shared libraries
+configure:12166: result: yes
+configure:12169: checking whether to build shared libraries
+configure:12194: result: yes
+configure:12197: checking whether to build static libraries
+configure:12201: result: yes
+configure:9064: checking for gcc
+configure:9091: result: gcc
+configure:9320: checking for C compiler version
+configure:9329: gcc --version >&5
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:9339: $? = 0
-configure:9328: gcc -v >&5
+configure:9340: $? = 0
+configure:9329: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -375,39 +375,39 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.1' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-Av3uEd/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 
-configure:9339: $? = 0
-configure:9328: gcc -V >&5
+configure:9340: $? = 0
+configure:9329: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:9339: $? = 1
-configure:9328: gcc -qversion >&5
+configure:9340: $? = 1
+configure:9329: gcc -qversion >&5
 gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
 gcc: fatal error: no input files
 compilation terminated.
-configure:9339: $? = 1
-configure:9343: checking whether we are using the GNU C compiler
-configure:9371: result: yes
-configure:9380: checking whether gcc accepts -g
-configure:9441: result: yes
-configure:9458: checking for gcc option to accept ISO C89
-configure:9534: result: none needed
-configure:9559: checking whether gcc understands -c and -o together
-configure:9596: result: yes
-configure:9615: checking dependency style of gcc
-configure:9726: result: gcc3
-configure:9799: checking for g++
-configure:9815: found /usr/bin/g++
-configure:9826: result: g++
-configure:9853: checking for C++ compiler version
-configure:9862: g++ --version >&5
+configure:9340: $? = 1
+configure:9344: checking whether we are using the GNU C compiler
+configure:9372: result: yes
+configure:9381: checking whether gcc accepts -g
+configure:9442: result: yes
+configure:9459: checking for gcc option to accept ISO C89
+configure:9535: result: none needed
+configure:9560: checking whether gcc understands -c and -o together
+configure:9597: result: yes
+configure:9616: checking dependency style of gcc
+configure:9727: result: gcc3
+configure:9800: checking for g++
+configure:9816: found /usr/bin/g++
+configure:9827: result: g++
+configure:9854: checking for C++ compiler version
+configure:9863: g++ --version >&5
 g++ (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 Copyright (C) 2019 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:9873: $? = 0
-configure:9862: g++ -v >&5
+configure:9874: $? = 0
+configure:9863: g++ -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
@@ -417,36 +417,36 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.1' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-Av3uEd/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 
-configure:9873: $? = 0
-configure:9862: g++ -V >&5
+configure:9874: $? = 0
+configure:9863: g++ -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:9873: $? = 1
-configure:9862: g++ -qversion >&5
+configure:9874: $? = 1
+configure:9863: g++ -qversion >&5
 g++: error: unrecognized command line option '-qversion'; did you mean '--version'?
 g++: fatal error: no input files
 compilation terminated.
-configure:9873: $? = 1
-configure:9877: checking whether we are using the GNU C++ compiler
-configure:9896: g++ -c   conftest.cpp >&5
-configure:9896: $? = 0
-configure:9905: result: yes
-configure:9914: checking whether g++ accepts -g
-configure:9934: g++ -c -g  conftest.cpp >&5
-configure:9934: $? = 0
-configure:9975: result: yes
-configure:10000: checking dependency style of g++
-configure:10111: result: gcc3
-configure:10144: checking how to run the C++ preprocessor
-configure:10171: g++ -E  conftest.cpp
-configure:10171: $? = 0
-configure:10185: g++ -E  conftest.cpp
+configure:9874: $? = 1
+configure:9878: checking whether we are using the GNU C++ compiler
+configure:9897: g++ -c   conftest.cpp >&5
+configure:9897: $? = 0
+configure:9906: result: yes
+configure:9915: checking whether g++ accepts -g
+configure:9935: g++ -c -g  conftest.cpp >&5
+configure:9935: $? = 0
+configure:9976: result: yes
+configure:10001: checking dependency style of g++
+configure:10112: result: gcc3
+configure:10145: checking how to run the C++ preprocessor
+configure:10172: g++ -E  conftest.cpp
+configure:10172: $? = 0
+configure:10186: g++ -E  conftest.cpp
 conftest.cpp:23:10: fatal error: ac_nonexistent.h: No such file or directory
    23 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:10185: $? = 1
+configure:10186: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -471,15 +471,15 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:10210: result: g++ -E
-configure:10230: g++ -E  conftest.cpp
-configure:10230: $? = 0
-configure:10244: g++ -E  conftest.cpp
+configure:10211: result: g++ -E
+configure:10231: g++ -E  conftest.cpp
+configure:10231: $? = 0
+configure:10245: g++ -E  conftest.cpp
 conftest.cpp:23:10: fatal error: ac_nonexistent.h: No such file or directory
    23 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:10244: $? = 1
+configure:10245: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -504,51 +504,51 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:10406: checking for ld used by g++
-configure:10473: result: /usr/bin/ld -m elf_x86_64
-configure:10480: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
-configure:10495: result: yes
-configure:10550: checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:11623: result: yes
-configure:11659: g++ -c -g -O2  conftest.cpp >&5
-configure:11662: $? = 0
-configure:12143: checking for g++ option to produce PIC
-configure:12150: result: -fPIC -DPIC
-configure:12158: checking if g++ PIC flag -fPIC -DPIC works
-configure:12176: g++ -c -g -O2  -fPIC -DPIC -DPIC conftest.cpp >&5
-configure:12180: $? = 0
-configure:12193: result: yes
-configure:12216: checking if g++ static flag -static works
-configure:12244: result: yes
-configure:12256: checking if g++ supports -c -o file.o
-configure:12277: g++ -c -g -O2  -o out/conftest2.o conftest.cpp >&5
-configure:12281: $? = 0
-configure:12303: result: yes
-configure:12308: checking if g++ supports -c -o file.o
-configure:12355: result: yes
-configure:12385: checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
-configure:12428: result: yes
-configure:12569: checking dynamic linker characteristics
-configure:13326: result: GNU/Linux ld.so
-configure:13391: checking how to hardcode library paths into programs
-configure:13416: result: immediate
-configure:12291: checking for flex
-configure:12307: found /usr/bin/flex
-configure:12318: result: flex
-configure:12356: flex conftest.l
-configure:12360: $? = 0
-configure:12362: checking lex output file root
-configure:12376: result: lex.yy
-configure:12381: checking lex library
-configure:12395: gcc -o conftest -g -O2   conftest.c   >&5
-/usr/bin/ld: /tmp/ccP5ut4e.o: in function `input':
+configure:10407: checking for ld used by g++
+configure:10474: result: /usr/bin/ld -m elf_x86_64
+configure:10481: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
+configure:10496: result: yes
+configure:10551: checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:11624: result: yes
+configure:11660: g++ -c -g -O2  conftest.cpp >&5
+configure:11663: $? = 0
+configure:12144: checking for g++ option to produce PIC
+configure:12151: result: -fPIC -DPIC
+configure:12159: checking if g++ PIC flag -fPIC -DPIC works
+configure:12177: g++ -c -g -O2  -fPIC -DPIC -DPIC conftest.cpp >&5
+configure:12181: $? = 0
+configure:12194: result: yes
+configure:12217: checking if g++ static flag -static works
+configure:12245: result: yes
+configure:12257: checking if g++ supports -c -o file.o
+configure:12278: g++ -c -g -O2  -o out/conftest2.o conftest.cpp >&5
+configure:12282: $? = 0
+configure:12304: result: yes
+configure:12309: checking if g++ supports -c -o file.o
+configure:12356: result: yes
+configure:12386: checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
+configure:12429: result: yes
+configure:12570: checking dynamic linker characteristics
+configure:13327: result: GNU/Linux ld.so
+configure:13392: checking how to hardcode library paths into programs
+configure:13417: result: immediate
+configure:12292: checking for flex
+configure:12308: found /usr/bin/flex
+configure:12319: result: flex
+configure:12357: flex conftest.l
+configure:12361: $? = 0
+configure:12363: checking lex output file root
+configure:12377: result: lex.yy
+configure:12382: checking lex library
+configure:12396: gcc -o conftest -g -O2   conftest.c   >&5
+/usr/bin/ld: /tmp/cctnTIzr.o: in function `input':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:1180: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/ccP5ut4e.o: in function `yylex':
+/usr/bin/ld: /tmp/cctnTIzr.o: in function `yylex':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:871: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/ccP5ut4e.o: in function `main':
+/usr/bin/ld: /tmp/cctnTIzr.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
-configure:12395: $? = 1
+configure:12396: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2352,65 +2352,65 @@ configure: failed program was:
 | {
 |   return ! yylex () + ! yywrap ();
 | }
-configure:12395: gcc -o conftest -g -O2   conftest.c -lfl  >&5
-configure:12395: $? = 0
-configure:12405: result: -lfl
-configure:12411: checking whether yytext is a pointer
-configure:12428: gcc -o conftest -g -O2   conftest.c -lfl  >&5
-configure:12428: $? = 0
-configure:12436: result: yes
-configure:12363: checking for bison
-configure:12379: found /usr/local/bin/bison
-configure:12390: result: bison -y
-configure:12406: checking for gawk
-configure:12433: result: gawk
-configure:12445: checking whether ln -s works
-configure:12449: result: yes
-configure:12456: checking whether make sets $(MAKE)
-configure:12478: result: yes
-configure:12530: checking for ranlib
-configure:12557: result: ranlib
-configure:12581: checking for _ZN8Standard8AllocateEm in -lTKernel
-configure:12606: gcc -o conftest -g -O2   conftest.c -lTKernel   >&5
-configure:12606: $? = 0
-configure:12615: result: yes
-configure:12626: checking for _ZN6gp_Ax2C2ERK6gp_PntRK6gp_Dir in -lTKMath
-configure:12651: gcc -o conftest -g -O2   conftest.c -lTKMath  -lTKernel  >&5
-configure:12651: $? = 0
-configure:12660: result: yes
-configure:12671: checking for _ZNK13TopoDS_TSolid9EmptyCopyEv in -lTKBRep
-configure:12696: gcc -o conftest -g -O2   conftest.c -lTKBRep  -lTKMath -lTKernel  >&5
-configure:12696: $? = 0
-configure:12705: result: yes
-configure:12716: checking for _ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb in -lTKMesh
-configure:12741: gcc -o conftest -g -O2   conftest.c -lTKMesh  -lTKBRep -lTKMath -lTKernel  >&5
-configure:12741: $? = 0
-configure:12750: result: yes
-configure:12761: checking for _ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange in -lTKBO
-configure:12786: gcc -o conftest -g -O2   conftest.c -lTKBO  -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12786: $? = 0
-configure:12795: result: yes
-configure:12806: checking for _ZN20BRepPrimAPI_MakeConeC2Eddd in -lTKPrim
-configure:12831: gcc -o conftest -g -O2   conftest.c -lTKPrim  -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12831: $? = 0
-configure:12840: result: yes
-configure:12851: checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL
-configure:12876: gcc -o conftest -g -O2   conftest.c -lTKSTL  -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12876: $? = 0
-configure:12885: result: yes
-configure:12909: checking for gtk_application_window_new in -lgtk-4
-configure:12934: gcc -o conftest -g -O2   conftest.c -lgtk-4 -lncurses -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12934: $? = 0
-configure:12943: result: yes
-configure:12966: checking for size_t
-configure:12966: gcc -c -g -O2  conftest.c >&5
-configure:12966: $? = 0
-configure:12966: gcc -c -g -O2  conftest.c >&5
+configure:12396: gcc -o conftest -g -O2   conftest.c -lfl  >&5
+configure:12396: $? = 0
+configure:12406: result: -lfl
+configure:12412: checking whether yytext is a pointer
+configure:12429: gcc -o conftest -g -O2   conftest.c -lfl  >&5
+configure:12429: $? = 0
+configure:12437: result: yes
+configure:12364: checking for bison
+configure:12380: found /usr/local/bin/bison
+configure:12391: result: bison -y
+configure:12407: checking for gawk
+configure:12434: result: gawk
+configure:12446: checking whether ln -s works
+configure:12450: result: yes
+configure:12457: checking whether make sets $(MAKE)
+configure:12479: result: yes
+configure:12531: checking for ranlib
+configure:12558: result: ranlib
+configure:12582: checking for _ZN8Standard8AllocateEm in -lTKernel
+configure:12607: gcc -o conftest -g -O2   conftest.c -lTKernel   >&5
+configure:12607: $? = 0
+configure:12616: result: yes
+configure:12627: checking for _ZN6gp_Ax2C2ERK6gp_PntRK6gp_Dir in -lTKMath
+configure:12652: gcc -o conftest -g -O2   conftest.c -lTKMath  -lTKernel  >&5
+configure:12652: $? = 0
+configure:12661: result: yes
+configure:12672: checking for _ZNK13TopoDS_TSolid9EmptyCopyEv in -lTKBRep
+configure:12697: gcc -o conftest -g -O2   conftest.c -lTKBRep  -lTKMath -lTKernel  >&5
+configure:12697: $? = 0
+configure:12706: result: yes
+configure:12717: checking for _ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb in -lTKMesh
+configure:12742: gcc -o conftest -g -O2   conftest.c -lTKMesh  -lTKBRep -lTKMath -lTKernel  >&5
+configure:12742: $? = 0
+configure:12751: result: yes
+configure:12762: checking for _ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange in -lTKBO
+configure:12787: gcc -o conftest -g -O2   conftest.c -lTKBO  -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12787: $? = 0
+configure:12796: result: yes
+configure:12807: checking for _ZN20BRepPrimAPI_MakeConeC2Eddd in -lTKPrim
+configure:12832: gcc -o conftest -g -O2   conftest.c -lTKPrim  -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12832: $? = 0
+configure:12841: result: yes
+configure:12852: checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL
+configure:12877: gcc -o conftest -g -O2   conftest.c -lTKSTL  -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12877: $? = 0
+configure:12886: result: yes
+configure:12910: checking for gtk_application_window_new in -lgtk-4
+configure:12935: gcc -o conftest -g -O2   conftest.c -lgtk-4 -lncurses -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12935: $? = 0
+configure:12944: result: yes
+configure:12969: checking for size_t
+configure:12969: gcc -c -g -O2  conftest.c >&5
+configure:12969: $? = 0
+configure:12969: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:68:21: error: expected expression before ')' token
    68 | if (sizeof ((size_t)))
       |                     ^
-configure:12966: $? = 1
+configure:12969: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2484,78 +2484,78 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:12966: result: yes
-configure:12979: checking for working alloca.h
-configure:12996: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12996: $? = 0
-configure:13004: result: yes
-configure:13012: checking for alloca
-configure:13049: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13049: $? = 0
-configure:13057: result: yes
-configure:13166: checking for inttypes.h
-configure:13166: result: yes
-configure:13166: checking libintl.h usability
-configure:13166: gcc -c -g -O2  conftest.c >&5
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking libintl.h presence
-configure:13166: gcc -E  conftest.c
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking for libintl.h
-configure:13166: result: yes
-configure:13166: checking limits.h usability
-configure:13166: gcc -c -g -O2  conftest.c >&5
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking limits.h presence
-configure:13166: gcc -E  conftest.c
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking for limits.h
-configure:13166: result: yes
-configure:13166: checking malloc.h usability
-configure:13166: gcc -c -g -O2  conftest.c >&5
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking malloc.h presence
-configure:13166: gcc -E  conftest.c
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking for malloc.h
-configure:13166: result: yes
-configure:13166: checking stddef.h usability
-configure:13166: gcc -c -g -O2  conftest.c >&5
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking stddef.h presence
-configure:13166: gcc -E  conftest.c
-configure:13166: $? = 0
-configure:13166: result: yes
-configure:13166: checking for stddef.h
-configure:13166: result: yes
-configure:13166: checking for stdint.h
-configure:13166: result: yes
-configure:13166: checking for stdlib.h
-configure:13166: result: yes
-configure:13166: checking for string.h
-configure:13166: result: yes
-configure:13166: checking for unistd.h
-configure:13166: result: yes
-configure:13178: checking for inline
-configure:13194: gcc -c -g -O2  conftest.c >&5
-configure:13194: $? = 0
-configure:13202: result: inline
-configure:13220: checking for int16_t
-configure:13220: gcc -c -g -O2  conftest.c >&5
-configure:13220: $? = 0
-configure:13220: gcc -c -g -O2  conftest.c >&5
+configure:12969: result: yes
+configure:12982: checking for working alloca.h
+configure:12999: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12999: $? = 0
+configure:13007: result: yes
+configure:13015: checking for alloca
+configure:13052: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13052: $? = 0
+configure:13060: result: yes
+configure:13169: checking for inttypes.h
+configure:13169: result: yes
+configure:13169: checking libintl.h usability
+configure:13169: gcc -c -g -O2  conftest.c >&5
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking libintl.h presence
+configure:13169: gcc -E  conftest.c
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking for libintl.h
+configure:13169: result: yes
+configure:13169: checking limits.h usability
+configure:13169: gcc -c -g -O2  conftest.c >&5
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking limits.h presence
+configure:13169: gcc -E  conftest.c
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking for limits.h
+configure:13169: result: yes
+configure:13169: checking malloc.h usability
+configure:13169: gcc -c -g -O2  conftest.c >&5
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking malloc.h presence
+configure:13169: gcc -E  conftest.c
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking for malloc.h
+configure:13169: result: yes
+configure:13169: checking stddef.h usability
+configure:13169: gcc -c -g -O2  conftest.c >&5
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking stddef.h presence
+configure:13169: gcc -E  conftest.c
+configure:13169: $? = 0
+configure:13169: result: yes
+configure:13169: checking for stddef.h
+configure:13169: result: yes
+configure:13169: checking for stdint.h
+configure:13169: result: yes
+configure:13169: checking for stdlib.h
+configure:13169: result: yes
+configure:13169: checking for string.h
+configure:13169: result: yes
+configure:13169: checking for unistd.h
+configure:13169: result: yes
+configure:13181: checking for inline
+configure:13197: gcc -c -g -O2  conftest.c >&5
+configure:13197: $? = 0
+configure:13205: result: inline
+configure:13223: checking for int16_t
+configure:13223: gcc -c -g -O2  conftest.c >&5
+configure:13223: $? = 0
+configure:13223: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:80:12: error: size of array 'test_array' is negative
    80 | static int test_array [1 - 2 * !((int16_t) (((((int16_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13220: $? = 1
+configure:13223: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2644,11 +2644,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13220: result: yes
-configure:13231: checking for int32_t
-configure:13231: gcc -c -g -O2  conftest.c >&5
-configure:13231: $? = 0
-configure:13231: gcc -c -g -O2  conftest.c >&5
+configure:13223: result: yes
+configure:13234: checking for int32_t
+configure:13234: gcc -c -g -O2  conftest.c >&5
+configure:13234: $? = 0
+configure:13234: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:81:53: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
    81 |    < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -2656,7 +2656,7 @@ conftest.c:81:53: warning: integer overflow in expression of type 'int' results 
 conftest.c:80:12: error: storage size of 'test_array' isn't constant
    80 | static int test_array [1 - 2 * !((int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13231: $? = 1
+configure:13234: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2745,16 +2745,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13231: result: yes
-configure:13242: checking for int8_t
-configure:13242: gcc -c -g -O2  conftest.c >&5
-configure:13242: $? = 0
-configure:13242: gcc -c -g -O2  conftest.c >&5
+configure:13234: result: yes
+configure:13245: checking for int8_t
+configure:13245: gcc -c -g -O2  conftest.c >&5
+configure:13245: $? = 0
+configure:13245: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:80:12: error: size of array 'test_array' is negative
    80 | static int test_array [1 - 2 * !((int8_t) (((((int8_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13242: $? = 1
+configure:13245: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2843,30 +2843,30 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13242: result: yes
-configure:13253: checking for size_t
-configure:13253: result: yes
-configure:13264: checking for uint16_t
-configure:13264: gcc -c -g -O2  conftest.c >&5
-configure:13264: $? = 0
-configure:13264: result: yes
-configure:13276: checking for uint32_t
-configure:13276: gcc -c -g -O2  conftest.c >&5
-configure:13276: $? = 0
-configure:13276: result: yes
-configure:13290: checking for uint8_t
-configure:13290: gcc -c -g -O2  conftest.c >&5
-configure:13290: $? = 0
-configure:13290: result: yes
-configure:13304: checking for ptrdiff_t
-configure:13304: gcc -c -g -O2  conftest.c >&5
-configure:13304: $? = 0
-configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13245: result: yes
+configure:13256: checking for size_t
+configure:13256: result: yes
+configure:13267: checking for uint16_t
+configure:13267: gcc -c -g -O2  conftest.c >&5
+configure:13267: $? = 0
+configure:13267: result: yes
+configure:13279: checking for uint32_t
+configure:13279: gcc -c -g -O2  conftest.c >&5
+configure:13279: $? = 0
+configure:13279: result: yes
+configure:13293: checking for uint8_t
+configure:13293: gcc -c -g -O2  conftest.c >&5
+configure:13293: $? = 0
+configure:13293: result: yes
+configure:13307: checking for ptrdiff_t
+configure:13307: gcc -c -g -O2  conftest.c >&5
+configure:13307: $? = 0
+configure:13307: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:79:24: error: expected expression before ')' token
    79 | if (sizeof ((ptrdiff_t)))
       |                        ^
-configure:13304: $? = 1
+configure:13307: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2951,43 +2951,43 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13304: result: yes
-configure:13316: checking for error_at_line
-configure:13332: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13332: $? = 0
-configure:13340: result: yes
-configure:13353: checking for stdlib.h
-configure:13353: result: yes
-configure:13363: checking for GNU libc compatible malloc
-configure:13387: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13387: $? = 0
-configure:13387: ./conftest
-configure:13387: $? = 0
-configure:13397: result: yes
-configure:13420: checking for stdlib.h
-configure:13420: result: yes
-configure:13430: checking for GNU libc compatible realloc
-configure:13454: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13454: $? = 0
-configure:13454: ./conftest
-configure:13454: $? = 0
-configure:13464: result: yes
-configure:13487: checking for vprintf
-configure:13487: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13307: result: yes
+configure:13319: checking for error_at_line
+configure:13335: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13335: $? = 0
+configure:13343: result: yes
+configure:13356: checking for stdlib.h
+configure:13356: result: yes
+configure:13366: checking for GNU libc compatible malloc
+configure:13390: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13390: $? = 0
+configure:13390: ./conftest
+configure:13390: $? = 0
+configure:13400: result: yes
+configure:13423: checking for stdlib.h
+configure:13423: result: yes
+configure:13433: checking for GNU libc compatible realloc
+configure:13457: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13457: $? = 0
+configure:13457: ./conftest
+configure:13457: $? = 0
+configure:13467: result: yes
+configure:13490: checking for vprintf
+configure:13490: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:71:6: warning: conflicting types for built-in function 'vprintf'; expected 'int(const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
    71 | char vprintf ();
       |      ^~~~~~~
 conftest.c:59:1: note: 'vprintf' is declared in header '<stdio.h>'
    58 | # include <limits.h>
    59 | #else
-configure:13487: $? = 0
-configure:13487: result: yes
-configure:13493: checking for _doprnt
-configure:13493: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-/usr/bin/ld: /tmp/ccOmuuNn.o: in function `main':
+configure:13490: $? = 0
+configure:13490: result: yes
+configure:13496: checking for _doprnt
+configure:13496: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+/usr/bin/ld: /tmp/ccyPAjTW.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.c:83: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
-configure:13493: $? = 1
+configure:13496: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -3075,86 +3075,86 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13493: result: no
-configure:13507: checking for basename
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for dirname
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for memset
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13496: result: no
+configure:13510: checking for basename
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for dirname
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for memset
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:74:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
    74 | char memset ();
       |      ^~~~~~
 conftest.c:62:1: note: 'memset' is declared in header '<string.h>'
    61 | # include <limits.h>
    62 | #else
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for realpath
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strchr
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for realpath
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strchr
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:76:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
    76 | char strchr ();
       |      ^~~~~~
 conftest.c:64:1: note: 'strchr' is declared in header '<string.h>'
    63 | # include <limits.h>
    64 | #else
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strcmp
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strcmp
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:77:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
    77 | char strcmp ();
       |      ^~~~~~
 conftest.c:65:1: note: 'strcmp' is declared in header '<string.h>'
    64 | # include <limits.h>
    65 | #else
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strcspn
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strcspn
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:78:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
    78 | char strcspn ();
       |      ^~~~~~~
 conftest.c:66:1: note: 'strcspn' is declared in header '<string.h>'
    65 | # include <limits.h>
    66 | #else
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strdup
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strdup
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:79:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
    79 | char strdup ();
       |      ^~~~~~
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strndup
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strndup
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:80:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
    80 | char strndup ();
       |      ^~~~~~~
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13507: checking for strrchr
-configure:13507: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13510: checking for strrchr
+configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 conftest.c:81:6: warning: conflicting types for built-in function 'strrchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
    81 | char strrchr ();
       |      ^~~~~~~
 conftest.c:69:1: note: 'strrchr' is declared in header '<string.h>'
    68 | # include <limits.h>
    69 | #else
-configure:13507: $? = 0
-configure:13507: result: yes
-configure:13620: checking that generated files are newer than configure
-configure:13626: result: done
-configure:13657: creating ./config.status
+configure:13510: $? = 0
+configure:13510: result: yes
+configure:13623: checking that generated files are newer than configure
+configure:13629: result: done
+configure:13660: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -3171,15 +3171,15 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:1187: creating Makefile
-config.status:1187: creating src/Makefile
-config.status:1187: creating src/config.h
-config.status:1368: src/config.h is unchanged
-config.status:1416: executing depfiles commands
-config.status:1493: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1191: creating Makefile
+config.status:1191: creating src/Makefile
+config.status:1191: creating src/config.h
+config.status:1372: src/config.h is unchanged
+config.status:1420: executing depfiles commands
+config.status:1497: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1498: $? = 0
-config.status:1416: executing libtool commands
+config.status:1502: $? = 0
+config.status:1420: executing libtool commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -3386,7 +3386,8 @@ LDFLAGS=''
 LEX='flex'
 LEXLIB='-lfl'
 LEX_OUTPUT_ROOT='lex.yy'
-LIBGTK4_LD='-lgtk-4'
+LIBGTK4_CPP='-mfpmath=sse -msse -msse2 -pthread -I/usr/include/gtk-4.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/graphene-1.0 -I/usr/lib/x86_64-linux-gnu/graphene-1.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include'
+LIBGTK4_LD='-lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0'
 LIBOBJS=''
 LIBS='-lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel '
 LIBTOOL='$(SHELL) $(top_builddir)/libtool'
@@ -3536,21 +3537,3 @@ target_alias=''
 #define HAVE_STRRCHR 1
 
 configure: exit 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/config.h
-
-on user-PC
-
-config.status:1187: creating src/config.h
-config.status:1368: src/config.h is unchanged

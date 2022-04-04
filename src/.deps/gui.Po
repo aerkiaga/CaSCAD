@@ -1,0 +1,9 @@
+gui.o: gui.c /usr/include/stdc-predef.h gui.h config.h frontend.h
+
+/usr/include/stdc-predef.h:
+
+gui.h:
+
+config.h:
+
+frontend.h:

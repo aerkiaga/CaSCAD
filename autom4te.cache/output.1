@@ -635,6 +635,7 @@ am__EXEEXT_TRUE
 LTLIBOBJS
 LIB@&t@OBJS
 ALLOCA
+LIBGTK4_CPP
 LIBGTK4_LD
 YFLAGS
 YACC
@@ -17475,7 +17476,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gtk_4_gtk_application_window_new" >&5
 $as_echo "$ac_cv_lib_gtk_4_gtk_application_window_new" >&6; }
 if test "x$ac_cv_lib_gtk_4_gtk_application_window_new" = xyes; then :
-  LIBGTK4_LD="-lgtk-4"
+  LIBGTK4_LD=`pkg-config --libs gtk4`
+
+     LIBGTK4_CPP=`pkg-config --cflags gtk4`
 
      
 $as_echo "@%:@define HAVE_LIBGTK4 1" >>confdefs.h

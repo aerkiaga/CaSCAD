@@ -21,7 +21,7 @@ main.o: main.c /usr/include/stdc-predef.h config.h cascad.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
  /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h strutils.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h gui.h strutils.h \
  /usr/include/getopt.h /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_ext.h /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
@@ -112,6 +112,8 @@ cascad.h:
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
+gui.h:
 
 strutils.h:
 
