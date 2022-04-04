@@ -21,6 +21,9 @@ extern cascad_ast_t cascad_load_file(FILE *file);
 /* Parse string and output an Abstract Syntax Tree. */
 extern cascad_ast_t cascad_load_string(const char* buffer);
 
+/* Print a representation of the Abstract Syntax Tree to stderr. */
+void cascad_print_ast(cascad_ast_t ast);
+
 /* A list of dependencies for one or more scripts. */
 /* Includes their canonical paths and Abstract Syntax Trees. */
 typedef struct t_cascad_deps_t *cascad_deps_t;
@@ -56,6 +59,25 @@ extern cascad_context_t cascad_gen_context_with_deps(
  *  
  */
 
+/* Print a representation of the compiled bytecode to stderr. */
+void cascad_print_bytecode(cascad_context_t context);
+
+/* An empty or solid shape. */
+// TODO: add other types
+typedef struct t_cascad_shape_t *cascad_shape_t;
+
 /* Run an interpreter context. */
-extern void cascad_execute(cascad_context_t context);
+extern cascad_shape_t cascad_execute(cascad_context_t context);
+
+/* Export a shape as STL file, either ascii or binary. */
+int cascad_export_stl(cascad_shape_t shape, const char *path, int ascii);
+
+/* A value indicating what type a shape is. */
+enum cascad_shape_type_t {
+    CASCAD_INVALID,
+    CASCAD_EMPTY,
+    CASCAD_SOLID
+};
+
+extern enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape);
 

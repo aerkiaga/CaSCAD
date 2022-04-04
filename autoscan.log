@@ -1,0 +1,5 @@
+autoscan: warning: missing AC_CHECK_HEADER_STDBOOL wanted by: 
+	src/context.h:47
+	src/context.h:46
+autoscan: warning: missing AC_PROG_RANLIB wanted by: 
+	ltmain.sh:3864

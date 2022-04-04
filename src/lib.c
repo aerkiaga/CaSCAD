@@ -31,6 +31,10 @@ cascad_ast_t cascad_load_string(const char *buffer) {
     return (cascad_ast_t) tree;
 }
 
+void cascad_print_ast(cascad_ast_t ast) {
+    debug_ast((ast_t) ast);
+}
+
 cascad_deps_t cascad_load_deps(const cascad_ast_t ast, const char *script_path) {
     return (cascad_deps_t) get_deps_from_ast((ast_t) ast, script_path);
 }
@@ -45,8 +49,27 @@ cascad_context_t cascad_gen_context_with_deps(
     return (cascad_context_t) compiler_produce_with_deps((ast_t) ast, (deps_t) deps, script_path);
 }
 
-void cascad_execute(cascad_context_t context) {
-    interpreter_execute((context_t) context);
+void cascad_print_bytecode(cascad_context_t context) {
+    debug_bytecode((context_t) context);
+}
+
+cascad_shape_t cascad_execute(cascad_context_t context) {
+    return (cascad_shape_t) interpreter_execute((context_t) context);
+}
+
+int cascad_export_stl(cascad_shape_t shape, const char *path, int ascii) {
+    return !backend_export_stl((value_t) shape + 1, path, ascii);
+}
+
+enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape) {
+    switch(((value_t) shape)[1].u) {
+        case VALUE_TYPE_EMPTY:
+            return CASCAD_EMPTY;
+        case VALUE_TYPE_SOLID:
+            return CASCAD_SOLID;
+        default:
+            return CASCAD_INVALID;
+    }
 }
 
 

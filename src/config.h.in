@@ -21,17 +21,38 @@
 /* Define to 1 if you have the `dirname' function. */
 #undef HAVE_DIRNAME
 
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the <libgen.h> header file. */
-#undef HAVE_LIBGEN_H
-
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
+
+/* Define to 1 if you have the `TKBO' library (-lTKBO). */
+#undef HAVE_LIBTKBO
+
+/* Define to 1 if you have the `TKBRep' library (-lTKBRep). */
+#undef HAVE_LIBTKBREP
+
+/* Define to 1 if you have the `TKernel' library (-lTKernel). */
+#undef HAVE_LIBTKERNEL
+
+/* Define to 1 if you have the `TKMath' library (-lTKMath). */
+#undef HAVE_LIBTKMATH
+
+/* Define to 1 if you have the `TKMesh' library (-lTKMesh). */
+#undef HAVE_LIBTKMESH
+
+/* Define to 1 if you have the `TKPrim' library (-lTKPrim). */
+#undef HAVE_LIBTKPRIM
+
+/* Define to 1 if you have the `TKSTL' library (-lTKSTL). */
+#undef HAVE_LIBTKSTL
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -68,6 +89,9 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
 /* Define to 1 if you have the `strcmp' function. */
 #undef HAVE_STRCMP
 
@@ -86,6 +110,9 @@
 /* Define to 1 if you have the `strndup' function. */
 #undef HAVE_STRNDUP
 
+/* Define to 1 if you have the `strrchr' function. */
+#undef HAVE_STRRCHR
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -97,6 +124,9 @@
 
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
 
 /* Name of package */
 #undef PACKAGE

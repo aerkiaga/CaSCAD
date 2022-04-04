@@ -20,7 +20,10 @@ enum {
     VALUE_TYPE_STRING,
     VALUE_TYPE_FUNCTION,
     VALUE_TYPE_MODULE,
-    VALUE_TYPE_EMPTY
+    VALUE_TYPE_EMPTY,
+    VALUE_TYPE_SOLID,
+    VALUE_TYPE_COMPOUND,
+    VALUE_TYPE_CHILDREN
 };
 
 /* Each instruction consists of an opcode followed by zero or more parameters. */
@@ -45,9 +48,11 @@ enum {
     OP_TRUE,    // push literal true, no parameters
     OP_FALSE,   // push literal false, no parameters
     OP_STRING,  // push literal string $1
+    OP_DIVIDE,  // pop divisor, pop dividend, push quotient
     OP_EMPTY,   // push empty geometry, no parameters
+    OP_CYLINDER,// pop 'center', 'r2', 'r1', 'h' and '@children', push cylinder
     OP_GROUP,   // pop $1 values from the stack and push a list of geometry
-    OP_UNION    // pop $1 values from the stack and push their union
+    OP_UNION    // pop chikd or list of children from the stack and push their union
 };
 
 /* Format: (value_type  value)... */

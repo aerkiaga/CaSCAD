@@ -103,3 +103,11 @@ char *path_realpath(const char *path) {
     return realpath(path, NULL);
 }
 
+const char *path_extension(const char *path) {
+    const char *dot = strrchr(path, '.');
+    if(!dot) return "";
+    const char *fail = strchr(dot, '/');
+    if(fail) return "";
+    return dot + 1;
+}
+

@@ -1,4 +1,5 @@
 #include "ast.h"
+#include "builtin.h"
 #include "compiler.h"
 #include "context.h"
 #include "deps.h"
@@ -124,7 +125,7 @@ static ptrdiff_t get_current_address(context_t context) {
     return context->code[0].u;
 }
 
-static ptrdiff_t append_code_u(context_t context, uintptr_t value) {
+ptrdiff_t append_code_u(context_t context, uintptr_t value) {
     union tree_child_t new_node;
     new_node.u = value;
     context->code = tree_append_sibling(context->code, &new_node);
@@ -309,6 +310,10 @@ static int compile_walk_fn_choose(
             append_code_u(context, parameter_count);
             return 2;
         }
+        case AST_TYPE_BINARY_EXPRESSION: {
+            /* Compute values, perform operation at the end. */
+            return 2;
+        }
         case AST_TYPE_IDENTIFIER_EXPRESSION: {
             const char *name = node[1].s;
             tree_t definition = search_in_full_scope(name, context);
@@ -335,10 +340,15 @@ static int compile_walk_fn_choose(
         case AST_TYPE_MODULE_CALL: {
             const char *name = node[1].s;
             tree_t definition = search_in_full_scope(name, context);
+            int is_builtin = 0;
             if(!definition) {
-                /* OpenSCAD says: */
-                /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
-                error("syntax error: '%s' not defined in current scope.", name);
+                definition = search_in_builtins(name);
+                if(!definition) {
+                    /* OpenSCAD says: */
+                    /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
+                    error("syntax error: '%s' not defined in current scope.", name);
+                }
+                is_builtin = 1;
             }
             uintptr_t bind_type = definition[1].u;
             if(node->u == AST_TYPE_FUNCTION_CALL && bind_type != BIND_TYPE_FUNCTION) {
@@ -351,13 +361,18 @@ static int compile_walk_fn_choose(
                 /* WARNING: Ignoring unknown module '~', in file ~, line ~. */
                 error("syntax error: '%s' exists, but is not a module.", name);
             }
-            /* Copy default parameters from function prototype. */
-            /* The parser puts them IN REVERSE ORDER! */
-            tree_t proto_list = definition[3].a[2].a;
-            tree_t passed_values = tree_new_siblings(proto_list[0].u - 1);
             size_t i;
-            for(i = 1; i < proto_list[0].u; i++) {
-                passed_values[i].a = proto_list[proto_list[0].u + 1 - i].a;
+            tree_t passed_values;
+            if(is_builtin) {
+                passed_values = ((tree_t (*)(void)) definition[2].p)();
+            } else {
+                /* Copy default parameters from function prototype. */
+                /* The parser puts them IN REVERSE ORDER! */
+                tree_t proto_list = definition[3].a[2].a;
+                passed_values = tree_new_siblings(proto_list[0].u - 1);
+                for(i = 1; i < proto_list[0].u; i++) {
+                    passed_values[i].a = proto_list[proto_list[0].u + 1 - i].a;
+                }
             }
             /* Replace any values passed. */
             /* They are also placed IN REVERSE ORDER. */
@@ -374,16 +389,26 @@ static int compile_walk_fn_choose(
                         }
                     }
                     if(k > passed_values[0].u) {
-                        /* OpenSCAD says: */
-                        /* WARNING: variable ~ not specified as parameter, in file ~, line ~ */
-                        error("syntax error: '%s' does not name a paremeter of '%s'.", param[2].s, name);
+                        if(
+                            !is_builtin || !definition[3].p ||
+                            ((int (*)(ast_t, tree_t)) definition[3].p)(
+                                param, passed_values
+                            )
+                        ) {
+                            /* OpenSCAD says: */
+                            /* WARNING: variable ~ not specified as parameter, in file ~, line ~ */
+                            error(
+                                "syntax error: '%s' does not name a parameter of '%s'.",
+                                param[2].s, name
+                            );
+                        }
                     }
                 } else {
-                    if(numbered_argument > proto_list[0].u - 1) {
+                    if(numbered_argument > passed_values[0].u) {
                         /* OpenSCAD says: */
                         /* WARNING: Too many unnamed arguments supplied, in file ~, line ~ */
                         error("syntax error: %d unnamed paramaters passed to '%s', up to %d expected.",
-                            numbered_argument, name, proto_list[0].u - 1
+                            numbered_argument, name, passed_values[0].u
                         );
                     }
                     const char *param_name = passed_values[numbered_argument].a[2].s;
@@ -403,15 +428,18 @@ static int compile_walk_fn_choose(
                 compile_subexpression(ast, context, node->u);
             }
             /* === Perform the call. === */
-            ptrdiff_t call_address = definition[2].u;
-            append_code_u(context, OP_CALL);
-            append_code_u(context, call_address);
+            if(is_builtin) {
+                ((void (*)(context_t)) definition[4].p)(context);
+            } else {
+                ptrdiff_t call_address = definition[2].u;
+                append_code_u(context, OP_CALL);
+                append_code_u(context, call_address);
+            }
             (*shared)->no_children = 1;
             return INT_MAX;
         }
         default:
-            printf("%ld\n", node->u); //D
-            error("fixme: unsupported AST node type.\n");
+            error("fixme: unsupported AST node type %ld.\n", node->u);
             return INT_MAX;
     }
 }
@@ -445,14 +473,13 @@ static int compile_walk_fn2_choose(
                 break;
             }
             if((*shared)->statement_count < 2) break;
-            if(context->parent_type == AST_TYPE_MODULE_OPERATOR) {
-                /* === Group children to pass them up. === */
-                append_code_u(context, OP_GROUP);
-            } else {
+            /* === Group children to pass them up. === */
+            append_code_u(context, OP_GROUP);
+            append_code_u(context, (*shared)->statement_count);
+            if(context->parent_type != AST_TYPE_MODULE_OPERATOR) {
                 /* === Perform implicit union. === */
                 append_code_u(context, OP_UNION);
             }
-            append_code_u(context, (*shared)->statement_count);
             break;
         }
         case AST_TYPE_MODULE_OPERATOR: {
@@ -475,6 +502,18 @@ static int compile_walk_fn2_choose(
             /* Separate OP_RESTORE and OP_RETURN: future-proof. */
             append_code_u(context, OP_RETURN);
             break;
+        }
+        case AST_TYPE_BINARY_EXPRESSION: {
+            switch(node[1].u) {
+                case BINARY_OP_DIVIDE:
+                    append_code_u(context, OP_DIVIDE);
+                    break;
+                default:
+                    error(
+                        "fixme: unsupported AST_TYPE_BINARY_EXPRESSION parameter value %ld.\n",
+                        node[1].u
+                    );
+            }
         }
     }
     return 0;
@@ -518,7 +557,6 @@ context_t compiler_produce_with_deps(ast_t ast, deps_t deps, const char *script_
 }
 
 context_t compiler_produce(ast_t ast, const char *script_path) {
-    debug_ast(ast); //D
     deps_t deps = get_deps_from_ast(ast, script_path);
     return compiler_produce_with_deps(ast, deps, script_path);
 }

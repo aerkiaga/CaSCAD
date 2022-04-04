@@ -8,6 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* By default, /usr/share/cascad/libraries */
+/* Separate different paths with colons */
+char *libraries_path_list = PATH_DATADIR "/cascad/libraries";
+
 static int dependencies_walk_fn(ast_t node, size_t index, void *data, void **common) {
     tree_t *list = (tree_t *) data;
     if(index == 0) {

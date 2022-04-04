@@ -9,7 +9,7 @@ typedef tree_t deps_t;
 
 /* By default, /usr/share/cascad/libraries */
 /* Separate different paths with colons */
-static char *libraries_path_list = PATH_DATADIR "/cascad/libraries";
+extern char *libraries_path_list;
 
 extern deps_t create_empty_deps();
 extern deps_t add_deps_from_ast(deps_t old_deps, const ast_t ast, const char *script_path);

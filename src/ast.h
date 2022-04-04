@@ -39,7 +39,7 @@ enum {
     AST_TYPE_FUNCTION_CALL,                 // name  param_list
     AST_TYPE_IF_EXPRESSION,
     AST_TYPE_LET_EXPRESSION,
-    AST_TYPE_BINARY_EXPRESSION,
+    AST_TYPE_BINARY_EXPRESSION,             // type  expression  expression
     AST_TYPE_UNARY_EXPRESSION,
     AST_TYPE_VECTOR_INDEX,
     AST_TYPE_LIST_COMPREHENSION,
