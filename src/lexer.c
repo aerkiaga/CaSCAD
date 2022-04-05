@@ -2240,6 +2240,9 @@ void lexer_load(const char *text) {
     length = strlen(inp);
 }
 
+void error(const char *fmt, ...);
+
 void yyerror(char const *msg) {
+    error("syntax error: couldn't parse file.\n");
 }
 

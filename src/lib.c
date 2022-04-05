@@ -7,12 +7,57 @@
 #include "interpreter.h"
 #include "lexer.h"
 #include "parser_interface.h"
+#include "strutils.h"
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <threads.h>
 
-_Noreturn void error(const char *fmt, ...);
-extern void warning(const char *fmt, ...);
+void (*message_override)(char type, const char *msg) = NULL;
+
+void error(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    if(message_override) {
+        char *buffer = vformatted_string(fmt, args);
+        message_override('e', buffer);
+        free(buffer);
+    } else {
+        vfprintf(stderr, fmt, args);
+        exit(1);
+    }
+    va_end(args);
+}
+
+void warning(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    if(message_override) {
+        char *buffer = vformatted_string(fmt, args);
+        message_override('w', buffer);
+        free(buffer);
+    } else {
+        vfprintf(stderr, fmt, args);
+    }
+    va_end(args);
+}
+
+void info(const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    if(message_override) {
+        char *buffer = vformatted_string(fmt, args);
+        message_override('i', buffer);
+        free(buffer);
+    } else {
+        vfprintf(stderr, fmt, args);
+    }
+    va_end(args);
+}
+
+void set_message_handler(void (*handler)(char type, const char *msg)) {
+    message_override = handler;
+}
 
 cascad_ast_t cascad_load_file(FILE* file) {
     fseek(file, 0, SEEK_END);
@@ -86,26 +131,36 @@ struct exchanged_data_t {
 static int worker_entry_point(void *param) {
     struct exchanged_data_t *data = (struct exchanged_data_t *)param;
     
+    info("\nCompiling...\n");
     cascad_ast_t ast = cascad_load_string(data->buffer);
     if(!ast) {
+        if(!ast) error("file '%s' could not be parsed\n", data->filename);
         data->later(NULL);
         return 1;
     }
     cascad_context_t ctx = cascad_gen_context(ast, data->filename);
     if(!ctx) {
+        if(!ast) error("file '%s' could not be compiled\n", data->filename);
         data->later(NULL);
         return 2;
     }
+    info("Rendering...\n");
     cascad_shape_t output = cascad_execute(ctx);
+    info("Done.\n");
     
     enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
     if(shape_type == CASCAD_INVALID) {
+        error(
+            "error: script produced invalid shape or non-shape; possible data corruption.\n"
+        );
         data->later(NULL);
         return 3;
-    } else {
-        data->later(output);
-        return 0;
     }
+    if(shape_type == CASCAD_EMPTY) {
+        warning("warning: script execution produced empty shape.\n");
+    }
+    data->later(output);
+    return 0;
 }
 
 void cascad_run_string_async(
@@ -115,6 +170,7 @@ void cascad_run_string_async(
     struct exchanged_data_t *data =
         (struct exchanged_data_t *) malloc(sizeof(struct exchanged_data_t));
     data->buffer = buffer;
+    data->filename = filename;
     data->later = later;
     thrd_create(&thread_id, worker_entry_point, data);
 }

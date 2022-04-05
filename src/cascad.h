@@ -1,5 +1,16 @@
 #include <stdio.h>
 
+#define CASCAD_NOTICE \
+PACKAGE_STRING "\n" \
+"Copyright (C) 2022 Aritz Erkiaga Fernández\n" \
+"License GPLv3: GNU GPL version 3 <https://gnu.org/licenses/gpl-3.0.html>\n" \
+"This is free software: you are free to change and redistribute it.\n" \
+"There is NO WARRANTY, to the extent permitted by law.\n"
+
+/* Set a custom function to display error, warning and info messages. */
+/* Variable `type` will be 'e', 'w' and 'i', respectively. */
+void set_message_handler(void (*handler)(char type, const char *msg));
+
 /* An Abstract Syntax Tree, created from parsing SCAD code. */
 typedef struct t_cascad_ast_t *cascad_ast_t;
 

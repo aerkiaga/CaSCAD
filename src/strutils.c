@@ -1,6 +1,8 @@
 #include "strutils.h"
 #include <libgen.h>
+#include <stdarg.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -109,5 +111,14 @@ const char *path_extension(const char *path) {
     const char *fail = strchr(dot, '/');
     if(fail) return "";
     return dot + 1;
+}
+
+char *vformatted_string(const char *fmt, va_list args) {
+    va_list args_copy;
+    va_copy(args_copy, args);
+    size_t required_size = vsnprintf(NULL, 0, fmt, args);
+    char *buffer = (char *) malloc(required_size + 1);
+    vsnprintf(buffer, required_size + 1, fmt, args_copy);
+    return buffer;
 }
 

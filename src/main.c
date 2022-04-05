@@ -3,25 +3,13 @@
 #include "gui.h"
 #include "strutils.h"
 #include <getopt.h>
-#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-_Noreturn void error(const char *fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    vfprintf(stderr, fmt, args);
-    va_end(args);
-    exit(1);
-}
+extern void error(const char *fmt, ...);
 
-void warning(const char *fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    vfprintf(stderr, fmt, args);
-    va_end(args);
-}
+extern void warning(const char *fmt, ...);
 
 int main(int argc, char *argv[]) {
     const char *output_filename = NULL;
@@ -87,13 +75,7 @@ int main(int argc, char *argv[]) {
                 exit(0);
                 break;
             case 'v':
-                puts(
-                    PACKAGE_STRING "\n"
-                    "Copyright (C) 2022 Aritz Erkiaga Fernández\n"
-                    "License GPLv3: GNU GPL version 3 <https://gnu.org/licenses/gpl-3.0.html>\n"
-                    "This is free software: you are free to change and redistribute it.\n"
-                    "There is NO WARRANTY, to the extent permitted by law."
-                );
+                puts(CASCAD_NOTICE);
                 exit(0);
                 break;
             default:
@@ -123,18 +105,18 @@ int main(int argc, char *argv[]) {
         enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
         if(shape_type == CASCAD_INVALID) {
             error(
-                "cascad: script execution produced invalid shape or non-shape; possible data corruption.\n"
+                "error: script execution produced invalid shape or non-shape; possible data corruption.\n"
             );
         }
         if(shape_type == CASCAD_EMPTY) {
-            warning("cascad: script execution produced empty shape.\n");
+            warning("warning: script execution produced empty shape.\n");
         }
         
         if(output_filename) {
             if(!strcmp("stl", output_extension) || !strcmp("STL", output_extension)) {
                 if(cascad_export_stl(output, output_filename, 1)) {
                     error(
-                        "cascad: STL file export failed.\n"
+                        "error: STL file export failed.\n"
                     );
                 }
             }

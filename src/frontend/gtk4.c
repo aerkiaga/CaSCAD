@@ -2,9 +2,10 @@
 
 #ifdef HAVE_GUI
 #include "frontend.h"
+#include <EGL/egl.h>
 #include <gdk/x11/gdkx.h>
 #include <gtk/gtk.h>
-#include <EGL/egl.h>
+#include <string.h>
 
 GtkApplication *application = NULL;
 GtkWidget *window;
@@ -12,8 +13,10 @@ GtkWidget *code_editor;
 GtkTextBuffer *code_buffer;
 GtkWidget *viewer;
 GtkWidget *console;
+GtkTextBuffer *console_buffer;
 static void (*run_at_startup)(void) = NULL;
 static void (*run_at_viewer_realize)(int, int, int, void *, void *, void *) = NULL;
+static void (*run_at_viewer_unrealize)(void) = NULL;
 static void (*run_at_viewer_render)(void) = NULL;
 static void (*run_at_preview)(void) = NULL;
 
@@ -61,6 +64,15 @@ static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
             (void *) NULL, (void *) xdisplay, (void *) gl_window
         );
     }
+}
+
+void frontend_run_at_gl_unrealize(void (*callback)(void)) {
+    run_at_viewer_unrealize = callback;
+}
+
+static void viewer_unrealize_callback(GtkWidget *self, gpointer user_data) {
+    gtk_gl_area_make_current(GTK_GL_AREA(self));
+    run_at_viewer_unrealize();
 }
 
 void frontend_run_at_gl_render(void (*callback)(void)) {
@@ -136,8 +148,12 @@ void frontend_create(const char *name) {
             gtk_text_view_set_left_margin(GTK_TEXT_VIEW(code_editor), 20);
             gtk_text_view_set_right_margin(GTK_TEXT_VIEW(code_editor), 20);
             gtk_text_view_set_top_margin(GTK_TEXT_VIEW(code_editor), 15);
-            gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(code_editor), 15);
-            gtk_box_append(GTK_BOX(v_box1), code_editor);
+            gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(code_editor), 5);
+            GtkWidget *editor_container = gtk_scrolled_window_new();
+            gtk_widget_set_hexpand(editor_container, 1);
+            gtk_widget_set_vexpand(editor_container, 1);
+            gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(editor_container), code_editor);
+            gtk_box_append(GTK_BOX(v_box1), editor_container);
         
         GtkWidget *v_box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
         gtk_widget_set_hexpand(v_box2, 1);
@@ -147,6 +163,7 @@ void frontend_create(const char *name) {
             viewer = gtk_gl_area_new();
             gtk_widget_set_hexpand(viewer, 1);
             gtk_widget_set_vexpand(viewer, 1);
+            gtk_widget_set_size_request(viewer, 1, 350);
             g_signal_connect(viewer, "realize", G_CALLBACK(viewer_realize_callback), NULL);
             g_signal_connect(viewer, "render", G_CALLBACK(viewer_render_callback), NULL);
             gtk_box_append(GTK_BOX(v_box2), viewer);
@@ -157,10 +174,8 @@ void frontend_create(const char *name) {
                 GtkWidget *button_view2 = gtk_button_new_from_icon_name("arrow-right-double");
                 g_signal_connect(button_view2, "clicked", G_CALLBACK(button_preview_callback), NULL);
                 gtk_box_append(GTK_BOX(button_bar2), button_view2);
-        
+            
             console = gtk_text_view_new();
-            gtk_widget_set_hexpand(console, 1);
-            gtk_widget_set_vexpand(console, 1);
             GtkCssProvider *console_css_provider = gtk_css_provider_new();
             add_style(
                 console,
@@ -173,7 +188,17 @@ void frontend_create(const char *name) {
                 "}"
             );
             gtk_text_view_set_editable(GTK_TEXT_VIEW(console), 0);
-            gtk_box_append(GTK_BOX(v_box2), console);
+            gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(console), GTK_WRAP_WORD_CHAR);
+            gtk_text_view_set_left_margin(GTK_TEXT_VIEW(console), 5);
+            gtk_text_view_set_right_margin(GTK_TEXT_VIEW(console), 5);
+            gtk_text_view_set_top_margin(GTK_TEXT_VIEW(console), 5);
+            gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(console), 5);
+            GtkWidget *console_container = gtk_scrolled_window_new();
+            gtk_widget_set_hexpand(console_container, 1);
+            //gtk_widget_set_vexpand(console_container, 1);
+            gtk_widget_set_size_request(console_container, 1, 300);
+            gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(console_container), console);
+            gtk_box_append(GTK_BOX(v_box2), console_container);
     
     gtk_widget_show(window);
 }
@@ -193,6 +218,25 @@ const char *frontend_get_editor_text(void) {
     GtkTextIter end;
     gtk_text_buffer_get_end_iter(code_buffer, &end);
     return gtk_text_buffer_get_text(code_buffer, &start, &end, 0);
+}
+
+static gboolean frontend_console_print_main_thread(gpointer user_data) {
+    const char *msg = (const char *) user_data;
+    console_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(console));
+    GtkTextIter end;
+    gtk_text_buffer_get_end_iter(console_buffer, &end);
+    gtk_text_buffer_insert(
+        console_buffer, &end, msg, strlen(msg)
+    );
+    GtkTextIter new_end;
+    gtk_text_buffer_get_end_iter(console_buffer, &new_end);
+    gtk_text_view_scroll_to_iter(
+        GTK_TEXT_VIEW(console), &new_end, 0.0, TRUE, 0.5, 1.0
+    );
+}
+
+void frontend_console_print(const char *msg) {
+    g_idle_add(frontend_console_print_main_thread, (gpointer) strdup(msg));
 }
 
 void frontend_main(int argc, char *argv[]) {

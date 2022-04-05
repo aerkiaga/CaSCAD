@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern _Noreturn void error(const char *fmt, ...);
+extern void error(const char *fmt, ...);
 
 struct compile_fn_shared_t {
     uintptr_t parent_type; // storage for context->parent_type into fn2
@@ -320,13 +320,13 @@ static int compile_walk_fn_choose(
             if(!definition) {
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown variable '~', in file ~, line ~. */
-                error("syntax error: '%s' not defined in current scope.", name);
+                error("syntax error: '%s' not defined in current scope.\n", name);
             }
             uintptr_t bind_type = definition[1].u;
             if(bind_type != BIND_TYPE_VARIABLE) {
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown variable '~', in file ~, line ~. */
-                error("syntax error: '%s' exists, but is not a variable.", name);
+                error("syntax error: '%s' exists, but is not a variable.\n", name);
             }
             /* === Load value from variable. === */
             ptrdiff_t var_address = definition[2].u;
@@ -346,7 +346,7 @@ static int compile_walk_fn_choose(
                 if(!definition) {
                     /* OpenSCAD says: */
                     /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
-                    error("syntax error: '%s' not defined in current scope.", name);
+                    error("syntax error: '%s' not defined in current scope.\n", name);
                 }
                 is_builtin = 1;
             }
@@ -354,12 +354,12 @@ static int compile_walk_fn_choose(
             if(node->u == AST_TYPE_FUNCTION_CALL && bind_type != BIND_TYPE_FUNCTION) {
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown function '~', in file ~, line ~. */
-                error("syntax error: '%s' exists, but is not a function.", name);
+                error("syntax error: '%s' exists, but is not a function.\n", name);
             }
             if(node->u == AST_TYPE_MODULE_CALL && bind_type != BIND_TYPE_MODULE) {
                 /* OpenSCAD says: */
                 /* WARNING: Ignoring unknown module '~', in file ~, line ~. */
-                error("syntax error: '%s' exists, but is not a module.", name);
+                error("syntax error: '%s' exists, but is not a module.\n", name);
             }
             size_t i;
             tree_t passed_values;
@@ -398,7 +398,7 @@ static int compile_walk_fn_choose(
                             /* OpenSCAD says: */
                             /* WARNING: variable ~ not specified as parameter, in file ~, line ~ */
                             error(
-                                "syntax error: '%s' does not name a parameter of '%s'.",
+                                "syntax error: '%s' does not name a parameter of '%s'.\n",
                                 param[2].s, name
                             );
                         }
@@ -407,7 +407,7 @@ static int compile_walk_fn_choose(
                     if(numbered_argument > passed_values[0].u) {
                         /* OpenSCAD says: */
                         /* WARNING: Too many unnamed arguments supplied, in file ~, line ~ */
-                        error("syntax error: %d unnamed paramaters passed to '%s', up to %d expected.",
+                        error("syntax error: %d unnamed paramaters passed to '%s', up to %d expected.\n",
                             numbered_argument, name, passed_values[0].u
                         );
                     }

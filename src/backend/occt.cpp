@@ -187,8 +187,11 @@ void dumpGlInfo(bool theIsBasic) {
   puts(anInfo.ToCString());
 }
 
-void backend_init_graphics(void) {
-    display_connection = new Aspect_DisplayConnection();
+void backend_init_graphics(void *display) {
+    if(display)
+        display_connection = new Aspect_DisplayConnection((Aspect_XDisplay *) display);
+    else
+        display_connection = new Aspect_DisplayConnection();
     viewer_driver = new OpenGl_GraphicDriver(display_connection, false);
     viewer_driver->ChangeOptions().buffersNoSwap = true;
     viewer_driver->ChangeOptions().buffersOpaqueAlpha = true;
@@ -215,6 +218,10 @@ void backend_realize_graphics(
     Graphic3d_Vec2i view_size = logical_size * scale_factor;
     opencascade::handle<OpenGl_Context> gl_context = new OpenGl_Context();
     opencascade::handle<OcctGtkWindow> custom_window = dynamic_cast<OcctGtkWindow *>(view.get());
+    
+    /*if(!display_connection.get()) {
+        backend_init_graphics(display);
+    }*/
     
     if(context != nullptr) {
         if(custom_window.get() == nullptr) {
@@ -250,6 +257,19 @@ void backend_realize_graphics(
     opencascade::handle<AIS_Shape> interactive_shape =
         opencascade::handle<AIS_Shape>(new AIS_Shape(*undef_solid));
     ais_context->Display(interactive_shape, 0);*/
+}
+
+void backend_unrealize_graphics(void) {
+    opencascade::handle<Aspect_DisplayConnection> display_connection;
+    if(ais_context.get()) {
+        display_connection = viewer->Driver()->GetDisplayConnection();
+        ais_context->RemoveAll(false);
+        ais_context.Nullify();
+        view->Remove();
+        view.Nullify();
+        viewer.Nullify();
+    }
+    display_connection.Nullify();
 }
 
 class OcctGtkFrameBuffer : public OpenGl_FrameBuffer {

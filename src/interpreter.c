@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-extern _Noreturn void error(const char *fmt, ...);
+extern void error(const char *fmt, ...);
 
 void debug_bytecode(context_t context);
 

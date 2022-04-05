@@ -12,11 +12,12 @@ extern void backend_cylinder(value_t out_value, value_t parameters);
 extern void backend_union(value_t out_value, value_t parameters);
 
 extern int backend_export_stl(value_t in_value, const char *path, int ascii);
-void backend_init_graphics(void);
+void backend_init_graphics(void *display);
 void backend_realize_graphics(
     int width, int height, int scale_factor,
     void *context, void *display, void *config
 );
+void backend_unrealize_graphics(void);
 void backend_render_graphics(void);
 void backend_render_shape(void *shape);
 
