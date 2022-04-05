@@ -122,32 +122,30 @@ enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape) {
     }
 }
 
-struct exchanged_data_t {
+struct run_exchanged_data_t {
     const char* buffer;
     const char* filename;
     void (*later)(cascad_shape_t);
 };
 
-static int worker_entry_point(void *param) {
-    struct exchanged_data_t *data = (struct exchanged_data_t *)param;
+static int run_worker_entry_point(void *param) {
+    struct run_exchanged_data_t *data = (struct run_exchanged_data_t *)param;
     
     info("\nCompiling...\n");
     cascad_ast_t ast = cascad_load_string(data->buffer);
     if(!ast) {
-        if(!ast) error("file '%s' could not be parsed\n", data->filename);
+        error("file '%s' could not be parsed.\n", data->filename);
         data->later(NULL);
         return 1;
     }
     cascad_context_t ctx = cascad_gen_context(ast, data->filename);
     if(!ctx) {
-        if(!ast) error("file '%s' could not be compiled\n", data->filename);
+        error("file '%s' could not be compiled.\n", data->filename);
         data->later(NULL);
         return 2;
     }
     info("Rendering...\n");
     cascad_shape_t output = cascad_execute(ctx);
-    info("Done.\n");
-    
     enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
     if(shape_type == CASCAD_INVALID) {
         error(
@@ -156,10 +154,12 @@ static int worker_entry_point(void *param) {
         data->later(NULL);
         return 3;
     }
+    info("Done.\n");
+    
     if(shape_type == CASCAD_EMPTY) {
         warning("warning: script execution produced empty shape.\n");
     }
-    data->later(output);
+    if(data->later) data->later(output);
     return 0;
 }
 
@@ -167,12 +167,46 @@ void cascad_run_string_async(
     const char* buffer, const char *filename, void (*later)(cascad_shape_t)
 ) {
     thrd_t thread_id;
-    struct exchanged_data_t *data =
-        (struct exchanged_data_t *) malloc(sizeof(struct exchanged_data_t));
+    struct run_exchanged_data_t *data =
+        (struct run_exchanged_data_t *) malloc(sizeof(struct run_exchanged_data_t));
     data->buffer = buffer;
     data->filename = filename;
     data->later = later;
-    thrd_create(&thread_id, worker_entry_point, data);
+    thrd_create(&thread_id, run_worker_entry_point, data);
+}
+
+struct stl_exchanged_data_t {
+    cascad_shape_t shape;
+    const char* filename;
+    int ascii;
+    void (*later)(void);
+};
+
+static int stl_worker_entry_point(void *param) {
+    struct stl_exchanged_data_t *data = (struct stl_exchanged_data_t *)param;
+    
+    info("\nExporting...\n");
+    int status = cascad_export_stl(data->shape, data->filename, data->ascii);
+    if(status) {
+        error("file '%s' could not be exported as STL.\n", data->filename);
+        if(data->later) data->later();
+        return 1;
+    }
+    info("Done.\n");
+    return 0;
+}
+
+extern void cascad_export_stl_async(
+    cascad_shape_t shape, const char *filename, int ascii, void (*later)(void)
+) {
+    thrd_t thread_id;
+    struct stl_exchanged_data_t *data =
+        (struct stl_exchanged_data_t *) malloc(sizeof(struct stl_exchanged_data_t));
+    data->shape = shape;
+    data->filename = filename;
+    data->ascii = ascii;
+    data->later = later;
+    thrd_create(&thread_id, stl_worker_entry_point, data);
 }
 
 

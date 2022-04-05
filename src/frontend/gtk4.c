@@ -2,6 +2,7 @@
 
 #ifdef HAVE_GUI
 #include "frontend.h"
+#include "resources.h"
 #include <EGL/egl.h>
 #include <gdk/x11/gdkx.h>
 #include <gtk/gtk.h>
@@ -14,15 +15,6 @@ GtkTextBuffer *code_buffer;
 GtkWidget *viewer;
 GtkWidget *console;
 GtkTextBuffer *console_buffer;
-static void (*run_at_startup)(void) = NULL;
-static void (*run_at_viewer_realize)(int, int, int, void *, void *, void *) = NULL;
-static void (*run_at_viewer_unrealize)(void) = NULL;
-static void (*run_at_viewer_render)(void) = NULL;
-static void (*run_at_preview)(void) = NULL;
-
-void frontend_run_at_gl_realize(void (*callback)(int, int, int, void *, void *, void *)) {
-    run_at_viewer_realize = callback;
-}
 
 static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
     gtk_gl_area_make_current(GTK_GL_AREA(self));
@@ -47,7 +39,7 @@ static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
         void* egl_config = NULL;
         eglChooseConfig(egl_display, config_attributes, &egl_config, 1, &num_configs);
         
-        run_at_viewer_realize(
+        gui_run_at_gl_realize(
             width, height, scale_factor,
             (void *) egl_context, (void *) egl_display, (void *) egl_config
         );
@@ -59,42 +51,34 @@ static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
         Display *xdisplay = gdk_x11_display_get_xdisplay(display);
         Window gl_window = gdk_x11_surface_get_xid(surface);
         
-        run_at_viewer_realize(
+        gui_run_at_gl_realize(
             width, height, scale_factor,
             (void *) NULL, (void *) xdisplay, (void *) gl_window
         );
     }
 }
 
-void frontend_run_at_gl_unrealize(void (*callback)(void)) {
-    run_at_viewer_unrealize = callback;
-}
-
 static void viewer_unrealize_callback(GtkWidget *self, gpointer user_data) {
     gtk_gl_area_make_current(GTK_GL_AREA(self));
-    run_at_viewer_unrealize();
-}
-
-void frontend_run_at_gl_render(void (*callback)(void)) {
-    run_at_viewer_render = callback;
+    gui_run_at_gl_unrealize();
 }
 
 static void viewer_render_callback(GtkGLArea *self, GdkGLContext *context, gpointer user_data) {
-    run_at_viewer_render();
-}
-
-void frontend_run_at_preview(void (*callback)(void)) {
-    run_at_preview = callback;
+    gui_run_at_gl_render();
 }
 
 static void button_preview_callback(GtkGLArea *self, gpointer user_data) {
-    run_at_preview();
+    gui_run_at_preview();
     GdkGLContext* gdk_gl_context = gdk_gl_context_get_current();
     GdkDisplay* display = gdk_gl_context_get_display(gdk_gl_context);
     gdk_display_flush(display);
 }
 
-void add_style(GtkWidget *widget, const char *css) {
+static void button_stl_callback(GtkGLArea *self, gpointer user_data) {
+    gui_run_at_export_stl();
+}
+
+static void add_style(GtkWidget *widget, const char *css) {
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gtk_css_provider_load_from_data(css_provider, css, -1);
     GtkStyleContext *style_context =
@@ -104,6 +88,16 @@ void add_style(GtkWidget *widget, const char *css) {
         GTK_STYLE_PROVIDER(css_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
     );
+}
+
+static GtkWidget *frontend_new_icon_button(const void *data) {
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data(
+        data, GDK_COLORSPACE_RGB, 1, 8, 24, 24, 4 * 24, NULL, NULL
+    );
+    GtkWidget *image = gtk_image_new_from_pixbuf(pixbuf);
+    GtkWidget *button = gtk_button_new();
+    gtk_button_set_child(GTK_BUTTON(button), image);
+    return button;
 }
 
 void frontend_create(const char *name) {
@@ -124,12 +118,16 @@ void frontend_create(const char *name) {
         
             GtkWidget *button_bar1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
             gtk_widget_set_hexpand(v_box1, 1);
+            add_style(button_bar1, "box {background-color: #d8d8d8;}");
             gtk_box_append(GTK_BOX(v_box1), button_bar1);
                 
-                GtkWidget *button_view1 = gtk_button_new_from_icon_name("arrow-right-double");
+                GtkWidget *button_view1 = frontend_new_icon_button(&ICON_RENDER_pixel_data);
                 g_signal_connect(button_view1, "clicked", G_CALLBACK(button_preview_callback), NULL);
-                gtk_widget_set_sensitive(button_view1, 1);
                 gtk_box_append(GTK_BOX(button_bar1), button_view1);
+                
+                GtkWidget *button_stl = frontend_new_icon_button(&ICON_STL_pixel_data);
+                g_signal_connect(button_stl, "clicked", G_CALLBACK(button_stl_callback), NULL);
+                gtk_box_append(GTK_BOX(button_bar1), button_stl);
     
             code_editor = gtk_text_view_new();
             gtk_widget_set_hexpand(code_editor, 1);
@@ -155,7 +153,7 @@ void frontend_create(const char *name) {
             gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(editor_container), code_editor);
             gtk_box_append(GTK_BOX(v_box1), editor_container);
         
-        GtkWidget *v_box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+        GtkWidget *v_box2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_widget_set_hexpand(v_box2, 1);
         gtk_widget_set_vexpand(v_box2, 1);
         gtk_box_append(GTK_BOX(h_box), v_box2);
@@ -169,9 +167,10 @@ void frontend_create(const char *name) {
             gtk_box_append(GTK_BOX(v_box2), viewer);
         
             GtkWidget *button_bar2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+            add_style(button_bar2, "box {background-color: #d8d8d8;}");
             gtk_box_append(GTK_BOX(v_box2), button_bar2);
             
-                GtkWidget *button_view2 = gtk_button_new_from_icon_name("arrow-right-double");
+                GtkWidget *button_view2 = frontend_new_icon_button(&ICON_RENDER_pixel_data);
                 g_signal_connect(button_view2, "clicked", G_CALLBACK(button_preview_callback), NULL);
                 gtk_box_append(GTK_BOX(button_bar2), button_view2);
             
@@ -203,12 +202,8 @@ void frontend_create(const char *name) {
     gtk_widget_show(window);
 }
 
-void frontend_run_at_startup(void (*callback)(void)) {
-    run_at_startup = callback;
-}
-
 static void activate_callback(GtkApplication* app, gpointer user_data) {
-    if(run_at_startup) run_at_startup();
+    gui_run_at_startup();
 }
 
 const char *frontend_get_editor_text(void) {
@@ -237,6 +232,35 @@ static gboolean frontend_console_print_main_thread(gpointer user_data) {
 
 void frontend_console_print(const char *msg) {
     g_idle_add(frontend_console_print_main_thread, (gpointer) strdup(msg));
+}
+
+void (*current_save_response_callback)(const char *) = NULL;
+
+static void save_response_callback(GtkDialog *dialog, int response)
+{
+  if (response == GTK_RESPONSE_ACCEPT) {
+      GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+      GFile *file = gtk_file_chooser_get_file(chooser);
+      const char *path = g_file_get_path(file);
+      current_save_response_callback(path);
+  }
+
+  gtk_window_destroy (GTK_WINDOW (dialog));
+}
+
+void frontend_ask_save_filename(void (*callback)(const char *)) {
+    current_save_response_callback = callback;
+    GtkWidget *dialog = gtk_file_chooser_dialog_new(
+        "Export as STL", GTK_WINDOW(window), GTK_FILE_CHOOSER_ACTION_SAVE,
+        "Cancel", GTK_RESPONSE_CANCEL,
+        "Export", GTK_RESPONSE_ACCEPT, NULL
+    );
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+    gtk_file_chooser_set_current_name(chooser, "Untitled.stl");
+    gtk_widget_show(dialog);
+    g_signal_connect(
+        dialog, "response", G_CALLBACK(save_response_callback), NULL
+    );
 }
 
 void frontend_main(int argc, char *argv[]) {

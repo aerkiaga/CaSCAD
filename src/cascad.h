@@ -79,8 +79,21 @@ typedef struct t_cascad_shape_t *cascad_shape_t;
 /* Run an interpreter context. */
 extern cascad_shape_t cascad_execute(cascad_context_t context);
 
+/* Call cascad_load_string, cascad_gen_context and cascad_execute in another thread. */
+/* The function `later` is called with the eventual resulting shape. */
+extern void cascad_run_string_async(
+    const char* buffer, const char *filename, void (*later)(cascad_shape_t)
+);
+
 /* Export a shape as STL file, either ascii or binary. */
-int cascad_export_stl(cascad_shape_t shape, const char *path, int ascii);
+/* Return zero on success. */
+extern int cascad_export_stl(cascad_shape_t shape, const char *path, int ascii);
+
+/* Call cascad_export_stl in another thread, to export `shape` as STL. */
+/* The function `later` is called with the eventual resulting status. */
+extern void cascad_export_stl_async(
+    cascad_shape_t shape, const char *filename, int ascii, void (*later)(void)
+);
 
 /* A value indicating what type a shape is. */
 enum cascad_shape_type_t {
@@ -91,10 +104,3 @@ enum cascad_shape_type_t {
 
 /* Query the shape type of a shape. */
 extern enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape);
-
-/* Call cascad_load_string, cascad_gen_context and cascad_execute in another thread. */
-/* The function `later` is called with the eventual resulting shape. */
-extern void cascad_run_string_async(
-    const char* buffer, const char *filename, void (*later)(cascad_shape_t)
-);
-
