@@ -17381,6 +17381,141 @@ _ACEOF
 
 fi
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE in -lTKV3d" >&5
+$as_echo_n "checking for _ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE in -lTKV3d... " >&6; }
+if ${ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lTKV3d  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char _ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE ();
+int
+main ()
+{
+return _ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE=yes
+else
+  ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE" >&5
+$as_echo "$ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE" >&6; }
+if test "x$ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBTKV3D 1
+_ACEOF
+
+  LIBS="-lTKV3d $LIBS"
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb in -lTKOpenGl" >&5
+$as_echo_n "checking for _ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb in -lTKOpenGl... " >&6; }
+if ${ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lTKOpenGl  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char _ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb ();
+int
+main ()
+{
+return _ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb=yes
+else
+  ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb" >&5
+$as_echo "$ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb" >&6; }
+if test "x$ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBTKOPENGL 1
+_ACEOF
+
+  LIBS="-lTKOpenGl $LIBS"
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN24Aspect_DisplayConnectionC2Ev in -lTKService" >&5
+$as_echo_n "checking for _ZN24Aspect_DisplayConnectionC2Ev in -lTKService... " >&6; }
+if ${ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lTKService  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char _ZN24Aspect_DisplayConnectionC2Ev ();
+int
+main ()
+{
+return _ZN24Aspect_DisplayConnectionC2Ev ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev=yes
+else
+  ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev" >&5
+$as_echo "$ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev" >&6; }
+if test "x$ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBTKSERVICE 1
+_ACEOF
+
+  LIBS="-lTKService $LIBS"
+
+fi
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL" >&5
 $as_echo_n "checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL... " >&6; }
 if ${ac_cv_lib_TKSTL__ZN6StlAPI5WriteERK12TopoDS_ShapePKcb+:} false; then :
@@ -17695,7 +17830,7 @@ _ACEOF
 
 fi
 
-for ac_header in inttypes.h libintl.h limits.h malloc.h stddef.h stdint.h stdlib.h string.h unistd.h
+for ac_header in inttypes.h libintl.h limits.h malloc.h stddef.h stdint.h stdlib.h string.h threads.h unistd.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

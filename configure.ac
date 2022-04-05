@@ -23,6 +23,9 @@ AC_CHECK_LIB([TKBRep], [_ZNK13TopoDS_TSolid9EmptyCopyEv])
 AC_CHECK_LIB([TKMesh], [_ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb])
 AC_CHECK_LIB([TKBO], [_ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange])
 AC_CHECK_LIB([TKPrim], [_ZN20BRepPrimAPI_MakeConeC2Eddd])
+AC_CHECK_LIB([TKV3d], [_ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE])
+AC_CHECK_LIB([TKOpenGl], [_ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb])
+AC_CHECK_LIB([TKService], [_ZN24Aspect_DisplayConnectionC2Ev])
 AC_CHECK_LIB([TKSTL], [_ZN6StlAPI5WriteERK12TopoDS_ShapePKcb])
 
 # Optional GTK4 frontend
@@ -49,7 +52,7 @@ AS_IF([test "x$with_gtk4" != xno],
 
 # Checks for header files.
 AC_FUNC_ALLOCA
-AC_CHECK_HEADERS([inttypes.h libintl.h limits.h malloc.h stddef.h stdint.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([inttypes.h libintl.h limits.h malloc.h stddef.h stdint.h stdlib.h string.h threads.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE

@@ -263,7 +263,7 @@ LEX_OUTPUT_ROOT = lex.yy
 LIBGTK4_CPP = -mfpmath=sse -msse -msse2 -pthread -I/usr/include/gtk-4.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/graphene-1.0 -I/usr/lib/x86_64-linux-gnu/graphene-1.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
 LIBGTK4_LD = -lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0
 LIBOBJS = 
-LIBS = -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel 
+LIBS = -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
@@ -351,9 +351,11 @@ top_srcdir = ..
 BUILT_SOURCES = parser.h
 AM_YFLAGS = -d
 AM_CPPFLAGS = -DPATH_DATADIR="\"$(datadir)\"" \
-	-I"/usr/include/opencascade" -lTKernel $(LIBGTK4_CPP)
-AM_LDFLAGS = -lTKSTL -lTKPrim -lTKMesh -lTKBO -lTKBRep -lTKMath \
-	-lTKernel $(LIBGTK4_LD)
+	-I"/usr/include/opencascade" \
+	-I"/usr/local/include/opencascade" $(LIBGTK4_CPP)
+AM_LDFLAGS = -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKMesh \
+	-lTKBO -lTKBRep -lTKMath -lTKernel $(LIBGTK4_LD) -lEGL \
+	-lpthread
 cascad_SOURCES = ast.c builtin.c compiler.c deps.c gui.c interpreter.c \
 	lexer.l lib.c main.c parser.y strutils.c tree.c ast.h \
 	builtin.h cascad.h compiler.h context.h deps.h frontend.h \

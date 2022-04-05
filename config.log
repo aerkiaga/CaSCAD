@@ -541,11 +541,11 @@ configure:12363: checking lex output file root
 configure:12377: result: lex.yy
 configure:12382: checking lex library
 configure:12396: gcc -o conftest -g -O2   conftest.c   >&5
-/usr/bin/ld: /tmp/cctnTIzr.o: in function `input':
+/usr/bin/ld: /tmp/ccIOmTNq.o: in function `input':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:1180: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cctnTIzr.o: in function `yylex':
+/usr/bin/ld: /tmp/ccIOmTNq.o: in function `yylex':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:871: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cctnTIzr.o: in function `main':
+/usr/bin/ld: /tmp/ccIOmTNq.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
 configure:12396: $? = 1
@@ -2394,23 +2394,35 @@ configure:12807: checking for _ZN20BRepPrimAPI_MakeConeC2Eddd in -lTKPrim
 configure:12832: gcc -o conftest -g -O2   conftest.c -lTKPrim  -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 configure:12832: $? = 0
 configure:12841: result: yes
-configure:12852: checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL
-configure:12877: gcc -o conftest -g -O2   conftest.c -lTKSTL  -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12852: checking for _ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE in -lTKV3d
+configure:12877: gcc -o conftest -g -O2   conftest.c -lTKV3d  -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 configure:12877: $? = 0
 configure:12886: result: yes
-configure:12910: checking for gtk_application_window_new in -lgtk-4
-configure:12935: gcc -o conftest -g -O2   conftest.c -lgtk-4 -lncurses -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12935: $? = 0
-configure:12944: result: yes
-configure:12969: checking for size_t
-configure:12969: gcc -c -g -O2  conftest.c >&5
-configure:12969: $? = 0
-configure:12969: gcc -c -g -O2  conftest.c >&5
+configure:12897: checking for _ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb in -lTKOpenGl
+configure:12922: gcc -o conftest -g -O2   conftest.c -lTKOpenGl  -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12922: $? = 0
+configure:12931: result: yes
+configure:12942: checking for _ZN24Aspect_DisplayConnectionC2Ev in -lTKService
+configure:12967: gcc -o conftest -g -O2   conftest.c -lTKService  -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:12967: $? = 0
+configure:12976: result: yes
+configure:12987: checking for _ZN6StlAPI5WriteERK12TopoDS_ShapePKcb in -lTKSTL
+configure:13012: gcc -o conftest -g -O2   conftest.c -lTKSTL  -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13012: $? = 0
+configure:13021: result: yes
+configure:13045: checking for gtk_application_window_new in -lgtk-4
+configure:13070: gcc -o conftest -g -O2   conftest.c -lgtk-4 -lncurses -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13070: $? = 0
+configure:13079: result: yes
+configure:13104: checking for size_t
+configure:13104: gcc -c -g -O2  conftest.c >&5
+configure:13104: $? = 0
+configure:13104: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:68:21: error: expected expression before ')' token
-   68 | if (sizeof ((size_t)))
+conftest.c:71:21: error: expected expression before ')' token
+   71 | if (sizeof ((size_t)))
       |                     ^
-configure:12969: $? = 1
+configure:13104: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2440,6 +2452,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | /* end confdefs.h.  */
@@ -2484,78 +2499,88 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:12969: result: yes
-configure:12982: checking for working alloca.h
-configure:12999: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:12999: $? = 0
-configure:13007: result: yes
-configure:13015: checking for alloca
-configure:13052: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13052: $? = 0
-configure:13060: result: yes
-configure:13169: checking for inttypes.h
-configure:13169: result: yes
-configure:13169: checking libintl.h usability
-configure:13169: gcc -c -g -O2  conftest.c >&5
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking libintl.h presence
-configure:13169: gcc -E  conftest.c
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking for libintl.h
-configure:13169: result: yes
-configure:13169: checking limits.h usability
-configure:13169: gcc -c -g -O2  conftest.c >&5
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking limits.h presence
-configure:13169: gcc -E  conftest.c
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking for limits.h
-configure:13169: result: yes
-configure:13169: checking malloc.h usability
-configure:13169: gcc -c -g -O2  conftest.c >&5
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking malloc.h presence
-configure:13169: gcc -E  conftest.c
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking for malloc.h
-configure:13169: result: yes
-configure:13169: checking stddef.h usability
-configure:13169: gcc -c -g -O2  conftest.c >&5
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking stddef.h presence
-configure:13169: gcc -E  conftest.c
-configure:13169: $? = 0
-configure:13169: result: yes
-configure:13169: checking for stddef.h
-configure:13169: result: yes
-configure:13169: checking for stdint.h
-configure:13169: result: yes
-configure:13169: checking for stdlib.h
-configure:13169: result: yes
-configure:13169: checking for string.h
-configure:13169: result: yes
-configure:13169: checking for unistd.h
-configure:13169: result: yes
-configure:13181: checking for inline
-configure:13197: gcc -c -g -O2  conftest.c >&5
-configure:13197: $? = 0
-configure:13205: result: inline
-configure:13223: checking for int16_t
-configure:13223: gcc -c -g -O2  conftest.c >&5
-configure:13223: $? = 0
-configure:13223: gcc -c -g -O2  conftest.c >&5
+configure:13104: result: yes
+configure:13117: checking for working alloca.h
+configure:13134: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13134: $? = 0
+configure:13142: result: yes
+configure:13150: checking for alloca
+configure:13187: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13187: $? = 0
+configure:13195: result: yes
+configure:13304: checking for inttypes.h
+configure:13304: result: yes
+configure:13304: checking libintl.h usability
+configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking libintl.h presence
+configure:13304: gcc -E  conftest.c
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking for libintl.h
+configure:13304: result: yes
+configure:13304: checking limits.h usability
+configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking limits.h presence
+configure:13304: gcc -E  conftest.c
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking for limits.h
+configure:13304: result: yes
+configure:13304: checking malloc.h usability
+configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking malloc.h presence
+configure:13304: gcc -E  conftest.c
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking for malloc.h
+configure:13304: result: yes
+configure:13304: checking stddef.h usability
+configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking stddef.h presence
+configure:13304: gcc -E  conftest.c
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking for stddef.h
+configure:13304: result: yes
+configure:13304: checking for stdint.h
+configure:13304: result: yes
+configure:13304: checking for stdlib.h
+configure:13304: result: yes
+configure:13304: checking for string.h
+configure:13304: result: yes
+configure:13304: checking threads.h usability
+configure:13304: gcc -c -g -O2  conftest.c >&5
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking threads.h presence
+configure:13304: gcc -E  conftest.c
+configure:13304: $? = 0
+configure:13304: result: yes
+configure:13304: checking for threads.h
+configure:13304: result: yes
+configure:13304: checking for unistd.h
+configure:13304: result: yes
+configure:13316: checking for inline
+configure:13332: gcc -c -g -O2  conftest.c >&5
+configure:13332: $? = 0
+configure:13340: result: inline
+configure:13358: checking for int16_t
+configure:13358: gcc -c -g -O2  conftest.c >&5
+configure:13358: $? = 0
+configure:13358: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:80:12: error: size of array 'test_array' is negative
-   80 | static int test_array [1 - 2 * !((int16_t) (((((int16_t) 1 << N) << N) - 1) * 2 + 1)
+conftest.c:84:12: error: size of array 'test_array' is negative
+   84 | static int test_array [1 - 2 * !((int16_t) (((((int16_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13223: $? = 1
+configure:13358: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2585,6 +2610,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | #define HAVE_ALLOCA_H 1
@@ -2597,6 +2625,7 @@ configure: failed program was:
 | #define HAVE_STDINT_H 1
 | #define HAVE_STDLIB_H 1
 | #define HAVE_STRING_H 1
+| #define HAVE_THREADS_H 1
 | #define HAVE_UNISTD_H 1
 | /* end confdefs.h.  */
 | #include <stdio.h>
@@ -2644,19 +2673,19 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13223: result: yes
-configure:13234: checking for int32_t
-configure:13234: gcc -c -g -O2  conftest.c >&5
-configure:13234: $? = 0
-configure:13234: gcc -c -g -O2  conftest.c >&5
+configure:13358: result: yes
+configure:13369: checking for int32_t
+configure:13369: gcc -c -g -O2  conftest.c >&5
+configure:13369: $? = 0
+configure:13369: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:81:53: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
-   81 |    < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
+conftest.c:85:53: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
+   85 |    < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
       |                                                     ^
-conftest.c:80:12: error: storage size of 'test_array' isn't constant
-   80 | static int test_array [1 - 2 * !((int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 1)
+conftest.c:84:12: error: storage size of 'test_array' isn't constant
+   84 | static int test_array [1 - 2 * !((int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13234: $? = 1
+configure:13369: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2686,6 +2715,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | #define HAVE_ALLOCA_H 1
@@ -2698,6 +2730,7 @@ configure: failed program was:
 | #define HAVE_STDINT_H 1
 | #define HAVE_STDLIB_H 1
 | #define HAVE_STRING_H 1
+| #define HAVE_THREADS_H 1
 | #define HAVE_UNISTD_H 1
 | /* end confdefs.h.  */
 | #include <stdio.h>
@@ -2745,16 +2778,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13234: result: yes
-configure:13245: checking for int8_t
-configure:13245: gcc -c -g -O2  conftest.c >&5
-configure:13245: $? = 0
-configure:13245: gcc -c -g -O2  conftest.c >&5
+configure:13369: result: yes
+configure:13380: checking for int8_t
+configure:13380: gcc -c -g -O2  conftest.c >&5
+configure:13380: $? = 0
+configure:13380: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:80:12: error: size of array 'test_array' is negative
-   80 | static int test_array [1 - 2 * !((int8_t) (((((int8_t) 1 << N) << N) - 1) * 2 + 1)
+conftest.c:84:12: error: size of array 'test_array' is negative
+   84 | static int test_array [1 - 2 * !((int8_t) (((((int8_t) 1 << N) << N) - 1) * 2 + 1)
       |            ^~~~~~~~~~
-configure:13245: $? = 1
+configure:13380: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2784,6 +2817,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | #define HAVE_ALLOCA_H 1
@@ -2796,6 +2832,7 @@ configure: failed program was:
 | #define HAVE_STDINT_H 1
 | #define HAVE_STDLIB_H 1
 | #define HAVE_STRING_H 1
+| #define HAVE_THREADS_H 1
 | #define HAVE_UNISTD_H 1
 | /* end confdefs.h.  */
 | #include <stdio.h>
@@ -2843,30 +2880,30 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13245: result: yes
-configure:13256: checking for size_t
-configure:13256: result: yes
-configure:13267: checking for uint16_t
-configure:13267: gcc -c -g -O2  conftest.c >&5
-configure:13267: $? = 0
-configure:13267: result: yes
-configure:13279: checking for uint32_t
-configure:13279: gcc -c -g -O2  conftest.c >&5
-configure:13279: $? = 0
-configure:13279: result: yes
-configure:13293: checking for uint8_t
-configure:13293: gcc -c -g -O2  conftest.c >&5
-configure:13293: $? = 0
-configure:13293: result: yes
-configure:13307: checking for ptrdiff_t
-configure:13307: gcc -c -g -O2  conftest.c >&5
-configure:13307: $? = 0
-configure:13307: gcc -c -g -O2  conftest.c >&5
+configure:13380: result: yes
+configure:13391: checking for size_t
+configure:13391: result: yes
+configure:13402: checking for uint16_t
+configure:13402: gcc -c -g -O2  conftest.c >&5
+configure:13402: $? = 0
+configure:13402: result: yes
+configure:13414: checking for uint32_t
+configure:13414: gcc -c -g -O2  conftest.c >&5
+configure:13414: $? = 0
+configure:13414: result: yes
+configure:13428: checking for uint8_t
+configure:13428: gcc -c -g -O2  conftest.c >&5
+configure:13428: $? = 0
+configure:13428: result: yes
+configure:13442: checking for ptrdiff_t
+configure:13442: gcc -c -g -O2  conftest.c >&5
+configure:13442: $? = 0
+configure:13442: gcc -c -g -O2  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:79:24: error: expected expression before ')' token
-   79 | if (sizeof ((ptrdiff_t)))
+conftest.c:83:24: error: expected expression before ')' token
+   83 | if (sizeof ((ptrdiff_t)))
       |                        ^
-configure:13307: $? = 1
+configure:13442: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -2896,6 +2933,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | #define HAVE_ALLOCA_H 1
@@ -2908,6 +2948,7 @@ configure: failed program was:
 | #define HAVE_STDINT_H 1
 | #define HAVE_STDLIB_H 1
 | #define HAVE_STRING_H 1
+| #define HAVE_THREADS_H 1
 | #define HAVE_UNISTD_H 1
 | /* end confdefs.h.  */
 | #include <stdio.h>
@@ -2951,43 +2992,43 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13307: result: yes
-configure:13319: checking for error_at_line
-configure:13335: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13335: $? = 0
-configure:13343: result: yes
-configure:13356: checking for stdlib.h
-configure:13356: result: yes
-configure:13366: checking for GNU libc compatible malloc
-configure:13390: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13390: $? = 0
-configure:13390: ./conftest
-configure:13390: $? = 0
-configure:13400: result: yes
-configure:13423: checking for stdlib.h
-configure:13423: result: yes
-configure:13433: checking for GNU libc compatible realloc
-configure:13457: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13457: $? = 0
-configure:13457: ./conftest
-configure:13457: $? = 0
-configure:13467: result: yes
-configure:13490: checking for vprintf
-configure:13490: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:71:6: warning: conflicting types for built-in function 'vprintf'; expected 'int(const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
-   71 | char vprintf ();
+configure:13442: result: yes
+configure:13454: checking for error_at_line
+configure:13470: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13470: $? = 0
+configure:13478: result: yes
+configure:13491: checking for stdlib.h
+configure:13491: result: yes
+configure:13501: checking for GNU libc compatible malloc
+configure:13525: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13525: $? = 0
+configure:13525: ./conftest
+configure:13525: $? = 0
+configure:13535: result: yes
+configure:13558: checking for stdlib.h
+configure:13558: result: yes
+configure:13568: checking for GNU libc compatible realloc
+configure:13592: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13592: $? = 0
+configure:13592: ./conftest
+configure:13592: $? = 0
+configure:13602: result: yes
+configure:13625: checking for vprintf
+configure:13625: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:75:6: warning: conflicting types for built-in function 'vprintf'; expected 'int(const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
+   75 | char vprintf ();
       |      ^~~~~~~
-conftest.c:59:1: note: 'vprintf' is declared in header '<stdio.h>'
-   58 | # include <limits.h>
-   59 | #else
-configure:13490: $? = 0
-configure:13490: result: yes
-configure:13496: checking for _doprnt
-configure:13496: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-/usr/bin/ld: /tmp/ccyPAjTW.o: in function `main':
-/home/user/Desktop/C/CaSCAD/conftest.c:83: undefined reference to `_doprnt'
+conftest.c:63:1: note: 'vprintf' is declared in header '<stdio.h>'
+   62 | # include <limits.h>
+   63 | #else
+configure:13625: $? = 0
+configure:13625: result: yes
+configure:13631: checking for _doprnt
+configure:13631: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+/usr/bin/ld: /tmp/ccWCz3rO.o: in function `main':
+/home/user/Desktop/C/CaSCAD/conftest.c:87: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
-configure:13496: $? = 1
+configure:13631: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "CaSCAD"
@@ -3017,6 +3058,9 @@ configure: failed program was:
 | #define HAVE_LIBTKMESH 1
 | #define HAVE_LIBTKBO 1
 | #define HAVE_LIBTKPRIM 1
+| #define HAVE_LIBTKV3D 1
+| #define HAVE_LIBTKOPENGL 1
+| #define HAVE_LIBTKSERVICE 1
 | #define HAVE_LIBTKSTL 1
 | #define HAVE_LIBGTK4 1
 | #define HAVE_ALLOCA_H 1
@@ -3029,6 +3073,7 @@ configure: failed program was:
 | #define HAVE_STDINT_H 1
 | #define HAVE_STDLIB_H 1
 | #define HAVE_STRING_H 1
+| #define HAVE_THREADS_H 1
 | #define HAVE_UNISTD_H 1
 | #define HAVE_PTRDIFF_T 1
 | #define HAVE_STDLIB_H 1
@@ -3075,86 +3120,86 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:13496: result: no
-configure:13510: checking for basename
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for dirname
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for memset
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:74:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   74 | char memset ();
+configure:13631: result: no
+configure:13645: checking for basename
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for dirname
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for memset
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:78:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   78 | char memset ();
       |      ^~~~~~
-conftest.c:62:1: note: 'memset' is declared in header '<string.h>'
-   61 | # include <limits.h>
-   62 | #else
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for realpath
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strchr
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:76:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   76 | char strchr ();
-      |      ^~~~~~
-conftest.c:64:1: note: 'strchr' is declared in header '<string.h>'
-   63 | # include <limits.h>
-   64 | #else
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strcmp
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:77:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   77 | char strcmp ();
-      |      ^~~~~~
-conftest.c:65:1: note: 'strcmp' is declared in header '<string.h>'
-   64 | # include <limits.h>
-   65 | #else
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strcspn
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:78:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   78 | char strcspn ();
-      |      ^~~~~~~
-conftest.c:66:1: note: 'strcspn' is declared in header '<string.h>'
+conftest.c:66:1: note: 'memset' is declared in header '<string.h>'
    65 | # include <limits.h>
    66 | #else
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strdup
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:79:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
-   79 | char strdup ();
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for realpath
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strchr
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:80:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   80 | char strchr ();
       |      ^~~~~~
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strndup
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:80:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   80 | char strndup ();
-      |      ^~~~~~~
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13510: checking for strrchr
-configure:13510: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:81:6: warning: conflicting types for built-in function 'strrchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   81 | char strrchr ();
-      |      ^~~~~~~
-conftest.c:69:1: note: 'strrchr' is declared in header '<string.h>'
+conftest.c:68:1: note: 'strchr' is declared in header '<string.h>'
+   67 | # include <limits.h>
+   68 | #else
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strcmp
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:81:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   81 | char strcmp ();
+      |      ^~~~~~
+conftest.c:69:1: note: 'strcmp' is declared in header '<string.h>'
    68 | # include <limits.h>
    69 | #else
-configure:13510: $? = 0
-configure:13510: result: yes
-configure:13623: checking that generated files are newer than configure
-configure:13629: result: done
-configure:13660: creating ./config.status
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strcspn
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:82:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   82 | char strcspn ();
+      |      ^~~~~~~
+conftest.c:70:1: note: 'strcspn' is declared in header '<string.h>'
+   69 | # include <limits.h>
+   70 | #else
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strdup
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:83:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
+   83 | char strdup ();
+      |      ^~~~~~
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strndup
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:84:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   84 | char strndup ();
+      |      ^~~~~~~
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13645: checking for strrchr
+configure:13645: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:85:6: warning: conflicting types for built-in function 'strrchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   85 | char strrchr ();
+      |      ^~~~~~~
+conftest.c:73:1: note: 'strrchr' is declared in header '<string.h>'
+   72 | # include <limits.h>
+   73 | #else
+configure:13645: $? = 0
+configure:13645: result: yes
+configure:13758: checking that generated files are newer than configure
+configure:13764: result: done
+configure:13795: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -3171,15 +3216,13 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:1191: creating Makefile
-config.status:1191: creating src/Makefile
-config.status:1191: creating src/config.h
-config.status:1372: src/config.h is unchanged
-config.status:1420: executing depfiles commands
-config.status:1497: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
-config.status:1502: $? = 0
-config.status:1420: executing libtool commands
+config.status:1195: creating Makefile
+config.status:1195: creating src/Makefile
+config.status:1195: creating src/config.h
+config.status:1424: executing depfiles commands
+config.status:1501: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1506: $? = 0
+config.status:1424: executing libtool commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -3256,14 +3299,18 @@ ac_cv_header_string_h=yes
 ac_cv_header_strings_h=yes
 ac_cv_header_sys_stat_h=yes
 ac_cv_header_sys_types_h=yes
+ac_cv_header_threads_h=yes
 ac_cv_header_unistd_h=yes
 ac_cv_host=x86_64-pc-linux-gnu
 ac_cv_lib_TKBO__ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange=yes
 ac_cv_lib_TKBRep__ZNK13TopoDS_TSolid9EmptyCopyEv=yes
 ac_cv_lib_TKMath__ZN6gp_Ax2C2ERK6gp_PntRK6gp_Dir=yes
 ac_cv_lib_TKMesh__ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb=yes
+ac_cv_lib_TKOpenGl__ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb=yes
 ac_cv_lib_TKPrim__ZN20BRepPrimAPI_MakeConeC2Eddd=yes
 ac_cv_lib_TKSTL__ZN6StlAPI5WriteERK12TopoDS_ShapePKcb=yes
+ac_cv_lib_TKService__ZN24Aspect_DisplayConnectionC2Ev=yes
+ac_cv_lib_TKV3d__ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE=yes
 ac_cv_lib_TKernel__ZN8Standard8AllocateEm=yes
 ac_cv_lib_error_at_line=yes
 ac_cv_lib_gtk_4_gtk_application_window_new=yes
@@ -3389,7 +3436,7 @@ LEX_OUTPUT_ROOT='lex.yy'
 LIBGTK4_CPP='-mfpmath=sse -msse -msse2 -pthread -I/usr/include/gtk-4.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/graphene-1.0 -I/usr/lib/x86_64-linux-gnu/graphene-1.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include'
 LIBGTK4_LD='-lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0'
 LIBOBJS=''
-LIBS='-lTKSTL -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel '
+LIBS='-lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel '
 LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 LIPO=''
 LN_S='ln -s'
@@ -3506,6 +3553,9 @@ target_alias=''
 #define HAVE_LIBTKMESH 1
 #define HAVE_LIBTKBO 1
 #define HAVE_LIBTKPRIM 1
+#define HAVE_LIBTKV3D 1
+#define HAVE_LIBTKOPENGL 1
+#define HAVE_LIBTKSERVICE 1
 #define HAVE_LIBTKSTL 1
 #define HAVE_LIBGTK4 1
 #define HAVE_ALLOCA_H 1
@@ -3518,6 +3568,7 @@ target_alias=''
 #define HAVE_STDINT_H 1
 #define HAVE_STDLIB_H 1
 #define HAVE_STRING_H 1
+#define HAVE_THREADS_H 1
 #define HAVE_UNISTD_H 1
 #define HAVE_PTRDIFF_T 1
 #define HAVE_STDLIB_H 1

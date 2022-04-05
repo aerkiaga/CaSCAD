@@ -40,7 +40,6 @@ typedef struct t_cascad_context_t *cascad_context_t;
 /* Equivalent to `cascad_gen_context_using_deps(ast, script_path, cascad_load_deps(ast, script_path))`. */
 extern cascad_context_t cascad_gen_context(cascad_ast_t ast, const char *script_path);
 
-
 /* Compile Abstract Syntax Tree into an interpreter context. */
 /* The provided `deps` must contain at least all dependencies for the loaded script. */
 /* This allows sharing loaded dependencies across many contexts. */
@@ -79,5 +78,12 @@ enum cascad_shape_type_t {
     CASCAD_SOLID
 };
 
+/* Query the shape type of a shape. */
 extern enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape);
+
+/* Call cascad_load_string, cascad_gen_context and cascad_execute in another thread. */
+/* The function `later` is called with the eventual resulting shape. */
+extern void cascad_run_string_async(
+    const char* buffer, const char *filename, void (*later)(cascad_shape_t)
+);
 

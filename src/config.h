@@ -52,11 +52,20 @@
 /* Define to 1 if you have the `TKMesh' library (-lTKMesh). */
 #define HAVE_LIBTKMESH 1
 
+/* Define to 1 if you have the `TKOpenGl' library (-lTKOpenGl). */
+#define HAVE_LIBTKOPENGL 1
+
 /* Define to 1 if you have the `TKPrim' library (-lTKPrim). */
 #define HAVE_LIBTKPRIM 1
 
+/* Define to 1 if you have the `TKService' library (-lTKService). */
+#define HAVE_LIBTKSERVICE 1
+
 /* Define to 1 if you have the `TKSTL' library (-lTKSTL). */
 #define HAVE_LIBTKSTL 1
+
+/* Define to 1 if you have the `TKV3d' library (-lTKV3d). */
+#define HAVE_LIBTKV3D 1
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -122,6 +131,9 @@
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <threads.h> header file. */
+#define HAVE_THREADS_H 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1

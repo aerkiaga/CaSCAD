@@ -6,6 +6,6 @@
 
 #ifdef HAVE_GUI
 
-extern void gui_main();
+extern void gui_main(int argc, char *argv[]);
 
 #endif // HAVE_GUI

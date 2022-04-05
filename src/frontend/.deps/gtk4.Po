@@ -1,6 +1,8 @@
 frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
- config.h frontend.h gui.h /usr/include/gtk-4.0/gtk/gtk.h \
- /usr/include/gtk-4.0/gtk/css/gtkcss.h /usr/include/glib-2.0/glib.h \
+ config.h frontend.h gui.h /usr/include/gtk-4.0/gdk/x11/gdkx.h \
+ /usr/include/gtk-4.0/gdk/gdk.h \
+ /usr/include/gtk-4.0/gdk/gdkapplaunchcontext.h \
+ /usr/include/gtk-4.0/gdk/gdkversionmacros.h /usr/include/glib-2.0/glib.h \
  /usr/include/glib-2.0/glib/galloca.h /usr/include/glib-2.0/glib/gtypes.h \
  /usr/lib/x86_64-linux-gnu/glib-2.0/include/glibconfig.h \
  /usr/include/glib-2.0/glib/gmacros.h \
@@ -154,10 +156,7 @@ frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/glib-2.0/glib/glib-autocleanups.h \
- /usr/include/gtk-4.0/gdk/gdkversionmacros.h \
- /usr/include/gtk-4.0/gtk/css/gtkcssenums.h \
- /usr/include/gtk-4.0/gtk/css/gtkcssenumtypes.h \
- /usr/include/glib-2.0/glib-object.h \
+ /usr/include/gtk-4.0/gdk/gdktypes.h /usr/include/glib-2.0/glib-object.h \
  /usr/include/glib-2.0/gobject/gbinding.h \
  /usr/include/glib-2.0/gobject/gobject.h \
  /usr/include/glib-2.0/gobject/gtype.h \
@@ -177,9 +176,6 @@ frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
  /usr/include/glib-2.0/gobject/gvaluearray.h \
  /usr/include/glib-2.0/gobject/gvaluetypes.h \
  /usr/include/glib-2.0/gobject/gobject-autocleanups.h \
- /usr/include/gtk-4.0/gtk/css/gtkcsserror.h \
- /usr/include/gtk-4.0/gtk/css/gtkcsslocation.h \
- /usr/include/gtk-4.0/gtk/css/gtkcsssection.h \
  /usr/include/glib-2.0/gio/gio.h /usr/include/glib-2.0/gio/giotypes.h \
  /usr/include/glib-2.0/gio/gioenums.h /usr/include/glib-2.0/gio/gaction.h \
  /usr/include/glib-2.0/gio/gactiongroup.h \
@@ -332,10 +328,7 @@ frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
  /usr/include/glib-2.0/gio/gvfs.h /usr/include/glib-2.0/gio/gvolume.h \
  /usr/include/glib-2.0/gio/gzlibcompressor.h \
  /usr/include/glib-2.0/gio/gzlibdecompressor.h \
- /usr/include/glib-2.0/gio/gio-autocleanups.h \
- /usr/include/gtk-4.0/gdk/gdk.h \
- /usr/include/gtk-4.0/gdk/gdkapplaunchcontext.h \
- /usr/include/gtk-4.0/gdk/gdktypes.h /usr/include/cairo/cairo.h \
+ /usr/include/glib-2.0/gio/gio-autocleanups.h /usr/include/cairo/cairo.h \
  /usr/include/cairo/cairo-version.h /usr/include/cairo/cairo-features.h \
  /usr/include/cairo/cairo-deprecated.h \
  /usr/include/pango-1.0/pango/pango.h \
@@ -434,7 +427,31 @@ frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
  /usr/include/gtk-4.0/gdk/gdktoplevelsize.h \
  /usr/include/gtk-4.0/gdk/gdkvulkancontext.h /usr/include/vulkan/vulkan.h \
  /usr/include/vulkan/vk_platform.h /usr/include/vulkan/vulkan_core.h \
- /usr/include/gtk-4.0/gdk/gdk-autocleanup.h \
+ /usr/include/gtk-4.0/gdk/gdk-autocleanup.h /usr/include/X11/Xlib.h \
+ /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h \
+ /usr/include/X11/Xosdefs.h /usr/include/X11/Xutil.h \
+ /usr/include/X11/keysym.h /usr/include/X11/keysymdef.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11applaunchcontext.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11device.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11device-xi2.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11devicemanager.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11devicemanager-xi2.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11display.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11screen.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11dnd.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11glcontext.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11monitor.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11property.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11selection.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11utils.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx11surface.h \
+ /usr/include/gtk-4.0/gdk/x11/gdkx-autocleanups.h \
+ /usr/include/gtk-4.0/gtk/gtk.h /usr/include/gtk-4.0/gtk/css/gtkcss.h \
+ /usr/include/gtk-4.0/gtk/css/gtkcssenums.h \
+ /usr/include/gtk-4.0/gtk/css/gtkcssenumtypes.h \
+ /usr/include/gtk-4.0/gtk/css/gtkcsserror.h \
+ /usr/include/gtk-4.0/gtk/css/gtkcsslocation.h \
+ /usr/include/gtk-4.0/gtk/css/gtkcsssection.h \
  /usr/include/gtk-4.0/gsk/gsk.h /usr/include/gtk-4.0/gsk/gskenums.h \
  /usr/include/gtk-4.0/gsk/gskrenderer.h \
  /usr/include/gtk-4.0/gsk/gsktypes.h /usr/include/graphene-1.0/graphene.h \
@@ -733,7 +750,8 @@ frontend/gtk4.o: frontend/gtk4.c /usr/include/stdc-predef.h gui.h \
  /usr/include/gtk-4.0/gtk/gtkwindowgroup.h \
  /usr/include/gtk-4.0/gtk/gtkwindow.h \
  /usr/include/gtk-4.0/gtk/gtkwindowhandle.h \
- /usr/include/gtk-4.0/gtk/gtk-autocleanups.h
+ /usr/include/gtk-4.0/gtk/gtk-autocleanups.h /usr/include/EGL/egl.h \
+ /usr/include/EGL/eglplatform.h /usr/include/KHR/khrplatform.h
 
 /usr/include/stdc-predef.h:
 
@@ -745,9 +763,13 @@ frontend.h:
 
 gui.h:
 
-/usr/include/gtk-4.0/gtk/gtk.h:
+/usr/include/gtk-4.0/gdk/x11/gdkx.h:
 
-/usr/include/gtk-4.0/gtk/css/gtkcss.h:
+/usr/include/gtk-4.0/gdk/gdk.h:
+
+/usr/include/gtk-4.0/gdk/gdkapplaunchcontext.h:
+
+/usr/include/gtk-4.0/gdk/gdkversionmacros.h:
 
 /usr/include/glib-2.0/glib.h:
 
@@ -1113,11 +1135,7 @@ gui.h:
 
 /usr/include/glib-2.0/glib/glib-autocleanups.h:
 
-/usr/include/gtk-4.0/gdk/gdkversionmacros.h:
-
-/usr/include/gtk-4.0/gtk/css/gtkcssenums.h:
-
-/usr/include/gtk-4.0/gtk/css/gtkcssenumtypes.h:
+/usr/include/gtk-4.0/gdk/gdktypes.h:
 
 /usr/include/glib-2.0/glib-object.h:
 
@@ -1158,12 +1176,6 @@ gui.h:
 /usr/include/glib-2.0/gobject/gvaluetypes.h:
 
 /usr/include/glib-2.0/gobject/gobject-autocleanups.h:
-
-/usr/include/gtk-4.0/gtk/css/gtkcsserror.h:
-
-/usr/include/gtk-4.0/gtk/css/gtkcsslocation.h:
-
-/usr/include/gtk-4.0/gtk/css/gtkcsssection.h:
 
 /usr/include/glib-2.0/gio/gio.h:
 
@@ -1485,12 +1497,6 @@ gui.h:
 
 /usr/include/glib-2.0/gio/gio-autocleanups.h:
 
-/usr/include/gtk-4.0/gdk/gdk.h:
-
-/usr/include/gtk-4.0/gdk/gdkapplaunchcontext.h:
-
-/usr/include/gtk-4.0/gdk/gdktypes.h:
-
 /usr/include/cairo/cairo.h:
 
 /usr/include/cairo/cairo-version.h:
@@ -1726,6 +1732,64 @@ gui.h:
 /usr/include/vulkan/vulkan_core.h:
 
 /usr/include/gtk-4.0/gdk/gdk-autocleanup.h:
+
+/usr/include/X11/Xlib.h:
+
+/usr/include/X11/X.h:
+
+/usr/include/X11/Xfuncproto.h:
+
+/usr/include/X11/Xosdefs.h:
+
+/usr/include/X11/Xutil.h:
+
+/usr/include/X11/keysym.h:
+
+/usr/include/X11/keysymdef.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11applaunchcontext.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11device.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11device-xi2.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11devicemanager.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11devicemanager-xi2.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11display.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11screen.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11dnd.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11glcontext.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11monitor.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11property.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11selection.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11utils.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx11surface.h:
+
+/usr/include/gtk-4.0/gdk/x11/gdkx-autocleanups.h:
+
+/usr/include/gtk-4.0/gtk/gtk.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcss.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcssenums.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcssenumtypes.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcsserror.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcsslocation.h:
+
+/usr/include/gtk-4.0/gtk/css/gtkcsssection.h:
 
 /usr/include/gtk-4.0/gsk/gsk.h:
 
@@ -2338,3 +2402,9 @@ gui.h:
 /usr/include/gtk-4.0/gtk/gtkwindowhandle.h:
 
 /usr/include/gtk-4.0/gtk/gtk-autocleanups.h:
+
+/usr/include/EGL/egl.h:
+
+/usr/include/EGL/eglplatform.h:
+
+/usr/include/KHR/khrplatform.h:

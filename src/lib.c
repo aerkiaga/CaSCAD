@@ -9,6 +9,10 @@
 #include "parser_interface.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <threads.h>
+
+_Noreturn void error(const char *fmt, ...);
+extern void warning(const char *fmt, ...);
 
 cascad_ast_t cascad_load_file(FILE* file) {
     fseek(file, 0, SEEK_END);
@@ -71,6 +75,48 @@ enum cascad_shape_type_t cascad_get_shape_type(cascad_shape_t shape) {
         default:
             return CASCAD_INVALID;
     }
+}
+
+struct exchanged_data_t {
+    const char* buffer;
+    const char* filename;
+    void (*later)(cascad_shape_t);
+};
+
+static int worker_entry_point(void *param) {
+    struct exchanged_data_t *data = (struct exchanged_data_t *)param;
+    
+    cascad_ast_t ast = cascad_load_string(data->buffer);
+    if(!ast) {
+        data->later(NULL);
+        return 1;
+    }
+    cascad_context_t ctx = cascad_gen_context(ast, data->filename);
+    if(!ctx) {
+        data->later(NULL);
+        return 2;
+    }
+    cascad_shape_t output = cascad_execute(ctx);
+    
+    enum cascad_shape_type_t shape_type = cascad_get_shape_type(output);
+    if(shape_type == CASCAD_INVALID) {
+        data->later(NULL);
+        return 3;
+    } else {
+        data->later(output);
+        return 0;
+    }
+}
+
+void cascad_run_string_async(
+    const char* buffer, const char *filename, void (*later)(cascad_shape_t)
+) {
+    thrd_t thread_id;
+    struct exchanged_data_t *data =
+        (struct exchanged_data_t *) malloc(sizeof(struct exchanged_data_t));
+    data->buffer = buffer;
+    data->later = later;
+    thrd_create(&thread_id, worker_entry_point, data);
 }
 
 

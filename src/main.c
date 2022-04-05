@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     
     if(!output_filename) {
         #ifdef HAVE_GUI
-        gui_main();
+        gui_main(argc, argv);
         #else
         error("cascad: no GUI built, an output file needs to be specified.\n");
         #endif
