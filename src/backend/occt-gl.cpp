@@ -12,10 +12,10 @@
 #include <opencascade/V3d_Viewer.hxx>
 #include <opencascade/Xw_Window.hxx>
 
-class OcctGtkWindow : public Aspect_NeutralWindow {
+class OcctCaWindow : public Aspect_NeutralWindow {
 public:
     //! Constructor.
-    OcctGtkWindow() {}
+    OcctCaWindow() {}
 
     //! Return device pixel ratio (logical to backing store scale factor).
     virtual Standard_Real DevicePixelRatio() const override {
@@ -82,7 +82,7 @@ void backend_realize_graphics(
     Graphic3d_Vec2i logical_size(width, height);
     view_size = logical_size * scale_factor;
     opencascade::handle<OpenGl_Context> gl_context = new OpenGl_Context();
-    opencascade::handle<OcctGtkWindow> custom_window = dynamic_cast<OcctGtkWindow *>(view.get());
+    opencascade::handle<OcctCaWindow> custom_window = dynamic_cast<OcctCaWindow *>(view.get());
     
     /*if(!display_connection.get()) {
         backend_init_graphics(display);
@@ -90,7 +90,7 @@ void backend_realize_graphics(
     
     if(context != nullptr) {
         if(custom_window.get() == nullptr) {
-            custom_window = new OcctGtkWindow();
+            custom_window = new OcctCaWindow();
         }
         opencascade::handle<OpenGl_GraphicDriver> gl_driver =
             dynamic_cast<OpenGl_GraphicDriver *>(
@@ -137,10 +137,10 @@ void backend_unrealize_graphics(void) {
     display_connection.Nullify();
 }
 
-class OcctGtkFrameBuffer : public OpenGl_FrameBuffer {
-  DEFINE_STANDARD_RTTI_INLINE(OcctGtkFrameBuffer, OpenGl_FrameBuffer)
+class OcctCaFrameBuffer : public OpenGl_FrameBuffer {
+  DEFINE_STANDARD_RTTI_INLINE(OcctCaFrameBuffer, OpenGl_FrameBuffer)
 public:
-  OcctGtkFrameBuffer() {}
+  OcctCaFrameBuffer() {}
 
   //! Make this FBO active in context.
   virtual void BindBuffer(const opencascade::handle<OpenGl_Context> &gl_context) override {
@@ -171,7 +171,7 @@ void backend_render_graphics(void) {
     const Handle(OpenGl_Context) gl_context = gl_driver->GetSharedContext().get();
     Handle(OpenGl_FrameBuffer) framebuffer = gl_context->DefaultFrameBuffer().get();
     if(!framebuffer) {
-        framebuffer = new OcctGtkFrameBuffer();
+        framebuffer = new OcctCaFrameBuffer();
         gl_context->SetDefaultFrameBuffer(framebuffer);
     }
     static bool already_init = false;

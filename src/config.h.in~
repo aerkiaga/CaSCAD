@@ -33,6 +33,12 @@
 /* Define to 1 if you have the `isalnum' function. */
 #undef HAVE_ISALNUM
 
+/* Define to 1 if you have the `isalpha' function. */
+#undef HAVE_ISALPHA
+
+/* Define to 1 if you have the `isdigit' function. */
+#undef HAVE_ISDIGIT
+
 /* Define if machine has GTK4 */
 #undef HAVE_LIBGTK4
 

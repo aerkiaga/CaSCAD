@@ -125,7 +125,8 @@ static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
                 first_ch = '\0';
             }
         } else if(isalpha(first_ch) || first_ch == '_' || first_ch == '$') {
-            if(isalnum(ch) || ch == '_') first_ch = ch;
+            if(isalpha(ch) || ch == '_') first_ch = ch;
+            else if(isdigit(ch)) ;
             else {
                 if(first_ch != '$') {
                     const char *identifier = gtk_text_buffer_get_text(self, &first, &current, 0);
@@ -260,7 +261,8 @@ void frontend_create(const char *name) {
             code_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(code_editor));
             /* Reasonably nice palette, works well in light and dark, and with color blindness. */
             gtk_text_buffer_create_tag(code_buffer, "comment", "foreground", "#9B9288", NULL);
-            gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#C41F1F", NULL);
+            //gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#C41F1F", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#FFA51F", NULL);
             gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#B3CB2A", NULL);
             //gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#FFA51F", NULL);
             gtk_text_buffer_create_tag(code_buffer, "function", "foreground", "#66D24B", NULL);
