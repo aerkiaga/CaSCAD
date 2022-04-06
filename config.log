@@ -545,11 +545,11 @@ configure:12505: checking lex output file root
 configure:12519: result: lex.yy
 configure:12524: checking lex library
 configure:12538: gcc -o conftest -g -O2   conftest.c   >&5
-/usr/bin/ld: /tmp/cchw8xPs.o: in function `input':
+/usr/bin/ld: /tmp/cczUtqWJ.o: in function `input':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:1180: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cchw8xPs.o: in function `yylex':
+/usr/bin/ld: /tmp/cczUtqWJ.o: in function `yylex':
 /home/user/Desktop/C/CaSCAD/lex.yy.c:871: undefined reference to `yywrap'
-/usr/bin/ld: /tmp/cchw8xPs.o: in function `main':
+/usr/bin/ld: /tmp/cczUtqWJ.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
 configure:12538: $? = 1
@@ -3029,7 +3029,7 @@ configure:13767: $? = 0
 configure:13767: result: yes
 configure:13773: checking for _doprnt
 configure:13773: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-/usr/bin/ld: /tmp/cc9Y1QCK.o: in function `main':
+/usr/bin/ld: /tmp/ccPuL49Z.o: in function `main':
 /home/user/Desktop/C/CaSCAD/conftest.c:87: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
 configure:13773: $? = 1
@@ -3133,14 +3133,44 @@ configure:13787: checking for dirname
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
 configure:13787: $? = 0
 configure:13787: result: yes
-configure:13787: checking for memset
+configure:13787: checking for isalnum
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:78:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   78 | char memset ();
-      |      ^~~~~~
-conftest.c:66:1: note: 'memset' is declared in header '<string.h>'
+conftest.c:78:6: warning: conflicting types for built-in function 'isalnum'; expected 'int(int)' [-Wbuiltin-declaration-mismatch]
+   78 | char isalnum ();
+      |      ^~~~~~~
+conftest.c:66:1: note: 'isalnum' is declared in header '<ctype.h>'
    65 | # include <limits.h>
    66 | #else
+configure:13787: $? = 0
+configure:13787: result: yes
+configure:13787: checking for isalpha
+configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:79:6: warning: conflicting types for built-in function 'isalpha'; expected 'int(int)' [-Wbuiltin-declaration-mismatch]
+   79 | char isalpha ();
+      |      ^~~~~~~
+conftest.c:67:1: note: 'isalpha' is declared in header '<ctype.h>'
+   66 | # include <limits.h>
+   67 | #else
+configure:13787: $? = 0
+configure:13787: result: yes
+configure:13787: checking for isdigit
+configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:80:6: warning: conflicting types for built-in function 'isdigit'; expected 'int(int)' [-Wbuiltin-declaration-mismatch]
+   80 | char isdigit ();
+      |      ^~~~~~~
+conftest.c:68:1: note: 'isdigit' is declared in header '<ctype.h>'
+   67 | # include <limits.h>
+   68 | #else
+configure:13787: $? = 0
+configure:13787: result: yes
+configure:13787: checking for memset
+configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
+conftest.c:81:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   81 | char memset ();
+      |      ^~~~~~
+conftest.c:69:1: note: 'memset' is declared in header '<string.h>'
+   68 | # include <limits.h>
+   69 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for realpath
@@ -3149,66 +3179,66 @@ configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strchr
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:80:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   80 | char strchr ();
+conftest.c:83:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   83 | char strchr ();
       |      ^~~~~~
-conftest.c:68:1: note: 'strchr' is declared in header '<string.h>'
-   67 | # include <limits.h>
-   68 | #else
+conftest.c:71:1: note: 'strchr' is declared in header '<string.h>'
+   70 | # include <limits.h>
+   71 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strcmp
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:81:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   81 | char strcmp ();
+conftest.c:84:6: warning: conflicting types for built-in function 'strcmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   84 | char strcmp ();
       |      ^~~~~~
-conftest.c:69:1: note: 'strcmp' is declared in header '<string.h>'
-   68 | # include <limits.h>
-   69 | #else
+conftest.c:72:1: note: 'strcmp' is declared in header '<string.h>'
+   71 | # include <limits.h>
+   72 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strcspn
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:82:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   82 | char strcspn ();
+conftest.c:85:6: warning: conflicting types for built-in function 'strcspn'; expected 'long unsigned int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   85 | char strcspn ();
       |      ^~~~~~~
-conftest.c:70:1: note: 'strcspn' is declared in header '<string.h>'
-   69 | # include <limits.h>
-   70 | #else
+conftest.c:73:1: note: 'strcspn' is declared in header '<string.h>'
+   72 | # include <limits.h>
+   73 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strdup
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:83:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
-   83 | char strdup ();
+conftest.c:86:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
+   86 | char strdup ();
       |      ^~~~~~
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strndup
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:84:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
-   84 | char strndup ();
+conftest.c:87:6: warning: conflicting types for built-in function 'strndup'; expected 'char *(const char *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
+   87 | char strndup ();
       |      ^~~~~~~
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for strrchr
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:85:6: warning: conflicting types for built-in function 'strrchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   85 | char strrchr ();
+conftest.c:88:6: warning: conflicting types for built-in function 'strrchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   88 | char strrchr ();
       |      ^~~~~~~
-conftest.c:73:1: note: 'strrchr' is declared in header '<string.h>'
-   72 | # include <limits.h>
-   73 | #else
+conftest.c:76:1: note: 'strrchr' is declared in header '<string.h>'
+   75 | # include <limits.h>
+   76 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13787: checking for vsnprintf
 configure:13787: gcc -o conftest -g -O2   conftest.c -lTKSTL -lTKService -lTKOpenGl -lTKV3d -lTKPrim -lTKBO -lTKMesh -lTKBRep -lTKMath -lTKernel  >&5
-conftest.c:86:6: warning: conflicting types for built-in function 'vsnprintf'; expected 'int(char *, long unsigned int,  const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
-   86 | char vsnprintf ();
+conftest.c:89:6: warning: conflicting types for built-in function 'vsnprintf'; expected 'int(char *, long unsigned int,  const char *, __va_list_tag *)' [-Wbuiltin-declaration-mismatch]
+   89 | char vsnprintf ();
       |      ^~~~~~~~~
-conftest.c:74:1: note: 'vsnprintf' is declared in header '<stdio.h>'
-   73 | # include <limits.h>
-   74 | #else
+conftest.c:77:1: note: 'vsnprintf' is declared in header '<stdio.h>'
+   76 | # include <limits.h>
+   77 | #else
 configure:13787: $? = 0
 configure:13787: result: yes
 configure:13900: checking that generated files are newer than configure
@@ -3269,6 +3299,9 @@ ac_cv_func__doprnt=no
 ac_cv_func_alloca_works=yes
 ac_cv_func_basename=yes
 ac_cv_func_dirname=yes
+ac_cv_func_isalnum=yes
+ac_cv_func_isalpha=yes
+ac_cv_func_isdigit=yes
 ac_cv_func_malloc_0_nonnull=yes
 ac_cv_func_memset=yes
 ac_cv_func_realloc_0_nonnull=yes
@@ -3580,6 +3613,9 @@ target_alias=''
 #define HAVE_VPRINTF 1
 #define HAVE_BASENAME 1
 #define HAVE_DIRNAME 1
+#define HAVE_ISALNUM 1
+#define HAVE_ISALPHA 1
+#define HAVE_ISDIGIT 1
 #define HAVE_MEMSET 1
 #define HAVE_REALPATH 1
 #define HAVE_STRCHR 1
@@ -3607,16 +3643,17 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:1201: creating Makefile
-config.status:1201: creating src/Makefile
-config.status:1201: creating src/config.h
-config.status:1382: src/config.h is unchanged
-config.status:1430: executing depfiles commands
-config.status:1507: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1204: creating Makefile
+config.status:1204: creating src/Makefile
+config.status:1204: creating src/config.h
+config.status:1385: src/config.h is unchanged
+config.status:1433: executing depfiles commands
+config.status:1510: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make[1]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
+make[1]: Nothing to be done for 'am--depfiles'.
 make[1]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1512: $? = 0
-config.status:1430: executing libtool commands
+config.status:1515: $? = 0
+config.status:1433: executing libtool commands
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -3633,72 +3670,4 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on user-PC
 
-config.status:1201: creating src/config.h
-config.status:1382: src/config.h is unchanged
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:1201: creating src/Makefile
-config.status:1430: executing depfiles commands
-config.status:1507: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Nothing to be done for 'am--depfiles'.
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1512: $? = 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:1201: creating src/Makefile
-config.status:1430: executing depfiles commands
-config.status:1507: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1512: $? = 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by CaSCAD config.status 0.1.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on user-PC
-
-config.status:1201: creating src/Makefile
-config.status:1430: executing depfiles commands
-config.status:1507: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make[2]: Entering directory '/home/user/Desktop/C/CaSCAD/src'
-make[2]: Leaving directory '/home/user/Desktop/C/CaSCAD/src'
-config.status:1512: $? = 0
+config.status:1204: creating src/config.h

@@ -106,8 +106,8 @@ am_cascad_OBJECTS = ast.$(OBJEXT) builtin.$(OBJEXT) compiler.$(OBJEXT) \
 	deps.$(OBJEXT) gui.$(OBJEXT) interpreter.$(OBJEXT) \
 	lexer.$(OBJEXT) lib.$(OBJEXT) main.$(OBJEXT) parser.$(OBJEXT) \
 	strutils.$(OBJEXT) tree.$(OBJEXT) backend/occt.$(OBJEXT) \
-	frontend/gtk4.$(OBJEXT) resources/render.$(OBJEXT) \
-	resources/stl.$(OBJEXT)
+	backend/occt-gl.$(OBJEXT) frontend/gtk4.$(OBJEXT) \
+	resources/render.$(OBJEXT) resources/stl.$(OBJEXT)
 cascad_OBJECTS = $(am_cascad_OBJECTS)
 cascad_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_$(V))
@@ -134,8 +134,9 @@ am__depfiles_remade = ./$(DEPDIR)/ast.Po ./$(DEPDIR)/builtin.Po \
 	./$(DEPDIR)/interpreter.Po ./$(DEPDIR)/lexer.Po \
 	./$(DEPDIR)/lib.Po ./$(DEPDIR)/main.Po ./$(DEPDIR)/parser.Po \
 	./$(DEPDIR)/strutils.Po ./$(DEPDIR)/tree.Po \
-	backend/$(DEPDIR)/occt.Po frontend/$(DEPDIR)/gtk4.Po \
-	resources/$(DEPDIR)/render.Po resources/$(DEPDIR)/stl.Po
+	backend/$(DEPDIR)/occt-gl.Po backend/$(DEPDIR)/occt.Po \
+	frontend/$(DEPDIR)/gtk4.Po resources/$(DEPDIR)/render.Po \
+	resources/$(DEPDIR)/stl.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -365,8 +366,9 @@ cascad_SOURCES = ast.c builtin.c compiler.c deps.c gui.c interpreter.c \
 	lexer.l lib.c main.c parser.y strutils.c tree.c ast.h \
 	backend.h builtin.h cascad.h compiler.h context.h deps.h \
 	frontend.h gui.h interpreter.h lexer.h parser_interface.h \
-	resources.h strutils.h tree.h backend/occt.cpp frontend/gtk4.c \
-	resources/render.c resources/stl.c
+	resources.h strutils.h tree.h backend/occt.cpp \
+	backend/occt-gl.cpp frontend/gtk4.c resources/render.c \
+	resources/stl.c
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -476,6 +478,8 @@ backend/$(DEPDIR)/$(am__dirstamp):
 	@: > backend/$(DEPDIR)/$(am__dirstamp)
 backend/occt.$(OBJEXT): backend/$(am__dirstamp) \
 	backend/$(DEPDIR)/$(am__dirstamp)
+backend/occt-gl.$(OBJEXT): backend/$(am__dirstamp) \
+	backend/$(DEPDIR)/$(am__dirstamp)
 frontend/$(am__dirstamp):
 	@$(MKDIR_P) frontend
 	@: > frontend/$(am__dirstamp)
@@ -520,6 +524,7 @@ include ./$(DEPDIR)/main.Po # am--include-marker
 include ./$(DEPDIR)/parser.Po # am--include-marker
 include ./$(DEPDIR)/strutils.Po # am--include-marker
 include ./$(DEPDIR)/tree.Po # am--include-marker
+include backend/$(DEPDIR)/occt-gl.Po # am--include-marker
 include backend/$(DEPDIR)/occt.Po # am--include-marker
 include frontend/$(DEPDIR)/gtk4.Po # am--include-marker
 include resources/$(DEPDIR)/render.Po # am--include-marker
@@ -742,6 +747,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/parser.Po
 	-rm -f ./$(DEPDIR)/strutils.Po
 	-rm -f ./$(DEPDIR)/tree.Po
+	-rm -f backend/$(DEPDIR)/occt-gl.Po
 	-rm -f backend/$(DEPDIR)/occt.Po
 	-rm -f frontend/$(DEPDIR)/gtk4.Po
 	-rm -f resources/$(DEPDIR)/render.Po
@@ -803,6 +809,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/parser.Po
 	-rm -f ./$(DEPDIR)/strutils.Po
 	-rm -f ./$(DEPDIR)/tree.Po
+	-rm -f backend/$(DEPDIR)/occt-gl.Po
 	-rm -f backend/$(DEPDIR)/occt.Po
 	-rm -f frontend/$(DEPDIR)/gtk4.Po
 	-rm -f resources/$(DEPDIR)/render.Po

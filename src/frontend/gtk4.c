@@ -4,6 +4,7 @@
 #include "frontend.h"
 #include "resources.h"
 #include <EGL/egl.h>
+#include <ctype.h>
 #include <gdk/x11/gdkx.h>
 #include <gtk/gtk.h>
 #include <string.h>
@@ -18,9 +19,11 @@ GtkTextBuffer *console_buffer;
 
 static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
     gtk_gl_area_make_current(GTK_GL_AREA(self));
-    int width = gtk_widget_get_width(self);
-    int height = gtk_widget_get_height(self);
+    int width = gtk_widget_get_width(self) ?: 100;
+    int height = gtk_widget_get_height(self) ?: 100;
     int scale_factor = gtk_widget_get_scale_factor(self);
+    printf("Size: %d x %d\n", width, height);
+    printf("Size2: %d x %d\n", gtk_widget_get_width(viewer), gtk_widget_get_height(viewer));
     
     gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(self), 1);
     gtk_gl_area_set_has_stencil_buffer(GTK_GL_AREA(self), 1);
@@ -78,6 +81,112 @@ static void button_stl_callback(GtkGLArea *self, gpointer user_data) {
     gui_run_at_export_stl();
 }
 
+const char *frontend_get_editor_text(void) {
+    GtkTextIter start;
+    gtk_text_buffer_get_start_iter(code_buffer, &start);
+    GtkTextIter end;
+    gtk_text_buffer_get_end_iter(code_buffer, &end);
+    return gtk_text_buffer_get_text(code_buffer, &start, &end, 0);
+}
+
+static const char *lookup_identifier(const char *identifier) {
+    if(
+        !strcmp(identifier, "cos")
+    ) return "function";
+    else if(
+        !strcmp(identifier, "translate")
+    ) return "operator";
+    else if(
+        !strcmp(identifier, "cylinder")
+    ) return "module";
+    else return NULL;
+}
+
+static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
+    GtkTextIter start;
+    gtk_text_buffer_get_start_iter(code_buffer, &start);
+    GtkTextIter end;
+    gtk_text_buffer_get_end_iter(code_buffer, &end);
+    /* For now, this is a good enough solution. */
+    gtk_text_buffer_remove_all_tags(self, &start, &end);
+    gtk_text_buffer_get_start_iter(code_buffer, &start);
+    GtkTextIter first, current;
+    char first_ch = '\0';
+    for(current = start; ; ) {
+        char ch = gtk_text_iter_get_char(&current);
+        if(first_ch == '\0') {
+            first_ch = ch;
+            first = current;
+            if(isalpha(ch) || ch == '_' || ch == '$') ; // Identifier
+            else if(isdigit(ch) || ch == '+' || ch == '-' || ch == '.') ; // Number
+            else if(ch == '"') ; // String
+            else if(ch == '/') ; // Comment
+            else {
+                first_ch = '\0';
+            }
+        } else if(isalpha(first_ch) || first_ch == '_' || first_ch == '$') {
+            if(isalnum(ch) || ch == '_') first_ch = ch;
+            else {
+                if(first_ch != '$') {
+                    const char *identifier = gtk_text_buffer_get_text(self, &first, &current, 0);
+                    const char *tag_type = lookup_identifier(identifier);
+                    if(tag_type) {
+                        gtk_text_buffer_apply_tag_by_name(self, tag_type, &first, &current);
+                    }
+                }
+                first_ch = '\0';
+                continue;
+            }
+        } else if(isdigit(first_ch) || first_ch == '+' || first_ch == '-' || first_ch == '.') {
+            if(isdigit(ch)) first_ch = ch;
+            else if(ch == 'e' || ch == 'E') gtk_text_iter_forward_char(&current);
+            else if(ch == '.') ;
+            else {
+                if(first_ch != '+' && first_ch != '-' && first_ch != '.') {
+                    gtk_text_buffer_apply_tag_by_name(self, "value", &first, &current);
+                }
+                first_ch = '\0';
+                continue;
+            }
+        } else if(first_ch == '"') {
+            if(ch == '\\') gtk_text_iter_forward_char(&current);
+            else if(ch == '"') {
+                gtk_text_iter_forward_char(&current);
+                gtk_text_buffer_apply_tag_by_name(self, "string", &first, &current);
+                first_ch = '\0';
+                continue;
+            }
+        } else if(first_ch == '/') {
+            if(ch == '*') first_ch = ch;
+            else if(ch == '/') {
+                gtk_text_iter_forward_line(&current);
+                gtk_text_buffer_apply_tag_by_name(self, "comment", &first, &current);
+                first_ch = '\0';
+                continue;
+            }
+            else {
+                first_ch = '\0';
+                continue;
+            }
+        } else if(first_ch == '*') {
+            if(ch == '*') {
+                gtk_text_iter_forward_char(&current);
+                ch = gtk_text_iter_get_char(&current);
+                if(ch != '/') ;
+                else {
+                    gtk_text_iter_forward_char(&current);
+                    gtk_text_buffer_apply_tag_by_name(self, "comment", &first, &current);
+                    first_ch = '\0';
+                    continue;
+                }
+            }
+            else ;
+        }
+        if(!gtk_text_iter_compare(&current, &end)) break;
+        gtk_text_iter_forward_char(&current);
+    }
+}
+
 static void add_style(GtkWidget *widget, const char *css) {
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gtk_css_provider_load_from_data(css_provider, css, -1);
@@ -99,6 +208,7 @@ static GtkWidget *frontend_new_icon_button(const void *data) {
     gtk_button_set_child(GTK_BUTTON(button), image);
     return button;
 }
+
 
 void frontend_create(const char *name) {
     window = gtk_application_window_new(application);
@@ -147,6 +257,16 @@ void frontend_create(const char *name) {
             gtk_text_view_set_right_margin(GTK_TEXT_VIEW(code_editor), 20);
             gtk_text_view_set_top_margin(GTK_TEXT_VIEW(code_editor), 15);
             gtk_text_view_set_bottom_margin(GTK_TEXT_VIEW(code_editor), 5);
+            code_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(code_editor));
+            /* Reasonably nice palette, works well in light and dark, and with color blindness. */
+            gtk_text_buffer_create_tag(code_buffer, "comment", "foreground", "#9B9288", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#C41F1F", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#B3CB2A", NULL);
+            //gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#FFA51F", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "function", "foreground", "#66D24B", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "operator", "foreground", "#4BAFBE", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "module", "foreground", "#3358FF", NULL);
+            g_signal_connect(code_buffer, "changed", G_CALLBACK(editor_changed_callback), NULL);
             GtkWidget *editor_container = gtk_scrolled_window_new();
             gtk_widget_set_hexpand(editor_container, 1);
             gtk_widget_set_vexpand(editor_container, 1);
@@ -206,15 +326,6 @@ static void activate_callback(GtkApplication* app, gpointer user_data) {
     gui_run_at_startup();
 }
 
-const char *frontend_get_editor_text(void) {
-    code_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(code_editor));
-    GtkTextIter start;
-    gtk_text_buffer_get_start_iter(code_buffer, &start);
-    GtkTextIter end;
-    gtk_text_buffer_get_end_iter(code_buffer, &end);
-    return gtk_text_buffer_get_text(code_buffer, &start, &end, 0);
-}
-
 static gboolean frontend_console_print_main_thread(gpointer user_data) {
     const char *msg = (const char *) user_data;
     console_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(console));
@@ -261,6 +372,10 @@ void frontend_ask_save_filename(void (*callback)(const char *)) {
     g_signal_connect(
         dialog, "response", G_CALLBACK(save_response_callback), NULL
     );
+}
+
+extern void frontend_redraw_viewer(void) {
+    gtk_gl_area_queue_render(GTK_GL_AREA(viewer));
 }
 
 void frontend_main(int argc, char *argv[]) {

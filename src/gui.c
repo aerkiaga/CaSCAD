@@ -58,6 +58,10 @@ void gui_run_at_export_stl(void) {
     frontend_ask_save_filename(gui_export_stl_filename_callback);
 }
 
+void gui_redraw_viewer(void) {
+    frontend_redraw_viewer();
+}
+
 void gui_main(int argc, char *argv[]) {
     set_message_handler(gui_message_handler);
     backend_init_graphics(NULL);

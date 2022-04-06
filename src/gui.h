@@ -6,6 +6,10 @@
 
 #ifdef HAVE_GUI
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern void gui_main(int argc, char *argv[]);
 extern void gui_run_at_startup(void);
 extern void gui_run_at_gl_realize(
@@ -16,5 +20,10 @@ extern void gui_run_at_gl_unrealize(void);
 extern void gui_run_at_gl_render(void);
 extern void gui_run_at_preview(void);
 extern void gui_run_at_export_stl(void);
+extern void gui_redraw_viewer(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // HAVE_GUI

@@ -31,6 +31,15 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the `isalnum' function. */
+#define HAVE_ISALNUM 1
+
+/* Define to 1 if you have the `isalpha' function. */
+#define HAVE_ISALPHA 1
+
+/* Define to 1 if you have the `isdigit' function. */
+#define HAVE_ISDIGIT 1
+
 /* Define if machine has GTK4 */
 #define HAVE_LIBGTK4 1
 

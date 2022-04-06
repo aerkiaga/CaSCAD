@@ -71,7 +71,7 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([basename dirname memset realpath strchr strcmp strcspn strdup strndup strrchr vsnprintf])
+AC_CHECK_FUNCS([basename dirname isalnum isalpha isdigit memset realpath strchr strcmp strcspn strdup strndup strrchr vsnprintf])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
