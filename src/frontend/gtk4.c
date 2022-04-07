@@ -89,19 +89,6 @@ const char *frontend_get_editor_text(void) {
     return gtk_text_buffer_get_text(code_buffer, &start, &end, 0);
 }
 
-static const char *lookup_identifier(const char *identifier) {
-    if(
-        !strcmp(identifier, "cos")
-    ) return "function";
-    else if(
-        !strcmp(identifier, "translate")
-    ) return "operator";
-    else if(
-        !strcmp(identifier, "cylinder")
-    ) return "module";
-    else return NULL;
-}
-
 static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
     GtkTextIter start;
     gtk_text_buffer_get_start_iter(code_buffer, &start);
@@ -130,7 +117,7 @@ static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
             else {
                 if(first_ch != '$') {
                     const char *identifier = gtk_text_buffer_get_text(self, &first, &current, 0);
-                    const char *tag_type = lookup_identifier(identifier);
+                    const char *tag_type = gui_lookup_word(identifier);
                     if(tag_type) {
                         gtk_text_buffer_apply_tag_by_name(self, tag_type, &first, &current);
                     }
@@ -173,7 +160,7 @@ static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
             if(ch == '*') {
                 gtk_text_iter_forward_char(&current);
                 ch = gtk_text_iter_get_char(&current);
-                if(ch != '/') ;
+                if(ch != '/') continue;
                 else {
                     gtk_text_iter_forward_char(&current);
                     gtk_text_buffer_apply_tag_by_name(self, "comment", &first, &current);
@@ -261,10 +248,12 @@ void frontend_create(const char *name) {
             code_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(code_editor));
             /* Reasonably nice palette, works well in light and dark, and with color blindness. */
             gtk_text_buffer_create_tag(code_buffer, "comment", "foreground", "#9B9288", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "undef", "foreground", "#9B9288", NULL);
             //gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#C41F1F", NULL);
             gtk_text_buffer_create_tag(code_buffer, "value", "foreground", "#FFA51F", NULL);
             gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#B3CB2A", NULL);
             //gtk_text_buffer_create_tag(code_buffer, "string", "foreground", "#FFA51F", NULL);
+            gtk_text_buffer_create_tag(code_buffer, "keyword", "foreground", "#66D24B", NULL);
             gtk_text_buffer_create_tag(code_buffer, "function", "foreground", "#66D24B", NULL);
             gtk_text_buffer_create_tag(code_buffer, "operator", "foreground", "#4BAFBE", NULL);
             gtk_text_buffer_create_tag(code_buffer, "module", "foreground", "#3358FF", NULL);

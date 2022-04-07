@@ -22,6 +22,8 @@ extern void gui_run_at_preview(void);
 extern void gui_run_at_export_stl(void);
 extern void gui_redraw_viewer(void);
 
+extern const char *gui_lookup_word(const char *word);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

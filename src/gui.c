@@ -2,9 +2,13 @@
 
 #ifdef HAVE_GUI
 #include "backend.h"
+#include "builtin.h"
 #include "cascad.h"
 #include "config.h"
+#include "context.h"
 #include "frontend.h"
+#include <stdint.h>
+#include <string.h>
 #include <threads.h>
 
 void gui_message_handler(char type, const char *msg) {
@@ -60,6 +64,38 @@ void gui_run_at_export_stl(void) {
 
 void gui_redraw_viewer(void) {
     frontend_redraw_viewer();
+}
+
+const char *gui_lookup_word(const char *word) {
+    if(
+        !strcmp(word, "undef")
+    ) return "undef";
+    else if(
+        !strcmp(word, "PI")
+    ) return "value";
+    else if(
+        !strcmp(word, "each") ||
+        !strcmp(word, "else") ||
+        !strcmp(word, "false") ||
+        !strcmp(word, "for") ||
+        !strcmp(word, "function") ||
+        !strcmp(word, "if") ||
+        !strcmp(word, "include") ||
+        !strcmp(word, "intersection_for") ||
+        !strcmp(word, "let") ||
+        !strcmp(word, "module") ||
+        !strcmp(word, "true") ||
+        !strcmp(word, "use")
+    ) return "keyword";
+    else {
+        builtin_t builtin = search_in_builtins(word);
+        if(builtin) {
+            uintptr_t builtin_type = builtin[1].u;
+            if(builtin_type == BIND_TYPE_FUNCTION) return "function";
+            else if(builtin_type == BIND_TYPE_MODULE) return "module";
+        }
+    }
+    return NULL;
 }
 
 void gui_main(int argc, char *argv[]) {
