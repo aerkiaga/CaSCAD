@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern void error(const char *fmt, ...);
+
 /* By default, /usr/share/cascad/libraries */
 /* Separate different paths with colons */
 char *libraries_path_list = PATH_DATADIR "/cascad/libraries";
@@ -73,6 +75,7 @@ char *try_expand_dependency_path(const char *relative, const char *script_path) 
         if(*libraries_path_list_ptr == '\0') break;
         libraries_path_list_ptr++;
     }
+    error("error: couldn't find file '%s', included/used from %s\n", relative, script_path);
     return NULL;
 }
 

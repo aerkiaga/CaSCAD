@@ -535,6 +535,8 @@ static int compile_walk_fn2(ast_t node, size_t index, void *data, void **common)
 }
 
 context_t compiler_produce_with_deps(ast_t ast, deps_t deps, const char *script_path) {
+    if(!deps) return NULL;
+
     context_t r = (context_t) malloc(sizeof(struct context_value_t));
     r->code = tree_new_siblings(0);
     r->data = tree_new_siblings(0);

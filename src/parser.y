@@ -117,7 +117,7 @@ statement:
     assignment ';' { $$ = $1; }
 |   module_call ';' { $$ = $1; }
 |   '{' statements '}' { $$ = $2; }
-|   operator '{' statements '}' { $$ = ast_append_child($1, $3); }
+|   operator statement { $$ = ast_append_child($1, $2); }
 |   if_header statement %prec NON_ELSE { $$ = ast_if_statement($1, $2, NULL); }
 |   if_header statement LEX_ELSE statement { $$ = ast_if_statement($1, $2, $4); }
 |   for_header statement { $$ = ast_for_statement($1, $2); }
@@ -270,6 +270,7 @@ import_path:
 %%
 
 ast_t parser_run() {
+    yyrestart(NULL);
     yyparse();
     return outp;
 }

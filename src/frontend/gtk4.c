@@ -325,10 +325,9 @@ static gboolean frontend_console_print_main_thread(gpointer user_data) {
     gtk_text_buffer_insert(
         console_buffer, &end, msg, strlen(msg)
     );
-    GtkTextIter new_end;
-    gtk_text_buffer_get_end_iter(console_buffer, &new_end);
+    gtk_text_buffer_get_end_iter(console_buffer, &end);
     gtk_text_view_scroll_to_iter(
-        GTK_TEXT_VIEW(console), &new_end, 0.0, TRUE, 0.5, 1.0
+        GTK_TEXT_VIEW(console), &end, 0.0, TRUE, 0.5, 1.0
     );
 }
 
