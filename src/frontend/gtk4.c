@@ -3,7 +3,6 @@
 #ifdef HAVE_GUI
 #include "frontend.h"
 #include "resources.h"
-#include <EGL/egl.h>
 #include <ctype.h>
 #include <gdk/x11/gdkx.h>
 #include <gtk/gtk.h>
@@ -22,43 +21,19 @@ static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
     int width = gtk_widget_get_width(self) ?: 100;
     int height = gtk_widget_get_height(self) ?: 100;
     int scale_factor = gtk_widget_get_scale_factor(self);
-    printf("Size: %d x %d\n", width, height);
-    printf("Size2: %d x %d\n", gtk_widget_get_width(viewer), gtk_widget_get_height(viewer));
     
-    gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(self), 1);
-    gtk_gl_area_set_has_stencil_buffer(GTK_GL_AREA(self), 1);
-    gtk_gl_area_attach_buffers(GTK_GL_AREA(self));
+    //gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(self), 1);
+    //gtk_gl_area_set_has_stencil_buffer(GTK_GL_AREA(self), 1);
+    //gtk_gl_area_attach_buffers(GTK_GL_AREA(self));
     //gtk_gl_area_set_auto_render(GTK_GL_AREA(self), 0);
     
-    EGLContext egl_context = eglGetCurrentContext();
+    GdkGLContext *context = gtk_gl_area_get_context(GTK_GL_AREA(self));
+    if(gdk_gl_context_get_use_es(context))
+        puts("Using OpenGL ES");
+    else
+        puts("Using OpenGL");
     
-    if(egl_context != EGL_NO_CONTEXT) {
-        EGLContext egl_display = eglGetCurrentDisplay();
-        EGLContext egl_surface = eglGetCurrentSurface(EGL_DRAW);
-        EGLint egl_config_id = 0;
-        EGLint num_configs = 0;
-        eglQuerySurface(egl_display, egl_surface, EGL_CONFIG_ID, &egl_config_id);
-        const EGLint config_attributes[] = {EGL_CONFIG_ID, egl_config_id, EGL_NONE};
-        void* egl_config = NULL;
-        eglChooseConfig(egl_display, config_attributes, &egl_config, 1, &num_configs);
-        
-        gui_run_at_gl_realize(
-            width, height, scale_factor,
-            (void *) egl_context, (void *) egl_display, (void *) egl_config
-        );
-    } else {
-        //GdkGLContext* gdk_gl_context = gdk_gl_context_get_current();
-        GdkGLContext *gdk_gl_context = gtk_gl_area_get_context(GTK_GL_AREA(self));
-        GdkDisplay *display = gdk_gl_context_get_display(gdk_gl_context);
-        GdkSurface *surface = gdk_gl_context_get_surface(gdk_gl_context);
-        Display *xdisplay = gdk_x11_display_get_xdisplay(display);
-        Window gl_window = gdk_x11_surface_get_xid(surface);
-        
-        gui_run_at_gl_realize(
-            width, height, scale_factor,
-            (void *) NULL, (void *) xdisplay, (void *) gl_window
-        );
-    }
+    gui_run_at_gl_realize(width, height, scale_factor);
 }
 
 static void viewer_unrealize_callback(GtkWidget *self, gpointer user_data) {

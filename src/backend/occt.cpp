@@ -7,13 +7,19 @@
 #include <opencascade/BRepMesh_IncrementalMesh.hxx>
 #include <opencascade/BRepPrimAPI_MakeCone.hxx>
 #include <opencascade/BRepPrimAPI_MakeCylinder.hxx>
+#include <opencascade/BRep_Tool.hxx>
 #include <opencascade/Standard_Handle.hxx>
 #include <opencascade/StlAPI.hxx>
+#include <opencascade/TopAbs_Orientation.hxx>
 #include <opencascade/TopAbs_ShapeEnum.hxx>
+#include <opencascade/TopExp_Explorer.hxx>
+#include <opencascade/TopLoc_Location.hxx>
+#include <opencascade/TopoDS.hxx>
 #include <opencascade/TopoDS_Shape.hxx>
 #include <opencascade/gp_Ax2.hxx>
 #include <opencascade/gp_Dir.hxx>
 #include <opencascade/gp_Pnt.hxx>
+#include <opencascade/NCollection_Array1.hxx>
 #include <opencascade/TCollection_AsciiString.hxx>
 #include <opencascade/TColStd_IndexedDataMapOfStringString.hxx>
 
@@ -98,16 +104,80 @@ void backend_union(value_t out_value, value_t parameters) {
     }
 }
 
-int backend_export_stl(value_t in_value, const char *path, int ascii) {
-    TopoDS_Shape *shape = static_cast<TopoDS_Shape *>(in_value[1].p);
+void backend_export_triangles(
+    value_t in_value,
+    float **out_coords, unsigned int *out_ncoords,
+    unsigned int **out_indices, unsigned int *out_nindices
+) {
+    const TopoDS_Shape shape = *static_cast<TopoDS_Shape *>(in_value[1].p);
     
     Message_ProgressRange *progress_range = new Message_ProgressRange();
     BRepMesh_IncrementalMesh incremental_mesh = BRepMesh_IncrementalMesh(
-        *shape, 0.1
+        shape, 0.1
     );
     incremental_mesh.Perform(*progress_range);
     
-    return StlAPI::Write(*shape, path, ascii);
+    float *coordinates = NULL;
+    unsigned int *indices = NULL;
+    unsigned int point_count = 0;
+    unsigned int triangle_index = 0;
+    
+    for(TopExp_Explorer explorer(shape, TopAbs_FACE); explorer.More(); explorer.Next()) {
+        TopoDS_Face face = TopoDS::Face(explorer.Current());
+        TopAbs_Orientation face_orientation = face.Orientation();
+        TopLoc_Location location;
+        opencascade::handle<Poly_Triangulation> triangulation =
+            BRep_Tool::Triangulation(face, location);
+        
+        if(triangulation.IsNull())
+            continue;
+        
+        TColgp_Array1OfPnt points(1, triangulation->NbNodes());
+        coordinates = (float *) realloc(coordinates, 4*(point_count + triangulation->NbNodes())*sizeof(float));
+        for(Standard_Integer i = 0; i < triangulation->NbNodes(); i++) {
+            gp_Pnt point = triangulation->Node(i+1).Transformed(location);            
+            coordinates[4*(point_count + i)] = point.X();
+            coordinates[4*(point_count + i) + 1] = point.Y();
+            coordinates[4*(point_count + i) + 2] = point.Z();
+            coordinates[4*(point_count + i) + 3] = 1.0f;
+        }
+        point_count += triangulation->NbNodes();
+        
+        for(Standard_Integer nt = 1; nt < triangulation->NbTriangles()+1; nt++) {
+            
+            Standard_Integer n1, n2, n3;
+            triangulation->Triangle(nt).Get(n1, n2, n3);         
+            
+            indices = (unsigned int *) realloc(indices, 3*(triangle_index + 1)*sizeof(unsigned int));
+            if(face_orientation == TopAbs_Orientation::TopAbs_FORWARD) {
+                indices[3*triangle_index] = n1 - 1;
+                indices[3*triangle_index+1] = n2 - 1;
+                indices[3*triangle_index+2] = n3 - 1;
+            } else {
+                indices[3*triangle_index] = n3 - 1;
+                indices[3*triangle_index+1] = n2 - 1;
+                indices[3*triangle_index+2] = n1 - 1;
+            }
+            triangle_index++;
+        }
+    }
+    
+    *out_coords = coordinates;
+    *out_ncoords = 4*point_count;
+    *out_indices = indices;
+    *out_nindices = 3*triangle_index;
+}
+
+int backend_export_stl(value_t in_value, const char *path, int ascii) {
+    const TopoDS_Shape shape = *static_cast<TopoDS_Shape *>(in_value[1].p);
+    
+    Message_ProgressRange *progress_range = new Message_ProgressRange();
+    BRepMesh_IncrementalMesh incremental_mesh = BRepMesh_IncrementalMesh(
+        shape, 0.1
+    );
+    incremental_mesh.Perform(*progress_range);
+    
+    return StlAPI::Write(shape, path, ascii);
 }
 
 

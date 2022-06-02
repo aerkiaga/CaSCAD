@@ -24,9 +24,6 @@ AC_CHECK_LIB([TKBRep], [_ZNK13TopoDS_TSolid9EmptyCopyEv])
 AC_CHECK_LIB([TKMesh], [_ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb])
 AC_CHECK_LIB([TKBO], [_ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange])
 AC_CHECK_LIB([TKPrim], [_ZN20BRepPrimAPI_MakeConeC2Eddd])
-AC_CHECK_LIB([TKV3d], [_ZN10V3d_ViewerC2ERKN11opencascade6handleI23Graphic3d_GraphicDriverEE])
-AC_CHECK_LIB([TKOpenGl], [_ZN20OpenGl_GraphicDriverC1ERKN11opencascade6handleI24Aspect_DisplayConnectionEEb])
-AC_CHECK_LIB([TKService], [_ZN24Aspect_DisplayConnectionC2Ev])
 AC_CHECK_LIB([TKSTL], [_ZN6StlAPI5WriteERK12TopoDS_ShapePKcb])
 
 # Optional GTK4 frontend
@@ -47,6 +44,27 @@ AS_IF([test "x$with_gtk4" != xno],
     [if test "x$with_gtk4" != xcheck; then
        AC_MSG_FAILURE(
          [--with-gtk4 was given, but test for gtk4 failed])
+     fi
+    ], -lncurses)])
+
+# Optional GL 4 frontend
+AC_ARG_WITH([gl4],
+  [AS_HELP_STRING([--with-gl4],
+    [Add GL 4 GUI frontend @<:@default=check@:>@])],
+  [],
+  [: m4_divert_text([DEFAULTS], [with_gl4=check])])
+
+LIBGTK4=
+AS_IF([test "x$with_gl4" != xno],
+  [AC_CHECK_LIB([GL], [glDrawBuffers],
+    [AC_SUBST([LIBGL4_LD], ["`pkg-config --libs gl` -ldl"])
+     AC_SUBST([LIBGL4_CPP], [`pkg-config --cflags gl`])
+     AC_DEFINE([HAVE_LIBGL], [1],
+               [Define if machine has GL])
+    ],
+    [if test "x$with_gl4" != xcheck; then
+       AC_MSG_FAILURE(
+         [--with-gl4 was given, but test for GL failed])
      fi
     ], -lncurses)])
 

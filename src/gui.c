@@ -21,19 +21,16 @@ void gui_run_at_startup(void) {
     frontend_console_print(CASCAD_NOTICE);
 }
 
-void gui_run_at_gl_realize(
-    int width, int height, int scale_factor,
-    void *context, void *display, void *config
-) {
-    backend_realize_graphics(width, height, scale_factor, context, display, config);
+void gui_run_at_gl_realize(int width, int height, int scale_factor) {
+    frontend_realize_graphics(width, height, scale_factor);
 }
 
 void gui_run_at_gl_unrealize(void) {
-    backend_unrealize_graphics();
+    frontend_unrealize_graphics();
 }
 
 void gui_run_at_gl_render(void) {
-    backend_render_graphics();
+    frontend_render_graphics();
 }
 
 static cascad_shape_t current_shape = NULL;
@@ -42,7 +39,13 @@ static void gui_finalize_work(cascad_shape_t output) {
     if(!output) return;
     
     if(cascad_get_shape_type(output) == CASCAD_SOLID) {
-        backend_render_shape(output);
+        float *coords;
+        unsigned int ncoords;
+        unsigned int *indices;
+        unsigned int nindices;
+        backend_export_triangles((value_t) output + 1, &coords, &ncoords, &indices, &nindices);
+        frontend_send_triangles(coords, ncoords, indices, nindices);
+        gui_redraw_viewer();
     }
     
     current_shape = output;
@@ -100,7 +103,7 @@ const char *gui_lookup_word(const char *word) {
 
 void gui_main(int argc, char *argv[]) {
     set_message_handler(gui_message_handler);
-    backend_init_graphics(NULL);
+    frontend_init_graphics();
     frontend_main(argc, argv);
 }
 

@@ -36,6 +36,9 @@
 /* Define to 1 if you have the `isdigit' function. */
 #undef HAVE_ISDIGIT
 
+/* Define if machine has GL */
+#undef HAVE_LIBGL
+
 /* Define if machine has GTK4 */
 #undef HAVE_LIBGTK4
 
@@ -57,20 +60,11 @@
 /* Define to 1 if you have the `TKMesh' library (-lTKMesh). */
 #undef HAVE_LIBTKMESH
 
-/* Define to 1 if you have the `TKOpenGl' library (-lTKOpenGl). */
-#undef HAVE_LIBTKOPENGL
-
 /* Define to 1 if you have the `TKPrim' library (-lTKPrim). */
 #undef HAVE_LIBTKPRIM
 
-/* Define to 1 if you have the `TKService' library (-lTKService). */
-#undef HAVE_LIBTKSERVICE
-
 /* Define to 1 if you have the `TKSTL' library (-lTKSTL). */
 #undef HAVE_LIBTKSTL
-
-/* Define to 1 if you have the `TKV3d' library (-lTKV3d). */
-#undef HAVE_LIBTKV3D
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
