@@ -40,7 +40,7 @@ void frontend_realize_graphics(int scale_factor) {
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
     
@@ -140,7 +140,7 @@ void frontend_render_graphics(void) {
     }
     
     if(elements != NULL) {
-        glDrawElements(GL_LINES, element_count, GL_UNSIGNED_INT, NULL);
+        glDrawElements(GL_TRIANGLES, element_count, GL_UNSIGNED_INT, NULL);
         //glDrawArrays(GL_LINE_STRIP, 0, element_count); // Interesting
         if(status = glGetError()) warning("warning: visual rendering did not succeed (0x%x).\n", status);
     }

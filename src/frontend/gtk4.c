@@ -165,8 +165,8 @@ static void drag_begin_callback(
     double y,
     GtkWidget *area
 ) {
-    last_x = x;
-    last_y = y;
+    last_x = 0;//x;
+    last_y = 0;//y;
 }
 
 static void drag_update_callback(

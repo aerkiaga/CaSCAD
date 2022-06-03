@@ -152,11 +152,14 @@ static void gui_update_matrix() {
     
     multiply_matrix(tmp_matrix, yrot_matrix, xrot_matrix);
     
+    float near = 0.1f;
+    float far = 10.0f;
+    
     float proj_matrix[16] = {
-        1.0f, 0.0f,                 0.0f, 0.0f,
-        0.0f, viewer_aspect_ratio,  0.0f, 0.0f,
-        0.0f, 0.0f,                 1.0f, -1.0f,
-        0.0f, 0.0f,                 0.0f, 1.0f
+        1.0f, 0.0f,                 0.0f,                   0.0f,
+        0.0f, viewer_aspect_ratio,  0.0f,                   0.0f,
+        0.0f, 0.0f,                 2/(far-near),           -(far+near)/(far-near),
+        0.0f, 0.0f,                 0.0f,                   1.0f
     };
     
     float out_matrix[16];
