@@ -15,7 +15,6 @@ const char* vertex_shader =
 "uniform mat4 mvp;"
 "void main() {"
 "  gl_Position = mvp * vp;"
-"  gl_Position.z -= 1.0;"
 "}";
 
 const char* fragment_shader =
@@ -141,8 +140,8 @@ void frontend_render_graphics(void) {
     }
     
     if(elements != NULL) {
-        //glDrawElements(GL_TRIANGLES, element_count, GL_UNSIGNED_INT, NULL);
-        glDrawArrays(GL_LINE_STRIP, 0, element_count);
+        glDrawElements(GL_LINES, element_count, GL_UNSIGNED_INT, NULL);
+        //glDrawArrays(GL_LINE_STRIP, 0, element_count); // Interesting
         if(status = glGetError()) warning("warning: visual rendering did not succeed (0x%x).\n", status);
     }
     

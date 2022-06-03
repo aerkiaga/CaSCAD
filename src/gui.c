@@ -155,13 +155,13 @@ static void gui_update_matrix() {
     float proj_matrix[16] = {
         1.0f, 0.0f,                 0.0f, 0.0f,
         0.0f, viewer_aspect_ratio,  0.0f, 0.0f,
-        0.0f, 0.0f,                 1.0f, 0.0f,
+        0.0f, 0.0f,                 1.0f, -1.0f,
         0.0f, 0.0f,                 0.0f, 1.0f
     };
     
     float out_matrix[16];
     
-    multiply_matrix(out_matrix, proj_matrix, tmp_matrix);
+    multiply_matrix(out_matrix, tmp_matrix, proj_matrix);
     
     frontend_set_matrix(out_matrix);
     gui_redraw_viewer();

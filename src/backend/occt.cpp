@@ -141,12 +141,15 @@ void backend_export_triangles(
             coordinates[4*(point_count + i) + 2] = point.Z();
             coordinates[4*(point_count + i) + 3] = 1.0f;
         }
-        point_count += triangulation->NbNodes();
         
         for(Standard_Integer nt = 1; nt < triangulation->NbTriangles()+1; nt++) {
             
             Standard_Integer n1, n2, n3;
             triangulation->Triangle(nt).Get(n1, n2, n3);
+            
+            n1 += point_count;
+            n2 += point_count;
+            n3 += point_count;
             
             indices = (unsigned int *) realloc(indices, 3*(triangle_index + 1)*sizeof(unsigned int));
             if(face_orientation == TopAbs_Orientation::TopAbs_FORWARD) {
@@ -160,6 +163,8 @@ void backend_export_triangles(
             }
             triangle_index++;
         }
+        
+        point_count += triangulation->NbNodes();
     }
     
     *out_coords = coordinates;
