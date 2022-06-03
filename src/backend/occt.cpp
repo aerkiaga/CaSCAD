@@ -146,7 +146,7 @@ void backend_export_triangles(
         for(Standard_Integer nt = 1; nt < triangulation->NbTriangles()+1; nt++) {
             
             Standard_Integer n1, n2, n3;
-            triangulation->Triangle(nt).Get(n1, n2, n3);         
+            triangulation->Triangle(nt).Get(n1, n2, n3);
             
             indices = (unsigned int *) realloc(indices, 3*(triangle_index + 1)*sizeof(unsigned int));
             if(face_orientation == TopAbs_Orientation::TopAbs_FORWARD) {

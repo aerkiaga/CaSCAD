@@ -7,9 +7,12 @@
 #include "config.h"
 #include "context.h"
 #include "frontend.h"
+#include <math.h>
 #include <stdint.h>
 #include <string.h>
 #include <threads.h>
+
+static void gui_update_matrix();
 
 void gui_message_handler(char type, const char *msg) {
     frontend_console_print(msg);
@@ -21,8 +24,15 @@ void gui_run_at_startup(void) {
     frontend_console_print(CASCAD_NOTICE);
 }
 
-void gui_run_at_gl_realize(int width, int height, int scale_factor) {
-    frontend_realize_graphics(width, height, scale_factor);
+float viewer_aspect_ratio = 1.0;
+
+void gui_run_at_gl_realize(int scale_factor) {
+    frontend_realize_graphics(scale_factor);
+}
+
+void gui_run_at_gl_resize(int width, int height) {
+    viewer_aspect_ratio = width / (float) height;
+    gui_update_matrix();
 }
 
 void gui_run_at_gl_unrealize(void) {
@@ -99,6 +109,74 @@ const char *gui_lookup_word(const char *word) {
         }
     }
     return NULL;
+}
+
+static void multiply_matrix(float *c, const float *a, const float *b) {
+    c[0] = a[0]*b[0] + a[1]*b[4] + a[2]*b[8] + a[3]*b[12];
+    c[1] = a[0]*b[1] + a[1]*b[5] + a[2]*b[9] + a[3]*b[13];
+    c[2] = a[0]*b[2] + a[1]*b[6] + a[2]*b[10] + a[3]*b[14];
+    c[3] = a[0]*b[3] + a[1]*b[7] + a[2]*b[11] + a[3]*b[15];
+    c[4] = a[4]*b[0] + a[5]*b[4] + a[6]*b[8] + a[7]*b[12];
+    c[5] = a[4]*b[1] + a[5]*b[5] + a[6]*b[9] + a[7]*b[13];
+    c[6] = a[4]*b[2] + a[5]*b[6] + a[6]*b[10] + a[7]*b[14];
+    c[7] = a[4]*b[3] + a[5]*b[7] + a[6]*b[11] + a[7]*b[15];
+    c[8] = a[8]*b[0] + a[9]*b[4] + a[10]*b[8] + a[11]*b[12];
+    c[9] = a[8]*b[1] + a[9]*b[5] + a[10]*b[9] + a[11]*b[13];
+    c[10] = a[8]*b[2] + a[9]*b[6] + a[10]*b[10] + a[11]*b[14];
+    c[11] = a[8]*b[3] + a[9]*b[7] + a[10]*b[11] + a[11]*b[15];
+    c[12] = a[12]*b[0] + a[13]*b[4] + a[14]*b[8] + a[15]*b[12];
+    c[13] = a[12]*b[1] + a[13]*b[5] + a[14]*b[9] + a[15]*b[13];
+    c[14] = a[12]*b[2] + a[13]*b[6] + a[14]*b[10] + a[15]*b[14];
+    c[15] = a[12]*b[3] + a[13]*b[7] + a[14]*b[11] + a[15]*b[15];
+}
+
+float current_angle_x = 0.0f;
+float current_angle_y = 0.0f;
+
+static void gui_update_matrix() {
+    float tmp_matrix[16];
+    
+    float xrot_matrix[16] = {
+        1.0f, 0.0f,                     0.0f,                   0.0f,
+        0.0f, cosf(current_angle_x),    -sinf(current_angle_x), 0.0f,
+        0.0f, sinf(current_angle_x),    cosf(current_angle_x),  0.0f,
+        0.0f,                   0.0f, 0.0f,                     1.0f
+    };
+    
+    float yrot_matrix[16] = {
+        cosf(current_angle_y),  0.0f, sinf(current_angle_y),    0.0f,
+        0.0f,                   1.0f, 0.0f,                     0.0f,
+        -sinf(current_angle_y), 0.0f, cosf(current_angle_y),    0.0f,
+        0.0f,                   0.0f, 0.0f,                     1.0f
+    };
+    
+    multiply_matrix(tmp_matrix, yrot_matrix, xrot_matrix);
+    
+    float proj_matrix[16] = {
+        1.0f, 0.0f,                 0.0f, 0.0f,
+        0.0f, viewer_aspect_ratio,  0.0f, 0.0f,
+        0.0f, 0.0f,                 1.0f, 0.0f,
+        0.0f, 0.0f,                 0.0f, 1.0f
+    };
+    
+    float out_matrix[16];
+    
+    multiply_matrix(out_matrix, proj_matrix, tmp_matrix);
+    
+    frontend_set_matrix(out_matrix);
+    gui_redraw_viewer();
+}
+
+void gui_perform_pan(double dx, double dy) {    
+    float angle_y = 0.025 * dx;
+    current_angle_y -= angle_y;
+    
+    float angle_x = 0.025 * dy;
+    current_angle_x -= angle_x;
+    if(current_angle_x > M_PI/2.0f) current_angle_x = M_PI/2.0f;
+    if(current_angle_x < -M_PI/2.0f) current_angle_x = -M_PI/2.0f;
+    
+    gui_update_matrix();
 }
 
 void gui_main(int argc, char *argv[]) {

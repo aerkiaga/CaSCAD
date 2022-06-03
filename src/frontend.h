@@ -12,12 +12,13 @@ extern void frontend_ask_save_filename(void (*callback)(const char *));
 
 
 void frontend_init_graphics(void);
-void frontend_realize_graphics(int width, int height, int scale_factor);
+void frontend_realize_graphics(int scale_factor);
 void frontend_unrealize_graphics(void);
 void frontend_render_graphics(void);
 void frontend_send_triangles(
     const float *coords, unsigned int ncoords,
     const unsigned int *indices, unsigned int nindices
 );
+void frontend_set_matrix(float *matrix);
 
 #endif // HAVE_GUI

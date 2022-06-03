@@ -18,8 +18,6 @@ GtkTextBuffer *console_buffer;
 
 static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
     gtk_gl_area_make_current(GTK_GL_AREA(self));
-    int width = gtk_widget_get_width(self) ?: 100;
-    int height = gtk_widget_get_height(self) ?: 100;
     int scale_factor = gtk_widget_get_scale_factor(self);
     
     //gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(self), 1);
@@ -28,12 +26,21 @@ static void viewer_realize_callback(GtkWidget *self, gpointer user_data) {
     //gtk_gl_area_set_auto_render(GTK_GL_AREA(self), 0);
     
     GdkGLContext *context = gtk_gl_area_get_context(GTK_GL_AREA(self));
-    if(gdk_gl_context_get_use_es(context))
-        puts("Using OpenGL ES");
-    else
-        puts("Using OpenGL");
+    int major_version, minor_version;
+    gdk_gl_context_get_version(context, &major_version, &minor_version);
+    printf(
+        "Using OpenGL%s %d.%d %s profile\n",
+        gdk_gl_context_get_use_es(context) ? " ES" : "",
+        major_version,
+        minor_version,
+        gdk_gl_context_is_legacy(context) ? "compatibility" : "core"
+    );
     
-    gui_run_at_gl_realize(width, height, scale_factor);
+    gui_run_at_gl_realize(scale_factor);
+}
+
+void viewer_resize_callback(GtkGLArea* self, gint width, gint height, gpointer user_data) {
+    gui_run_at_gl_resize(width, height);
 }
 
 static void viewer_unrealize_callback(GtkWidget *self, gpointer user_data) {
@@ -150,6 +157,50 @@ static void editor_changed_callback(GtkTextBuffer* self, gpointer user_data) {
     }
 }
 
+double last_x, last_y;
+
+static void drag_begin_callback(
+    GtkGestureDrag *gesture,
+    double x,
+    double y,
+    GtkWidget *area
+) {
+    last_x = x;
+    last_y = y;
+}
+
+static void drag_update_callback(
+    GtkGestureDrag *gesture,
+    double x,
+    double y,
+    GtkWidget *area
+) {
+    double rel_x, rel_y;
+    rel_x = x - last_x;
+    rel_y = y - last_y;
+
+    last_x += rel_x;
+    last_y += rel_y;
+    
+    gui_perform_pan(rel_x, rel_y);
+}
+
+static void drag_end_callback(
+    GtkGestureDrag *gesture,
+    double x,
+    double y,
+    GtkWidget *area
+) {
+    double rel_x, rel_y;
+    rel_x = x - last_x;
+    rel_y = y - last_y;
+
+    last_x += rel_x;
+    last_y += rel_y;
+    
+    gui_perform_pan(rel_x, rel_y);
+}
+
 static void add_style(GtkWidget *widget, const char *css) {
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gtk_css_provider_load_from_data(css_provider, css, -1);
@@ -243,13 +294,21 @@ void frontend_create(const char *name) {
         gtk_widget_set_hexpand(v_box2, 1);
         gtk_widget_set_vexpand(v_box2, 1);
         gtk_box_append(GTK_BOX(h_box), v_box2);
-        
+
+            GtkGesture *viewer_drag_gesture = gtk_gesture_drag_new();
+            gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(viewer_drag_gesture), GDK_BUTTON_PRIMARY);
+            g_signal_connect(viewer_drag_gesture, "drag-begin", G_CALLBACK(drag_begin_callback), NULL);
+            g_signal_connect(viewer_drag_gesture, "drag-update", G_CALLBACK(drag_update_callback), NULL);
+            g_signal_connect(viewer_drag_gesture, "drag-end", G_CALLBACK(drag_end_callback), NULL);
+  
             viewer = gtk_gl_area_new();
             gtk_widget_set_hexpand(viewer, 1);
             gtk_widget_set_vexpand(viewer, 1);
             gtk_widget_set_size_request(viewer, 1, 350);
             g_signal_connect(viewer, "realize", G_CALLBACK(viewer_realize_callback), NULL);
             g_signal_connect(viewer, "render", G_CALLBACK(viewer_render_callback), NULL);
+            g_signal_connect(viewer, "resize", G_CALLBACK(viewer_resize_callback), NULL);
+            gtk_widget_add_controller(viewer, GTK_EVENT_CONTROLLER(viewer_drag_gesture));
             gtk_box_append(GTK_BOX(v_box2), viewer);
         
             GtkWidget *button_bar2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
