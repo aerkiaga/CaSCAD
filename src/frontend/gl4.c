@@ -303,7 +303,7 @@ void frontend_render_graphics(void) {
     glDrawBuffers(1, drawBuffersList);
 
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_GEQUAL);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
@@ -312,7 +312,7 @@ void frontend_render_graphics(void) {
     glGetFloatv(GL_COLOR_CLEAR_VALUE, tmp);
     glGetFloatv(GL_DEPTH_CLEAR_VALUE, tmp + 4);
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClearDepth(1.0);
+    glClearDepth(0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(tmp[0], tmp[1], tmp[2], tmp[3]);
     glClearDepth(tmp[4]);
@@ -394,7 +394,7 @@ void frontend_render_graphics(void) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glUseProgram(0);
-    //glDisable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
 }
 
 void frontend_send_triangles(
