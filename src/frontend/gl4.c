@@ -89,8 +89,25 @@ const char* effects_fragment_shader =
 "varying vec2 UV;"
 "uniform sampler2D texRGB;"
 "uniform sampler2D texDepth;"
+"uniform float width, height;"
+"vec3 getNormalAt(vec2 normalUV) {"
+"  float xpos = texture2D(texDepth, normalUV + vec2(1.0 / width, 0.0)).x;"
+"  float xneg = texture2D(texDepth, normalUV - vec2(1.0 / width, 0.0)).x;"
+"  float ypos = texture2D(texDepth, normalUV + vec2(0.0, 1.0 / height)).x;"
+"  float yneg = texture2D(texDepth, normalUV - vec2(0.0, 1.0 / height)).x;"
+"  float xdelta = xpos - xneg;"
+"  float ydelta = ypos - yneg;"
+"  vec3 r = vec3(xdelta, ydelta, 1.0 / width + 1.0 / height);"
+"  return normalize(r);"
+"}"
+"float computeDirectionalLuminosity() {"
+"  return getNormalAt(UV).z;"
+"}"
 "void main() {"
-"  gl_FragColor = texture2D(texRGB, UV);"
+"  float luminosity = 1.0;"
+"  luminosity *= computeDirectionalLuminosity();"
+"  vec4 color = texture2D(texRGB, UV);"
+"  gl_FragColor = vec4(color.xyz * luminosity, color.w);"
 "  gl_FragDepth = texture2D(texDepth, UV).x;"
 "}";
 
@@ -111,6 +128,8 @@ GLuint quad_VAO = 0;
 
 GLuint texRGB = 0;
 GLuint texDepth = 0;
+GLuint shader_width = 0;
+GLuint shader_height = 0;
 
 const GLfloat quad_vertices[] = {
     -1.0f, -1.0f, 0.0f,
@@ -132,8 +151,9 @@ void frontend_realize_graphics(int scale_factor) {
     glDebugMessageCallback(debug_callback, NULL);
     #endif
 
+    glDepthMask(GL_TRUE);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
@@ -154,7 +174,7 @@ void frontend_realize_graphics(int scale_factor) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_tex, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depth_tex, 0);
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -228,6 +248,8 @@ void frontend_realize_graphics(int scale_factor) {
 
     texRGB = glGetUniformLocation(effects_program, "texRGB");
     texDepth = glGetUniformLocation(effects_program, "texDepth");
+    shader_width = glGetUniformLocation(effects_program, "width");
+    shader_height = glGetUniformLocation(effects_program, "height");
 }
 
 int view_width, view_height;
@@ -267,7 +289,7 @@ void frontend_render_graphics(void) {
         if(status = glGetError()) warning("warning: offscreen texture creation did not succeed (0x%x).\n", status);
         
         glBindTexture(GL_TEXTURE_2D, depth_tex);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, view_width, view_height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, view_width, view_height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
         if(status = glGetError()) warning("warning: offscreen depth texture creation did not succeed (0x%x).\n", status);
 
         dimensions_dirty = 0;
@@ -279,6 +301,12 @@ void frontend_render_graphics(void) {
     glBindFramebuffer(GL_FRAMEBUFFER, tmp_FBO);
     GLenum drawBuffersList[1] = { GL_COLOR_ATTACHMENT0 };
     glDrawBuffers(1, drawBuffersList);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 
     GLfloat tmp[5];
     glGetFloatv(GL_COLOR_CLEAR_VALUE, tmp);
@@ -356,6 +384,9 @@ void frontend_render_graphics(void) {
     if(status = glGetError()) warning("warning: depth texture binding did not succeed (0x%x).\n", status);
     glUniform1i(texDepth, 2);
 
+    glUniform1f(shader_width, view_width);
+    glUniform1f(shader_height, view_height);
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
     if(status = glGetError()) warning("warning: texture rendering did not succeed (0x%x).\n", status);
     
@@ -363,6 +394,7 @@ void frontend_render_graphics(void) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glUseProgram(0);
+    //glDisable(GL_DEPTH_TEST);
 }
 
 void frontend_send_triangles(
