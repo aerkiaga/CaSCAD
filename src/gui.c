@@ -33,6 +33,7 @@ void gui_run_at_gl_realize(int scale_factor) {
 void gui_run_at_gl_resize(int width, int height) {
     viewer_aspect_ratio = width / (float) height;
     gui_update_matrix();
+    frontend_resize_graphics(width, height);
 }
 
 void gui_run_at_gl_unrealize(void) {
@@ -130,6 +131,7 @@ static void multiply_matrix(float *c, const float *a, const float *b) {
     c[15] = a[12]*b[3] + a[13]*b[7] + a[14]*b[11] + a[15]*b[15];
 }
 
+float current_scale = 1.0f;
 float current_angle_x = 0.0f;
 float current_angle_y = 0.0f;
 
@@ -140,7 +142,7 @@ static void gui_update_matrix() {
         1.0f, 0.0f,                     0.0f,                   0.0f,
         0.0f, cosf(current_angle_x),    -sinf(current_angle_x), 0.0f,
         0.0f, sinf(current_angle_x),    cosf(current_angle_x),  0.0f,
-        0.0f,                   0.0f, 0.0f,                     1.0f
+        0.0f,                   0.0f,   0.0f,                   1.0f
     };
     
     float yrot_matrix[16] = {
@@ -152,6 +154,17 @@ static void gui_update_matrix() {
     
     multiply_matrix(tmp_matrix, yrot_matrix, xrot_matrix);
     
+    float tmp2_matrix[16];
+
+    float scale_matrix[16] = {
+        current_scale,  0.0f,           0.0f,           0.0f,
+        0.0f,           current_scale,  0.0f,           0.0f,
+        0.0f,           0.0f,           current_scale,  0.0f,
+        0.0f,           0.0f,           0.0f,           1.0f
+    };
+
+    multiply_matrix(tmp2_matrix, tmp_matrix, scale_matrix);
+
     float near = 0.1f;
     float far = 10.0f;
     
@@ -164,7 +177,7 @@ static void gui_update_matrix() {
     
     float out_matrix[16];
     
-    multiply_matrix(out_matrix, tmp_matrix, proj_matrix);
+    multiply_matrix(out_matrix, tmp2_matrix, proj_matrix);
     
     frontend_set_matrix(out_matrix);
     gui_redraw_viewer();
@@ -179,6 +192,13 @@ void gui_perform_pan(double dx, double dy) {
     if(current_angle_x > M_PI/2.0f) current_angle_x = M_PI/2.0f;
     if(current_angle_x < -M_PI/2.0f) current_angle_x = -M_PI/2.0f;
     
+    gui_update_matrix();
+}
+
+void gui_perform_zoom(double dy) {
+    double ratio = pow(2.0, -dy / 10.0);
+    current_scale *= ratio;
+
     gui_update_matrix();
 }
 

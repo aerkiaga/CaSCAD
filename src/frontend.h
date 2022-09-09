@@ -13,6 +13,7 @@ extern void frontend_ask_save_filename(void (*callback)(const char *));
 
 void frontend_init_graphics(void);
 void frontend_realize_graphics(int scale_factor);
+void frontend_resize_graphics(int width, int height);
 void frontend_unrealize_graphics(void);
 void frontend_render_graphics(void);
 void frontend_send_triangles(

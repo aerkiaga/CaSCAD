@@ -20,6 +20,7 @@ extern void gui_run_at_preview(void);
 extern void gui_run_at_export_stl(void);
 extern void gui_redraw_viewer(void);
 extern void gui_perform_pan(double dx, double dy);
+extern void gui_perform_zoom(double dy);
 
 extern const char *gui_lookup_word(const char *word);
 

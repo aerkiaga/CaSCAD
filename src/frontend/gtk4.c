@@ -201,6 +201,27 @@ static void drag_end_callback(
     gui_perform_pan(rel_x, rel_y);
 }
 
+static void scroll_begin_callback(
+    GtkEventControllerScroll *event,
+    gpointer user_data
+) {
+}
+
+static void scroll_callback(
+    GtkEventControllerScroll *event,
+    double dx,
+    double dy,
+    gpointer user_data
+) {
+    gui_perform_zoom(dy);
+}
+
+static void scroll_end_callback(
+    GtkEventControllerScroll *event,
+    gpointer user_data
+) {
+}
+
 static void add_style(GtkWidget *widget, const char *css) {
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gtk_css_provider_load_from_data(css_provider, css, -1);
@@ -300,6 +321,11 @@ void frontend_create(const char *name) {
             g_signal_connect(viewer_drag_gesture, "drag-begin", G_CALLBACK(drag_begin_callback), NULL);
             g_signal_connect(viewer_drag_gesture, "drag-update", G_CALLBACK(drag_update_callback), NULL);
             g_signal_connect(viewer_drag_gesture, "drag-end", G_CALLBACK(drag_end_callback), NULL);
+            
+            GtkEventController *viewer_scroll_event = gtk_event_controller_scroll_new(GTK_EVENT_CONTROLLER_SCROLL_VERTICAL);
+            g_signal_connect(viewer_scroll_event, "scroll-begin", G_CALLBACK(scroll_begin_callback), NULL);
+            g_signal_connect(viewer_scroll_event, "scroll", G_CALLBACK(scroll_callback), NULL);
+            g_signal_connect(viewer_scroll_event, "scroll-end", G_CALLBACK(scroll_end_callback), NULL);
   
             viewer = gtk_gl_area_new();
             gtk_widget_set_hexpand(viewer, 1);
@@ -309,6 +335,7 @@ void frontend_create(const char *name) {
             g_signal_connect(viewer, "render", G_CALLBACK(viewer_render_callback), NULL);
             g_signal_connect(viewer, "resize", G_CALLBACK(viewer_resize_callback), NULL);
             gtk_widget_add_controller(viewer, GTK_EVENT_CONTROLLER(viewer_drag_gesture));
+            gtk_widget_add_controller(viewer, GTK_EVENT_CONTROLLER(viewer_scroll_event));
             gtk_box_append(GTK_BOX(v_box2), viewer);
         
             GtkWidget *button_bar2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
