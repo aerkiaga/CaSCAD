@@ -73,6 +73,7 @@ static ptrdiff_t allocate_variable(context_t context) {
     context->data = (value_t) realloc(
         context->data, (2*context->data_variables + 1)*sizeof(union tree_child_t)
     );
+    context->data[0].u = 2*context->data_variables;
     return r;
 }
 

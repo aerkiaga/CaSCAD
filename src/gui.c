@@ -131,7 +131,7 @@ static void multiply_matrix(float *c, const float *a, const float *b) {
     c[15] = a[12]*b[3] + a[13]*b[7] + a[14]*b[11] + a[15]*b[15];
 }
 
-float current_scale = 1.0f;
+float current_scale = 0.1f;
 float current_angle_x = 0.0f;
 float current_angle_y = 0.0f;
 

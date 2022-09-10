@@ -118,6 +118,20 @@ void call_external(
 void interpreter_main_loop(context_t context) {
     tree_t ip = context->code + 1;
     while(ip <= context->code + context->code[0].u) {
+        /*
+        fprintf(stderr, "Type: %d\n", get_top_value_type(context));
+        int i;
+        fprintf(stderr, "Tmp Stack\n");
+        for(i = 1; i < 2*context->tmp_stack_pushed + 1; i += 2)
+            fprintf(stderr, "%ld\t%ld\n", context->tmp_stack[i].u, context->tmp_stack[i+1].u);
+        fprintf(stderr, "Call Stack\n");
+        for(i = 1; i <= context->call_stack[0].u; i += 2)
+            fprintf(stderr, "%ld\t%ld\n", context->call_stack[i].u, context->call_stack[i+1].u);
+        fprintf(stderr, "Data\n");
+        for(i = 1; i <= context->data[0].u; i += 2)
+            fprintf(stderr, "%ld\t%ld\n", context->data[i].u, context->data[i+1].u);
+        fprintf(stderr, "To execute: %d\n\n", ip - context->code);
+        */
         uintptr_t opcode = ip->u;
         switch(opcode) {
             case OP_FINISH:
@@ -138,7 +152,7 @@ void interpreter_main_loop(context_t context) {
                     error("runtime error: function/module return address corrupted at return.");
                 }
                 ip = context->code + pop_value_data_u(context);
-                push_value_typed_a(context, VALUE_TYPE_RETURN, return_value);
+                push_value_typed_a(context, return_type, return_value);
                 ip++; // skip the call instruction's operand
                 break;
             }
@@ -169,7 +183,7 @@ void interpreter_main_loop(context_t context) {
                 break;
             }
             case OP_LOAD: {
-                push_value(context, &context->data[ip[1].u]);
+                push_value(context, &context->data[ip[1].u - 1]);
                 ip++;
                 break;
             }
