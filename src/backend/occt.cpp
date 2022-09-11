@@ -5,6 +5,7 @@
 #include <opencascade/Message_ProgressRange.hxx>
 #include <opencascade/BRepAlgoAPI_Fuse.hxx>
 #include <opencascade/BRepMesh_IncrementalMesh.hxx>
+#include <opencascade/BRepPrimAPI_MakeBox.hxx>
 #include <opencascade/BRepPrimAPI_MakeCone.hxx>
 #include <opencascade/BRepPrimAPI_MakeCylinder.hxx>
 #include <opencascade/BRepPrimAPI_MakeSphere.hxx>
@@ -37,6 +38,40 @@ void backend_sphere(value_t out_value, value_t parameters) {
     );
     const TopoDS_Solid *output_shape = &make_sphere->Solid();
 
+    out_value[0].u = VALUE_TYPE_SOLID;
+    out_value[1].p = const_cast<void *>(static_cast<const void *>(output_shape));
+}
+
+void backend_cube(value_t out_value, value_t parameters) {
+    /* Ignore first argument. */
+    if(parameters[2].u != VALUE_TYPE_NUMBER && parameters[2].u != VALUE_TYPE_VECTOR)
+        error("runtime error: argument type not among valid types.\n");
+    tree_child_t dimensions = parameters[3];
+
+    double dx, dy, dz;
+    if(parameters[2].u == VALUE_TYPE_VECTOR) {
+        if(dimensions.a[0].u != 6)
+            error("runtime error: provided vector is not 3-dimensional.\n");
+        if(dimensions.a[1].u != VALUE_TYPE_NUMBER ||
+           dimensions.a[3].u != VALUE_TYPE_NUMBER ||
+           dimensions.a[5].u != VALUE_TYPE_NUMBER)
+            error("runtime error: provided vector contains non-numerical values.\n");
+        dx = dimensions.a[2].d;
+        dy = dimensions.a[4].d;
+        dz = dimensions.a[6].d;
+    } else {
+        dx = dy = dz = dimensions.d;
+    }
+    
+    gp_Pnt *origin = TEST_VALUE(parameters + 4) ?
+        new gp_Pnt(-dx/2.0, -dy/2.0, -dz/2.0) :
+        new gp_Pnt(0.0, 0.0, 0.0)
+    ;
+    BRepPrimAPI_MakeBox *make_box = new BRepPrimAPI_MakeBox(
+        *origin, dx, dy, dz
+    );
+    const TopoDS_Solid *output_shape = &make_box->Solid();
+    
     out_value[0].u = VALUE_TYPE_SOLID;
     out_value[1].p = const_cast<void *>(static_cast<const void *>(output_shape));
 }

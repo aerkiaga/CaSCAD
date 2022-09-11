@@ -239,6 +239,9 @@ void interpreter_main_loop(context_t context) {
             case OP_SPHERE:
                 call_external(context, backend_sphere, 2, VALUE_TYPE_EMPTY);
                 break;
+            case OP_CUBE:
+                call_external(context, backend_cube, 3, VALUE_TYPE_EMPTY);
+                break;
             case OP_CYLINDER:
                 call_external(context, backend_cylinder, 5, VALUE_TYPE_EMPTY);
                 break;
@@ -366,6 +369,9 @@ void debug_bytecode(context_t context) {
                 break;
             case OP_SPHERE:
                 fprintf(stderr, "OP_SPHERE\n");
+                break;
+            case OP_CUBE:
+                fprintf(stderr, "OP_CUBE\n");
                 break;
             case OP_CYLINDER:
                 fprintf(stderr, "OP_CYLINDER\n");

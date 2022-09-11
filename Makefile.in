@@ -542,7 +542,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
-TESTS = test/empty test/assignment test/definition test/lambda test/arguments test/arguments2 test/module test/import test/builtin
+TESTS = test/empty test/assignment test/definition test/lambda test/arguments test/arguments2 test/module test/import test/builtin test/vector
 EXTRA_DIST = test
 LOG_COMPILER = ${srcdir}/test/test.sh
 all: all-recursive
@@ -898,6 +898,13 @@ test/import.log: test/import
 test/builtin.log: test/builtin
 	@p='test/builtin'; \
 	b='test/builtin'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test/vector.log: test/vector
+	@p='test/vector'; \
+	b='test/vector'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

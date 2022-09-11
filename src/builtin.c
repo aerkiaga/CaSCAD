@@ -5,9 +5,9 @@
 #include <stdint.h>
 #include <string.h>
 
-/**********
+/********
 * SPHERE *
- **********/
+ ********/
 static tree_t sphere_default(void) {
     /* Default parameter values. */
     tree_t r = tree_new_siblings(1);
@@ -27,6 +27,25 @@ static int sphere_param(ast_t param, tree_t passed_values) {
 
 static void sphere_code(context_t context) {
     append_code_u(context, OP_SPHERE);
+}
+
+/******
+* CUBE *
+ ******/
+static tree_t cube_default(void) {
+    /* Default parameter values. */
+    tree_t r = tree_new_siblings(2);
+    r[1].a = ast_bind_statement("size", ast_number_literal(1.0));
+    r[2].a = ast_bind_statement("center", ast_bool_literal(0));
+    return r;
+}
+
+static int cube_param(ast_t param, tree_t passed_values) {
+    return 1;
+}
+
+static void cube_code(context_t context) {
+    append_code_u(context, OP_CUBE);
 }
 
 /**********
@@ -72,9 +91,11 @@ static void cylinder_code(context_t context) {
 }
 
 union tree_child_t builtins[] = {
-    {.u = 2 * 5},
+    {.u = 3 * 5},
     {.s = "sphere"}, {.u = BIND_TYPE_MODULE},
         {.p = sphere_default}, {.p = sphere_param}, {.p = sphere_code},
+    {.s = "cube"}, {.u = BIND_TYPE_MODULE},
+        {.p = cube_default}, {.p = cube_param}, {.p = cube_code},
     {.s = "cylinder"}, {.u = BIND_TYPE_MODULE},
         {.p = cylinder_default}, {.p = cylinder_param}, {.p = cylinder_code}
 };
