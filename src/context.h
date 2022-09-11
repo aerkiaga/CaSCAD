@@ -18,6 +18,7 @@ enum {
     VALUE_TYPE_NUMBER,
     VALUE_TYPE_BOOLEAN,
     VALUE_TYPE_STRING,
+    VALUE_TYPE_VECTOR,
     VALUE_TYPE_FUNCTION,
     VALUE_TYPE_MODULE,
     VALUE_TYPE_EMPTY,
@@ -48,7 +49,9 @@ enum {
     OP_TRUE,    // push literal true, no parameters
     OP_FALSE,   // push literal false, no parameters
     OP_STRING,  // push literal string $1
+    OP_VECTOR,  // push empty vector
     OP_DIVIDE,  // pop divisor, pop dividend, push quotient
+    OP_APPEND,  // pop value, pop vector, push new vector
     OP_EMPTY,   // push empty geometry, no parameters
     OP_SPHERE,  // pop 'r' and '@children', push sphere
     OP_CYLINDER,// pop 'center', 'r2', 'r1', 'h' and '@children', push cylinder

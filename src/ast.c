@@ -254,6 +254,9 @@ int ast_debug_walk_fn(ast_t node, size_t index, void *data, void **common) {
             case AST_TYPE_STRING_LITERAL:
                 fprintf(stderr, "AST_TYPE_STRING_LITERAL %s\n", node[1].s);
                 return 2;
+            case AST_TYPE_VECTOR_LITERAL:
+                fprintf(stderr, "AST_TYPE_VECTOR_LITERAL\n");
+                return 1;
             case AST_TYPE_FUNCTION_LITERAL:
                 fprintf(stderr, "AST_TYPE_FUNCTION_LITERAL\n");
                 return 1;

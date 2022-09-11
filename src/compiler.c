@@ -273,6 +273,18 @@ static int compile_walk_fn_choose(
             (*shared)->no_children = 1;
             return 2;
         }
+        case AST_TYPE_VECTOR_LITERAL: {
+            /* === Compute and push values onto the stack. === */
+            append_code_u(context, OP_VECTOR);
+            size_t i;
+            for(i = 1; i <= node[-1].u - 1; i++) {
+                tree_t element = node[i].a;
+                compile_subexpression(element, context, node[0].u);
+                append_code_u(context, OP_APPEND);
+            }
+            (*shared)->no_children = 1;
+            return INT_MAX;
+        }
         case AST_TYPE_FUNCTION_LITERAL:
         case AST_TYPE_MODULE_LITERAL: {
             size_t parameter_count = node[1].a[0].u - 1;

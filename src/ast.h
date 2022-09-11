@@ -31,7 +31,7 @@ enum {
     AST_TYPE_BOOL_LITERAL,                  // value
     AST_TYPE_STRING_LITERAL,                // value
     AST_TYPE_RANGE_LITERAL,
-    AST_TYPE_VECTOR_LITERAL,
+    AST_TYPE_VECTOR_LITERAL,                // expression...
     AST_TYPE_FUNCTION_LITERAL,              // proto_list  expression
     AST_TYPE_MODULE_LITERAL,                // proto_list  statement
     

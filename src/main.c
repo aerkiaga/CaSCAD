@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
         FILE *file = fopen(filename, "rt");
         if(!file) error("cascad: file '%s' could not be opened\n", filename);
         cascad_ast_t ast = cascad_load_file(file);
+        //debug_ast(ast);
         if(!ast) error("cascad: file '%s' could not be parsed\n", filename);
         cascad_context_t ctx = cascad_gen_context(ast, filename);
         if(!ctx) error("cascad: file '%s' could not be compiled\n", filename);

@@ -204,6 +204,9 @@ void interpreter_main_loop(context_t context) {
                 push_value_typed_s(context, VALUE_TYPE_STRING, ip[1].s);
                 ip++;
                 break;
+            case OP_VECTOR:
+                push_value_typed_a(context, VALUE_TYPE_VECTOR, tree_new_siblings(0));
+                break;
             case OP_DIVIDE: {
                 if(get_top_value_type(context) != VALUE_TYPE_NUMBER) {
                     error("runtime error: divisor is not a number.");
@@ -214,6 +217,20 @@ void interpreter_main_loop(context_t context) {
                 }
                 double dividend = pop_value_data_d(context);
                 push_value_typed_d(context, VALUE_TYPE_NUMBER, dividend / divisor);
+                break;
+            }
+            case OP_APPEND: {
+                unsigned int type = get_top_value_type(context);
+                union tree_child_t value = pop_value_data_raw(context);
+                if(get_top_value_type(context) != VALUE_TYPE_VECTOR) {
+                    error("runtime error: appending to object that's not a vector.");
+                }
+                tree_t vector = pop_value_data_a(context);
+                size_t vector_size = vector[0].u;
+                vector = tree_resize(vector, vector_size + 2);
+                vector[vector_size + 1].u = type;
+                vector[vector_size + 2] = value;
+                push_value_typed_a(context, VALUE_TYPE_VECTOR, vector);
                 break;
             }
             case OP_EMPTY:
@@ -335,8 +352,14 @@ void debug_bytecode(context_t context) {
                 fprintf(stderr, "OP_STRING \"%s\"\n", ip[1].s);
                 ip++;
                 break;
+            case OP_VECTOR:
+                fprintf(stderr, "OP_VECTOR\n");
+                break;
             case OP_DIVIDE:
                 fprintf(stderr, "OP_DIVIDE\n");
+                break;
+            case OP_APPEND:
+                fprintf(stderr, "OP_APPEND\n");
                 break;
             case OP_EMPTY:
                 fprintf(stderr, "OP_EMPTY\n");
