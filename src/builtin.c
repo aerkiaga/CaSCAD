@@ -90,14 +90,33 @@ static void cylinder_code(context_t context) {
     append_code_u(context, OP_CYLINDER);
 }
 
+/*******
+* UNION *
+ *******/
+static tree_t union_default(void) {
+    /* Default parameter values. */
+    return tree_new_siblings(0);
+}
+
+static int union_param(ast_t param, tree_t passed_values) {
+    /* Check other parameter names. */
+    return 1;
+}
+
+static void union_code(context_t context) {
+    append_code_u(context, OP_UNION);
+}
+
 union tree_child_t builtins[] = {
-    {.u = 3 * 5},
+    {.u = 4 * 5},
     {.s = "sphere"}, {.u = BIND_TYPE_MODULE},
         {.p = sphere_default}, {.p = sphere_param}, {.p = sphere_code},
     {.s = "cube"}, {.u = BIND_TYPE_MODULE},
         {.p = cube_default}, {.p = cube_param}, {.p = cube_code},
     {.s = "cylinder"}, {.u = BIND_TYPE_MODULE},
-        {.p = cylinder_default}, {.p = cylinder_param}, {.p = cylinder_code}
+        {.p = cylinder_default}, {.p = cylinder_param}, {.p = cylinder_code},
+    {.s = "union"}, {.u = BIND_TYPE_MODULE},
+        {.p = union_default}, {.p = union_param}, {.p = union_code}
 };
 
 const tree_t search_in_builtins(const char *name) {
