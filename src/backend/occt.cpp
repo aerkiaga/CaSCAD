@@ -7,6 +7,7 @@
 #include <opencascade/BRepMesh_IncrementalMesh.hxx>
 #include <opencascade/BRepPrimAPI_MakeCone.hxx>
 #include <opencascade/BRepPrimAPI_MakeCylinder.hxx>
+#include <opencascade/BRepPrimAPI_MakeSphere.hxx>
 #include <opencascade/BRep_Tool.hxx>
 #include <opencascade/Standard_Handle.hxx>
 #include <opencascade/StlAPI.hxx>
@@ -22,6 +23,23 @@
 #include <opencascade/NCollection_Array1.hxx>
 #include <opencascade/TCollection_AsciiString.hxx>
 #include <opencascade/TColStd_IndexedDataMapOfStringString.hxx>
+
+void backend_sphere(value_t out_value, value_t parameters) {
+    /* Ignore first argument. */
+    EXPECT_ARG_TYPE(2, VALUE_TYPE_NUMBER);
+    double r = parameters[3].d;
+
+    gp_Pnt *origin = new gp_Pnt(
+        0.0, 0.0, 0.0
+    );
+    BRepPrimAPI_MakeSphere *make_sphere = new BRepPrimAPI_MakeSphere(
+        *origin, r
+    );
+    const TopoDS_Solid *output_shape = &make_sphere->Solid();
+
+    out_value[0].u = VALUE_TYPE_SOLID;
+    out_value[1].p = const_cast<void *>(static_cast<const void *>(output_shape));
+}
 
 void backend_cylinder(value_t out_value, value_t parameters) {
     /* Ignore first argument. */

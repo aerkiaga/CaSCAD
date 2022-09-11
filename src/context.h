@@ -50,6 +50,7 @@ enum {
     OP_STRING,  // push literal string $1
     OP_DIVIDE,  // pop divisor, pop dividend, push quotient
     OP_EMPTY,   // push empty geometry, no parameters
+    OP_SPHERE,  // pop 'r' and '@children', push sphere
     OP_CYLINDER,// pop 'center', 'r2', 'r1', 'h' and '@children', push cylinder
     OP_GROUP,   // pop $1 values from the stack and push a list of geometry
     OP_UNION    // pop chikd or list of children from the stack and push their union

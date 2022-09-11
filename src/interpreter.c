@@ -219,6 +219,9 @@ void interpreter_main_loop(context_t context) {
             case OP_EMPTY:
                 push_value_typed_u(context, VALUE_TYPE_EMPTY, 0);
                 break;
+            case OP_SPHERE:
+                call_external(context, backend_sphere, 2, VALUE_TYPE_EMPTY);
+                break;
             case OP_CYLINDER:
                 call_external(context, backend_cylinder, 5, VALUE_TYPE_EMPTY);
                 break;
@@ -337,6 +340,9 @@ void debug_bytecode(context_t context) {
                 break;
             case OP_EMPTY:
                 fprintf(stderr, "OP_EMPTY\n");
+                break;
+            case OP_SPHERE:
+                fprintf(stderr, "OP_SPHERE\n");
                 break;
             case OP_CYLINDER:
                 fprintf(stderr, "OP_CYLINDER\n");

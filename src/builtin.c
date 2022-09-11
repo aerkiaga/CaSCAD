@@ -6,6 +6,30 @@
 #include <string.h>
 
 /**********
+* SPHERE *
+ **********/
+static tree_t sphere_default(void) {
+    /* Default parameter values. */
+    tree_t r = tree_new_siblings(1);
+    r[1].a = ast_bind_statement("r", ast_number_literal(1.0));
+    return r;
+}
+
+static int sphere_param(ast_t param, tree_t passed_values) {
+    /* Check other parameter names. */
+    const char *name = param[2].s;
+    if(!strcmp("d", name)) passed_values[1].a = ast_bind_statement("r",
+        ast_binary_expression(BINARY_OP_DIVIDE, param[3].a, ast_number_literal(2.0))
+    );
+    else return 1;
+    return 0;
+}
+
+static void sphere_code(context_t context) {
+    append_code_u(context, OP_SPHERE);
+}
+
+/**********
 * CYLINDER *
  **********/
 static tree_t cylinder_default(void) {
@@ -48,14 +72,16 @@ static void cylinder_code(context_t context) {
 }
 
 union tree_child_t builtins[] = {
-    {.u = 1},
+    {.u = 2 * 5},
+    {.s = "sphere"}, {.u = BIND_TYPE_MODULE},
+        {.p = sphere_default}, {.p = sphere_param}, {.p = sphere_code},
     {.s = "cylinder"}, {.u = BIND_TYPE_MODULE},
         {.p = cylinder_default}, {.p = cylinder_param}, {.p = cylinder_code}
 };
 
 const tree_t search_in_builtins(const char *name) {
     size_t i;
-    for(i = 1; i <= builtins[0].u; i += 3) {
+    for(i = 1; i <= builtins[0].u; i += 5) {
         if(!strcmp(name, builtins[i].s)) return &builtins[i];
     }
     return NULL;
