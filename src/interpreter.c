@@ -259,6 +259,9 @@ void interpreter_main_loop(context_t context) {
                 ip++;
                 break;
             }
+            case OP_TRANSLATE:
+                call_external(context, backend_translate, 2, VALUE_TYPE_EMPTY);
+                break;
             case OP_UNION:
                 call_external(context, backend_union, 1, VALUE_TYPE_EMPTY);
                 break;
@@ -379,6 +382,9 @@ void debug_bytecode(context_t context) {
             case OP_GROUP:
                 fprintf(stderr, "OP_GROUP %ld\n", ip[1].u);
                 ip++;
+                break;
+            case OP_TRANSLATE:
+                fprintf(stderr, "OP_TRANSLATE\n");
                 break;
             case OP_UNION:
                 fprintf(stderr, "OP_UNION\n");

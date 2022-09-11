@@ -109,6 +109,31 @@ void backend_cylinder(value_t out_value, value_t parameters) {
     out_value[1].p = const_cast<void *>(static_cast<const void *>(output_shape));
 }
 
+void backend_translate(value_t out_value, value_t parameters) {
+    if(parameters[0].u != VALUE_TYPE_SOLID)
+        error("runtime error: non-shape value passed to translate operation.\n");
+    EXPECT_ARG_TYPE(2, VALUE_TYPE_VECTOR);
+    tree_t displacement = parameters[3].a;
+
+    if(displacement[0].u != 6)
+        error("runtime error: provided vector is not 3-dimensional.\n");
+    if(displacement[1].u != VALUE_TYPE_NUMBER ||
+       displacement[3].u != VALUE_TYPE_NUMBER ||
+       displacement[5].u != VALUE_TYPE_NUMBER)
+        error("runtime error: provided vector contains non-numerical values.\n");
+    double dx, dy, dz;
+    dx = displacement[2].d;
+    dy = displacement[4].d;
+    dz = displacement[6].d;
+
+    gp_Trsf transform = gp_Trsf();
+    transform.SetTranslation(gp_Vec(gp_XYZ(dx, dy, dz)));
+    static_cast<TopoDS_Shape *>(parameters[1].p)->Move(TopLoc_Location(transform));
+
+    out_value[0].u = VALUE_TYPE_SOLID;
+    out_value[1] = parameters[1];
+}
+
 void backend_union(value_t out_value, value_t parameters) {
     /* If we have a single child, return it. */
     if(parameters[0].u != VALUE_TYPE_CHILDREN) {
@@ -124,7 +149,7 @@ void backend_union(value_t out_value, value_t parameters) {
         if(children[i].u == VALUE_TYPE_EMPTY) continue;
         if(children[i].u != VALUE_TYPE_SOLID) {
             error("runtime error: non-shape value passed to union operation.\n");
-        } 
+        }
         if(out_value[0].u == VALUE_TYPE_EMPTY) {
             out_value[0].u = children[i].u;
             out_value[1].p = children[i + 1].p;
