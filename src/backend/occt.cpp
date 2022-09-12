@@ -4,6 +4,7 @@
 #include <opencascade/Graphic3d_Vec2.hxx>
 #include <opencascade/Message_ProgressRange.hxx>
 #include <opencascade/BRepAlgoAPI_Fuse.hxx>
+#include <opencascade/BRepBuilderAPI_Transform.hxx>
 #include <opencascade/BRepMesh_IncrementalMesh.hxx>
 #include <opencascade/BRepPrimAPI_MakeBox.hxx>
 #include <opencascade/BRepPrimAPI_MakeCone.hxx>
@@ -132,6 +133,46 @@ void backend_translate(value_t out_value, value_t parameters) {
 
     out_value[0].u = VALUE_TYPE_SOLID;
     out_value[1] = parameters[1];
+}
+
+void backend_rotate(value_t out_value, value_t parameters) {
+    if(parameters[0].u != VALUE_TYPE_SOLID)
+        error("runtime error: non-shape value passed to rotate operation.\n");
+    if(parameters[2].u != VALUE_TYPE_NUMBER && parameters[2].u != VALUE_TYPE_VECTOR)
+        error("runtime error: argument type not among valid types.\n");
+    tree_child_t angles = parameters[3];
+
+    gp_Trsf transformation = gp_Trsf();
+    if(parameters[2].u == VALUE_TYPE_NUMBER) {
+        EXPECT_ARG_TYPE(4, VALUE_TYPE_VECTOR);
+        tree_t axis = parameters[5].a;
+        if(axis[0].u != 6)
+            error("runtime error: provided vector is not 3-dimensional.\n");
+        gp_Ax1 ax = gp_Ax1(gp_Pnt(), gp_Dir(gp_XYZ(axis[2].d, axis[4].d, axis[6].d)));
+        double angle = angles.d * M_PI / 180.0;
+        transformation.SetRotation(ax, angle);
+    } else {
+        if(angles.a[0].u != 6)
+            error("runtime error: provided vector is not 3-dimensional.\n");
+        double angle_x, angle_y, angle_z;
+        angle_x = angles.a[2].d * M_PI / 180.0;
+        angle_y = angles.a[4].d * M_PI / 180.0;
+        angle_z = angles.a[6].d * M_PI / 180.0;
+        transformation.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(gp_XYZ(0.0, 0.0, 1.0))), angle_z);
+        gp_Trsf transformation2;
+        transformation2.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(gp_XYZ(0.0, 1.0, 0.0))), angle_y);
+        transformation *= transformation2;
+        transformation2.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(gp_XYZ(1.0, 0.0, 0.0))), angle_x);
+        transformation *= transformation2;
+    }
+
+    BRepBuilderAPI_Transform *api_transform = new BRepBuilderAPI_Transform(
+        *static_cast<const TopoDS_Shape *>(parameters[1].p), transformation
+    );
+    const TopoDS_Shape *output_shape = &api_transform->Shape();
+
+    out_value[0].u = VALUE_TYPE_SOLID;
+    out_value[1].p = const_cast<void *>(static_cast<const void *>(output_shape));
 }
 
 void backend_union(value_t out_value, value_t parameters) {

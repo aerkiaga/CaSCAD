@@ -101,7 +101,7 @@ static tree_t translate_default(void) {
     list[2].a = ast_number_literal(0.0);
     list[3].a = ast_number_literal(0.0);
     list[4].a = ast_number_literal(0.0);
-    r[1].a = ast_bind_statement("v", list);
+    r[1].a = ast_bind_statement("v", ast_vector_literal(list));
     return r;
 }
 
@@ -112,6 +112,31 @@ static int translate_param(ast_t param, tree_t passed_values) {
 
 static void translate_code(context_t context) {
     append_code_u(context, OP_TRANSLATE);
+}
+
+/********
+* ROTATE *
+ ********/
+static tree_t rotate_default(void) {
+    /* Default parameter values. */
+    tree_t r = tree_new_siblings(2);
+    r[1].a = ast_bind_statement("a", ast_number_literal(0.0));
+    ast_t list = ast_expression_list();
+    list = tree_resize(list, 4);
+    list[2].a = ast_number_literal(0.0);
+    list[3].a = ast_number_literal(0.0);
+    list[4].a = ast_number_literal(1.0);
+    r[2].a = ast_bind_statement("v", ast_vector_literal(list));
+    return r;
+}
+
+static int rotate_param(ast_t param, tree_t passed_values) {
+    /* Check other parameter names. */
+    return 1;
+}
+
+static void rotate_code(context_t context) {
+    append_code_u(context, OP_ROTATE);
 }
 
 /*******
@@ -132,7 +157,7 @@ static void union_code(context_t context) {
 }
 
 union tree_child_t builtins[] = {
-    {.u = 5 * 5},
+    {.u = 6 * 5},
     {.s = "sphere"}, {.u = BIND_TYPE_MODULE},
         {.p = sphere_default}, {.p = sphere_param}, {.p = sphere_code},
     {.s = "cube"}, {.u = BIND_TYPE_MODULE},
@@ -141,6 +166,8 @@ union tree_child_t builtins[] = {
         {.p = cylinder_default}, {.p = cylinder_param}, {.p = cylinder_code},
     {.s = "translate"}, {.u = BIND_TYPE_MODULE},
         {.p = translate_default}, {.p = translate_param}, {.p = translate_code},
+    {.s = "rotate"}, {.u = BIND_TYPE_MODULE},
+        {.p = rotate_default}, {.p = rotate_param}, {.p = rotate_code},
     {.s = "union"}, {.u = BIND_TYPE_MODULE},
         {.p = union_default}, {.p = union_param}, {.p = union_code}
 };

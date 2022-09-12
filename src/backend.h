@@ -12,6 +12,7 @@ extern void backend_sphere(value_t out_value, value_t parameters);
 extern void backend_cube(value_t out_value, value_t parameters);
 extern void backend_cylinder(value_t out_value, value_t parameters);
 extern void backend_translate(value_t out_value, value_t parameters);
+extern void backend_rotate(value_t out_value, value_t parameters);
 extern void backend_union(value_t out_value, value_t parameters);
 
 extern void backend_export_triangles(

@@ -25,6 +25,7 @@ AC_CHECK_LIB([TKMesh], [_ZN24BRepMesh_IncrementalMeshC2ERK12TopoDS_Shapedbdb])
 AC_CHECK_LIB([TKBO], [_ZN16BRepAlgoAPI_FuseC2ERK12TopoDS_ShapeS2_RK21Message_ProgressRange])
 AC_CHECK_LIB([TKPrim], [_ZN20BRepPrimAPI_MakeConeC2Eddd])
 AC_CHECK_LIB([TKSTL], [_ZN6StlAPI5WriteERK12TopoDS_ShapePKcb])
+AC_CHECK_LIB([TKTopAlgo], [_ZN24BRepBuilderAPI_TransformC1ERK7gp_Trsf])
 
 # Optional GTK4 frontend
 AC_ARG_WITH([gtk4],

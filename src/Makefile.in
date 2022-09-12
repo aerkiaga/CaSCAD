@@ -363,7 +363,8 @@ AM_CPPFLAGS = -DPATH_DATADIR="\"$(datadir)\"" \
 	-I"/usr/include/opencascade" \
 	-I"/usr/local/include/opencascade" $(LIBGTK4_CPP)
 AM_LDFLAGS = -lTKSTL -lTKPrim -lTKMesh -lTKBO -lTKBRep -lTKG3d \
-	-lTKMath -lTKernel $(LIBGTK4_LD) $(LIBGL4_LD) -lpthread
+	-lTKMath -lTKernel -lTKTopAlgo $(LIBGTK4_LD) $(LIBGL4_LD) \
+	-lpthread
 cascad_SOURCES = ast.c builtin.c compiler.c deps.c gui.c interpreter.c \
 	lexer.l lib.c main.c parser.y strutils.c tree.c ast.h \
 	backend.h builtin.h cascad.h compiler.h context.h deps.h \

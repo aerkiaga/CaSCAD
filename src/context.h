@@ -58,6 +58,7 @@ enum {
     OP_CYLINDER,// pop 'center', 'r2', 'r1', 'h' and '@children', push cylinder
     OP_GROUP,   // pop $1 values from the stack and push a list of geometry
     OP_TRANSLATE,// pop 'v' and '@children', push translated geometry
+    OP_ROTATE,  // pop 'v', 'a' and '@children', push rotated geometry
     OP_UNION    // pop child or list of children from the stack and push their union
 };
 

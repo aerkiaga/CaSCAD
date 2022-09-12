@@ -60,6 +60,9 @@
 /* Define to 1 if you have the `TKSTL' library (-lTKSTL). */
 #undef HAVE_LIBTKSTL
 
+/* Define to 1 if you have the `TKTopAlgo' library (-lTKTopAlgo). */
+#undef HAVE_LIBTKTOPALGO
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 

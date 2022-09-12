@@ -2,7 +2,7 @@ BUILT_SOURCES = parser.h
 AM_YFLAGS = -d
 AM_CPPFLAGS = -DPATH_DATADIR="\"$(datadir)\"" -I"/usr/include/opencascade" -I"/usr/local/include/opencascade"
 AM_CPPFLAGS += $(LIBGTK4_CPP)
-AM_LDFLAGS = -lTKSTL -lTKPrim -lTKMesh -lTKBO -lTKBRep -lTKG3d -lTKMath -lTKernel
+AM_LDFLAGS = -lTKSTL -lTKPrim -lTKMesh -lTKBO -lTKBRep -lTKG3d -lTKMath -lTKernel -lTKTopAlgo
 AM_LDFLAGS += $(LIBGTK4_LD)
 AM_LDFLAGS += $(LIBGL4_LD)
 AM_LDFLAGS += -lpthread
